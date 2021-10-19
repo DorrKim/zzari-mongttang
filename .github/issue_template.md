@@ -1,10 +1,9 @@
 ---
-이름: 기능
-어디에서: File a bug/issue
-제목: '[BUG] <title>'
-라벨: 기능, 로그인
-작성자: 'Alang'
-
+name: 기능
+about: File a bug/issue
+title: '[기능] <title>'
+labels: Bug, Needs Triage
+assignees: 'AlangGY'
 ---
 
 <!--
