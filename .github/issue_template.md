@@ -1,40 +1,34 @@
----
-name: 🐞 Bug
-about: File a bug/issue
-title: '[BUG] <title>'
-labels: Bug, Needs Triage
-assignees: ''
 
 ---
 
+### 기능 이슈
+#### 제목: 
+\[feature\] 기능이름
+
+#### 기능:
+<!-- 기능을 설명해주세요. -->
+
+#### 기능 세부 설명:
+<!-- 세부적인 설명을 설명해주세요. -->
+
+#### 기타
+
+
+---
+<!-- 버그 발생시 활용! -->
+### 버그 이슈
+
+#### 제목:
+\[bug] 에러명
+#### 어디에서
+<!-- 버그가 발생된 위치 -->
+#### 의도했던 상황
+<!-- 의도하고자 했던 상황을 설명하세요 -->
+#### 현재 상황
 <!--
-Note: Please search to see if an issue already exists for the bug you encountered.
+예시: 상황이 발생하는 대략적인 진행 사항을 단계적으로 설명 해주세요.
 -->
+#### 어떤 버그가 ( 에러메시지 )
+<!-- 에러메시지를 넣어주세요. -->
 
-### Current Behavior:
-<!-- A concise description of what you're experiencing. -->
-
-### Expected Behavior:
-<!-- A concise description of what you expected to happen. -->
-
-### Steps To Reproduce:
-<!--
-Example: steps to reproduce the behavior:
-1. In this environment...
-2. With this config...
-3. Run '...'
-4. See error...
--->
-
-### Environment:
-<!--
-Example:
-- OS: Ubuntu 20.04
-- Node: 13.14.0
-- npm: 7.6.3
--->
-
-### Anything else:
-<!--
-Links? References? Anything that will give us more context about the issue that you are encountering!
--->
+#### 기타
