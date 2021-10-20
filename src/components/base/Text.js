@@ -18,12 +18,14 @@ const TEXT_SIZES = {
   `
 };
 
-const Text = ({ text, size, color }) => {
+
+const Text = ({ text, size = 'md', color = 'black', fontWeight = 'normal' }) => {
   // eslint-disable-next-line prefer-destructuring
   const fontSize = TEXT_SIZES[size];
 
   return (
-    <StyledText fontSize={fontSize} style={{ color }}>
+    <StyledText fontSize={fontSize} style={{ color,
+      fontWeight }}>
       { text }
     </StyledText> 
   );                
@@ -36,7 +38,8 @@ const StyledText = styled.text`
 Text.propTypes = {
   text: PropTypes.string.isRequired,
   size: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  fontWeight: PropTypes.string
 };
 
 export default Text;
