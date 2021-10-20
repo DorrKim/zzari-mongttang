@@ -57,7 +57,8 @@ module.exports = {
     'space-in-parens': ['error', 'never'],
     'no-new-func': 'error',
     'prefer-arrow-callback': 'error',
-    'arrow-parens': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed'],
+    'arrow-spacing': 'error',
     'implicit-arrow-linebreak': ['error', 'beside'],
     'newline-before-return': 'error',
     'template-curly-spacing': ['error', 'never'],
@@ -72,7 +73,8 @@ module.exports = {
         nonwords: true,
         overrides: {
           '++': false,
-          '--': false
+          '--': false,
+          '!': false
         }
       }
     ],
@@ -81,6 +83,8 @@ module.exports = {
     quotes: ['error', 'single'],
     'no-multiple-empty-lines': 'error',
     'eol-last': 'error',
-    'comma-dangle': ['error', 'never']
+    'comma-spacing': 'error',
+    'comma-dangle': ['error', 'never'],
+    'no-multi-spaces': 'error'
   }
 };
