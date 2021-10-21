@@ -10,12 +10,12 @@ const Label = styled.label`
   font-size: 12px;
   `;
 
-
 const CheckboxSwitch = styled.div`
   background-color: ${colors.ACCENT};
   display: inline-block;
   padding: 3px 4px;
   border-radius: 20px;
+  user-select: none;
 `;
 
 const CheckboxInput = styled.input`
