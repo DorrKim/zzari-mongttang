@@ -71,14 +71,14 @@ const Image = ({
     imgRef.current?.addEventListener(IMAGE_LOAD_EVENT, handleDetectImage);
 
     return () => imgRef.current?.removeEventListener(IMAGE_LOAD_EVENT, handleDetectImage);
-  }, [lazy]);
+  }, [lazy, imgRef]);
 
   useEffect(() => {
     if (!observer) {
       observer = new IntersectionObserver(onIntersection, { threshold });
     }
     imgRef.current && state.isloaded && observer.observe(imgRef.current);
-  }, [observer, state.isloaded]);
+  }, [observer, imgRef, state.isloaded]);
 
 
   return (
