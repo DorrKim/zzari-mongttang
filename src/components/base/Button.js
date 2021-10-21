@@ -15,12 +15,15 @@ const StyledButton = styled.button(({
 }));
 
 const Button = ({
-  children, backgroundColor, 
-  width, height, onClick,
-  borderColor, borderRadius, borderWidth }) => {
-  
+  children, backgroundColor = 'red', 
+  width = '100px', height = '100px', onClick,
+  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin' }) => {
 
-  //Todo: 상위컴포넌트가 결정되면 props들을 비슷한 속성은 하나의 키값으로 묶어서 보낼 수 있을것 같습니다.
+  /**
+ * Todo: 상위컴포넌트가 결정되면 
+ * props들을 비슷한 속성은 객체로 묶어서 보낼 수 있을것 같습니다.
+ */
+  
   return (
     <StyledButton 
       type='button'
