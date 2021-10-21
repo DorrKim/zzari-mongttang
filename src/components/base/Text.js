@@ -6,40 +6,49 @@ import PropTypes from 'prop-types';
 const TEXT_SIZES = {
   sm: css`
     font-size: 12px;
-    padding: 1px 2px;
   `,
   md: css`
     font-size: 16px;
-    padding: 2px 4px;
   `,
   lg: css`
     font-size: 24px;
-    padding: 4px 6px;
   `
 };
 
-
-const Text = ({ text, size = 'md', color = 'black', fontWeight = 'normal' }) => {
-  // eslint-disable-next-line prefer-destructuring
-  const fontSize = TEXT_SIZES[size];
+const Text = ({ 
+  children, 
+  block,
+  size = 'md', 
+  color = 'black', 
+  bold,
+  ...props
+}) => {
+  const tag = block ? 'div' : 'span';
+  const { [size]: fontSize } = TEXT_SIZES;
+  const fontWeight = bold ? 'bold' : 'normal';
 
   return (
-    <StyledText fontSize={fontSize} style={{ color,
-      fontWeight }}>
-      { text }
-    </StyledText> 
+    <StyledText as={tag} fontSize={fontSize} style={{
+      color,
+      fontWeight,
+      ...props.style
+    }} {...props}>
+      { children }
+    </StyledText>
   );                
 };
 
-const StyledText = styled.text`
-  ${props => props.fontSize};
+const StyledText = styled.div`
+    ${props => props.fontSize};
 `;
 
 Text.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
+  block: PropTypes.bool,
   size: PropTypes.string,
   color: PropTypes.string,
-  fontWeight: PropTypes.string
+  bold: PropTypes.bool,
+  style: PropTypes.object
 };
 
 export default Text;
