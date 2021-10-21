@@ -3,17 +3,17 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "assets/*": ["./src/assets/*"],
-      "components/*": ["./src/components/*"],
-      "base/*": ["./src/components/base/*"],
-      "context/*": ["./src/context/*"],
-      "domains/*": ["./src/domains/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "pages/*": ["./src/pages/*"],
-      "utils/*": ["./src/utils/*"],
-      "api/*": ["./src/utils/api/*"],
-      "constants/*": ["./src/utils/constants/*"],
-      "library/*": ["./ssrc/utils/library/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@base/*": ["./src/components/base/*"],
+      "@context/*": ["./src/context/*"],
+      "@domains/*": ["./src/domains/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@api/*": ["./src/utils/api/*"],
+      "@constants/*": ["./src/utils/constants/*"],
+      "@library/*": ["./ssrc/utils/library/*"]
     }
   }
 }
