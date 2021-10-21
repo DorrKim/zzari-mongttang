@@ -30,21 +30,41 @@ const onIntersection = (entries, observer) => {
   });
 };
 
-const Image = ({ lazy, threshold = 0, src, placeholder, width, height, type = 'square', ...props }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [detected, setDetected] = useState(false);
+const Image = ({ 
+  lazy,
+  threshold = 0,
+  src,
+  placeholder, 
+  width,
+  height,
+  type = 'square',
+  ...props 
+}) => {
+  const [state, setState] = useState({
+    isloaded: false,
+    isdetected: false
+  });
   const imgRef = useRef(null);
 
   const handleLoadImage = () => {
-    setLoaded(true);
+    setState({ 
+      ...state,
+      isloaded: true
+    });
   };
   const handleDetectImage = () => {
-    setDetected(true);
+    setState({ 
+      ...state,
+      isdetected: true
+    });
   };
 
   useEffect(() => {
     if (!lazy){
-      setDetected(true);
+      setState({ 
+        ...state,
+        isdetected: true 
+      });
       
       return;
     }
@@ -57,14 +77,14 @@ const Image = ({ lazy, threshold = 0, src, placeholder, width, height, type = 's
     if (!observer) {
       observer = new IntersectionObserver(onIntersection, { threshold });
     }
-    imgRef.current && loaded && observer.observe(imgRef.current);
-  }, [observer, loaded]);
+    imgRef.current && state.isloaded && observer.observe(imgRef.current);
+  }, [observer, state.isloaded]);
 
 
   return (
     <ImageStyled 
       ref={imgRef}
-      src={detected ? src : placeholder} 
+      src={state.isdetected ? src : placeholder} 
       width={width} 
       height={height} 
       type={IMAGE_TYPES[type]} 
