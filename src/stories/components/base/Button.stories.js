@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '../../../components/base/Button';
-import PropTypes from 'prop-types';
 
 export default {
   title: 'Component/base/Button',
@@ -24,7 +23,6 @@ export default {
 };
 
 const BaseButton = props => {
-  
   return (
     <Button {...props}>
     </Button>
