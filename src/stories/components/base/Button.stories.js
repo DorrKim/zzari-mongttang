@@ -24,15 +24,11 @@ export default {
 };
 
 const BaseButton = props => {
-
+  
   return (
     <Button {...props}>
     </Button>
   );
-};
-
-BaseButton.propTypes = {
-  children: PropTypes.object.isRequired
 };
 
 export const Default = BaseButton.bind({});
