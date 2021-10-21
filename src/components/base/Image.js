@@ -1,12 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+const IMAGE_TYPES = {
+  circle: css`
+    border-radius: 50%;
+  `,
+  square: css`
+  border-radius: 0;`
+};
 
 const ImageStyled = styled.img`
   display: 'block';
+  ${({ type }) => type};
   width: ${({ width }) => width};
-  height: ${({ height }) => `${height}px`};
-  border-radius: ${({ borderRadius }) => borderRadius};
+  height: ${({ height }) => height};
 `;
 
 let observer = null;
@@ -25,11 +34,6 @@ const Image = ({ lazy, threshold = 0, src, placeholder, width, height, type = 's
   const [loaded, setLoaded] = useState(false);
   const [detected, setDetected] = useState(false);
   const imgRef = useRef(null);
-
-  const imageType = {
-    'circle': '50%',
-    'square': '0'
-  };
 
   const handleLoadImage = () => {
     setLoaded(true);
@@ -63,7 +67,7 @@ const Image = ({ lazy, threshold = 0, src, placeholder, width, height, type = 's
       src={detected ? src : placeholder} 
       width={width} 
       height={height} 
-      borderRadius={imageType[type]} 
+      type={IMAGE_TYPES[type]} 
       onLoad={handleLoadImage} 
       {...props}
     />
