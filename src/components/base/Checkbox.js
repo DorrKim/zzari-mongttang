@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import colors from '../../utils/constants/colors';
-import useToggle from '../../hooks/useToggle';
+import colors from '@constants/colors';
+import useToggle from '@hooks/useToggle';
 
 
 const Label = styled.label`
