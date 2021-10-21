@@ -11,10 +11,11 @@ const Input = ({ width, height, fontSize, placeholder, onChange, ...props }) => 
     fontSize
   };
 
-  const handleInput = useCallback(e => {
+  const handleChange = useCallback(e => {
     setValue(e.target.value);
-    onChange && onChange(value);
-  });
+    
+    onChange && onChange(e.target.value);
+  }, [onChange]);
   
   return (
     <input {...props} 
@@ -24,7 +25,7 @@ const Input = ({ width, height, fontSize, placeholder, onChange, ...props }) => 
         ...InputStyle 
       }} 
       value={value} 
-      onInput={handleInput} />
+      onChange={handleChange} />
   );
 };
 
