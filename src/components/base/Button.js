@@ -15,9 +15,9 @@ const StyledButton = styled.button(({
 }));
 
 const Button = ({
-  children, backgroundColor = 'red', 
-  width = '100px', height = '100px', onClick,
-  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin' }) => {
+  backgroundColor = 'red', width = '100px', height = '100px',
+  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin', 
+  children, onClick, ...props }) => {
 
   /**
  * Todo: 상위컴포넌트가 결정되면 
@@ -30,25 +30,26 @@ const Button = ({
       backgroundColor={backgroundColor}
       width={width}
       height={height}
-      onClick={onClick}
       borderColor={borderColor}
       borderRadius={borderRadius}
       borderWidth={borderWidth}
+      onClick={onClick}
+      {...props}
     >
-      <div>{children}</div>
+      {children}
     </StyledButton>
   );
 };
 
 Button.propTypes = {
-  backgroundColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  borderColor: PropTypes.string,
+  borderRadius: PropTypes.string,
+  borderWidth: PropTypes.string,
   children: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  borderColor: PropTypes.string.isRequired,
-  borderRadius: PropTypes.string.isRequired,
-  borderWidth: PropTypes.string.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 export default Button;
