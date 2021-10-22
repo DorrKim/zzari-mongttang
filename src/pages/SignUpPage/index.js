@@ -1,10 +1,10 @@
 import React from 'react';
 
+import SignUpForm from '@/domains/SignUpForm';
 
 const SignUpPage = () => {
   
-  return <h1> 회원가입 </h1>;
+  return <SignUpForm />;
 };
-
 
 export default SignUpPage;
