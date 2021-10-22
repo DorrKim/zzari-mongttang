@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 const StyledButton = styled.button(({ 
   backgroundColor, width, height,
   borderColor, borderRadius, borderWidth,
-  hover, focus, active,
+  hover, focus, active, cursor,
   ...props }) => ({
   backgroundColor,
   width,
@@ -17,6 +17,7 @@ const StyledButton = styled.button(({
   '&:hover': hover,
   '&:focus': focus,
   '&:active': active,
+  cursor,
   ...props
 }));
 
@@ -31,7 +32,7 @@ const Button = ({
     color: 'blue',
     backgroundColor: 'yellow',
     textDecoration: 'none'
-  },
+  }, cursor = 'pointer',
   children, onClick, ...props }) => {
 
   /**
@@ -51,6 +52,7 @@ const Button = ({
       hover={hover}
       focus={focus}
       active={active}
+      cursor={cursor}
       onClick={onClick}
       {...props}
     >
@@ -69,6 +71,7 @@ Button.propTypes = {
   hover: PropTypes.object,
   focus: PropTypes.object,
   active: PropTypes.object,
+  cursor: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
