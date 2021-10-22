@@ -2,24 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-/**
- * 1. col, row,  gap, align, justify
- * 2. 반응형
- */
+
 const GridBox = styled.div(({
-  gridTemplate = []
+  gridProps = []
 }) => {
-  const breakpoints = gridTemplate.map(({ bp, row = 1, col = 1, gap }) => (
+  const breakpoints = gridProps.map(({ bp, row, col, gap }) => (
     {
       [`@media (min-width: ${bp}px)`]: {
-        display: 'flex',
-        gridTemplateRow: `repeat(${row}, 1fr)`,            
-        gridTemplateColumn: `repeat(${col}, 1fr)`,
+        display: 'grid',
+        gridTemplateRows: `repeat(${row || 1}, 1fr)`,            
+        gridTemplateColumns: `repeat(${col || 1}, 1fr)`,
         gap     
       }
     }
   ));
-  console.log(breakpoints);
   
   return breakpoints;
 });
@@ -33,8 +29,7 @@ const Grid = ({ children, ...props }) => {
 };
 
 GridBox.propTypes = {
-  row: PropTypes.number,
-  coll: PropTypes.number
+  gridTemplate: PropTypes.arrayOf(PropTypes.object)
 };
 
 Grid.propTypes = {
