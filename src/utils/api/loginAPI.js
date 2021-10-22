@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getItem, setItem } from '../storage';
 
-const API_END_POINTS = 'http://13.209.30.200';
+const API_END_POINTS = 'http://13.209.30.200:5001';
 
 export const loginAPI = {
   async postSignUp({ email, fullName, password }){
