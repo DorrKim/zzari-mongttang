@@ -21,8 +21,8 @@ const FlexBox = styled.div((
   flexWrap
 }));
 
-const Flex = ({ children, style, ...props }) => (
-  <FlexBox style={{ ...style }} {...props} >
+const Flex = ({ children, ...props }) => (
+  <FlexBox {...props} >
     {children}
   </FlexBox>
 );
