@@ -35,11 +35,6 @@ const Button = ({
   }, cursor = 'pointer',
   children, onClick, ...props }) => {
 
-  /**
- * Todo: 상위컴포넌트가 결정되면 
- * props들을 비슷한 속성은 객체로 묶어서 보낼 수 있을것 같습니다.
- */
-
   return (
     <StyledButton 
       type='button'
