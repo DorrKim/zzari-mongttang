@@ -5,24 +5,35 @@ import styled from '@emotion/styled';
 
 const StyledButton = styled.button(({ 
   backgroundColor, width, height,
-  borderColor, borderRadius, borderWidth }) => ({
+  borderColor, borderRadius, borderWidth,
+  hover, focus, active, cursor,
+  ...props }) => ({
   backgroundColor,
   width,
   height,
   borderColor,
   borderRadius,
-  borderWidth
+  borderWidth,
+  '&:hover': hover,
+  '&:focus': focus,
+  '&:active': active,
+  cursor,
+  ...props
 }));
 
-const Button = ({
-  children, backgroundColor = 'red', 
-  width = '100px', height = '100px', onClick,
-  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin' }) => {
 
-  /**
- * Todo: 상위컴포넌트가 결정되면 
- * props들을 비슷한 속성은 객체로 묶어서 보낼 수 있을것 같습니다.
- */
+const Button = ({
+  backgroundColor = 'red', width = '100px', height = '100px',
+  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin',
+  hover = { backgroundColor: 'blue' }, 
+  focus = { background: 'yellow',
+    color: 'blue' }, 
+  active = {
+    color: 'blue',
+    backgroundColor: 'yellow',
+    textDecoration: 'none'
+  }, cursor = 'pointer',
+  children, onClick, ...props }) => {
 
   return (
     <StyledButton 
@@ -30,25 +41,38 @@ const Button = ({
       backgroundColor={backgroundColor}
       width={width}
       height={height}
-      onClick={onClick}
       borderColor={borderColor}
       borderRadius={borderRadius}
       borderWidth={borderWidth}
+      hover={hover}
+      focus={focus}
+      active={active}
+      cursor={cursor}
+      onClick={onClick}
+      {...props}
     >
-      <div>{children}</div>
+      {children}
     </StyledButton>
   );
 };
 
 Button.propTypes = {
-  backgroundColor: PropTypes.string.isRequired,
-  children: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  borderColor: PropTypes.string.isRequired,
-  borderRadius: PropTypes.string.isRequired,
-  borderWidth: PropTypes.string.isRequired
+  backgroundColor: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  borderColor: PropTypes.string,
+  borderRadius: PropTypes.string,
+  borderWidth: PropTypes.string,
+  hover: PropTypes.object,
+  focus: PropTypes.object,
+  active: PropTypes.object,
+  cursor: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.string
+  ]).isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default Button;
