@@ -1,5 +1,10 @@
 import React from 'react';
-import useToggle from '../../hooks/useToggle';
+import useToggle from '@hooks/useToggle';
+
+export default {
+  title: 'Component/hooks/useToggle',
+  component: useToggle
+};
 
 const Toggle = () => {
   
@@ -22,4 +27,10 @@ const Toggle = () => {
   );
 };
 
-export default Toggle;
+const BasicToggle = props => {
+  return (
+    <Toggle {...props}></Toggle>
+  );
+};
+
+export const Default = BasicToggle.bind({});
