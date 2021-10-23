@@ -1,12 +1,8 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Flex from './Flex';
 import reactDom from 'react-dom';
-
-
-const MOUSE_DOWN = 'mousedown';
-const TOUCH_START = 'touchstart';
 
 
 const BackgroundScreen = styled.div`
@@ -46,33 +42,11 @@ const Modal = ({
     height
   }), [width, height]); 
   const el = useMemo(() => document.createElement('div'), []);
-  const backgroundScreenEl = useRef(null);
 
-  useEffect(() => {
-    const events = [MOUSE_DOWN, TOUCH_START];
-    const { current: element } = backgroundScreenEl;
-    if (!element) {
-      return;
-    }
+  const stopPropagation = useCallback(e => {
+    e.stopPropagation();
+  }, []);
     
-    const handleClick = e => {
-      if (e.target !== element) {
-        return;
-      }
-      onClose();
-    };
-
-    for (const event of events) {
-      element.addEventListener(event, handleClick);
-    }
-
-    return () => {
-      for (const event of events) {
-        element.removeEventListener(event, handleClick);
-      } 
-    };
-  }, [backgroundScreenEl, onClose]);
-  
   useEffect(() => {
     document.body.appendChild(el);
   
@@ -81,21 +55,23 @@ const Modal = ({
     };
   }, []);
 
-
+  
   return reactDom.createPortal(
     <BackgroundScreen 
-      ref={backgroundScreenEl}
       justifyContent='center' 
       alignItems='center' 
-      style={{ display: visible ? 'flex' : 'none' }}>
+      style={{ display: visible ? 'flex' : 'none' }}
+      onClick={onClose}>
       <ModalContainer
         justifyContent='center' 
-        alignItems='center'
-        {...props} 
+        alignItems='center' 
         style={{ 
           ...props.style,
           ...containerStyle
-        }}>
+        }}
+        onClick={stopPropagation}
+        {...props}
+      >
         {children}
       </ModalContainer>
     </BackgroundScreen>,
