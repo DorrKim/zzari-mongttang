@@ -21,7 +21,7 @@ const useScroll = () => {
         }
       );
     };
-    element.addEventListener('scroll', handleScroll);    
+    element.addEventListener('scroll', handleScroll, { passive: true });    
     
     return () => {
       element.removeEventListener('scroll', handleScroll);
