@@ -24,7 +24,7 @@ const useHover = () => {
   }, [ref, handleMouseOver, handleMouseOut]);
 
 
-  return isHover;
+  return [ref, isHover];
 };
 
 export default useHover;
