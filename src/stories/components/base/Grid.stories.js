@@ -14,27 +14,34 @@ const Item = styled.div`
 `;
 
 export const Default = () => {
-  const gridProps = [
-    {
-      bp: 0,
-      row: 0,
-      col: 12,
+  const gridProps = {
+    xs: {
+      row: 2,
+      col: 2,
       gap: 10
     },
-    {
-      bp: 720,
+    sm: {
       row: 3,
       col: 3,
       gap: 15
     },
-    {
-      bp: 1080,
+    md: {
       row: 4,
       col: 4,
       gap: 20
+    },
+    lg: {
+      row: 5,
+      col: 5,
+      gap: 25
+    },
+    xl: {
+      row: 6,
+      col: 6,
+      gap: 30
     }
-  ];
-  
+  };
+
   return (
     <Grid gridProps={gridProps}>
       <Item> Item1 </Item>
@@ -50,6 +57,8 @@ export const Default = () => {
       <Item> Item11 </Item>
       <Item> Item12 </Item>
       <Item> Item13 </Item>
+      <Item> Item14 </Item>
+      <Item> Item15 </Item>
     </Grid>
   );
 };
