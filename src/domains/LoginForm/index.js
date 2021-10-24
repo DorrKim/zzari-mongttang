@@ -33,10 +33,10 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
       return;
     }
 
-    const error = onLogin && await onLogin({ email,
+    const res = onLogin && await onLogin({ email,
       password });
       
-    error && setisLoginFailed(true);
+    res?.error && setisLoginFailed(true);
   });
 
   const handleToSubmitPage = useCallback(() => {
