@@ -14,17 +14,24 @@ export const validateFullName = fullName => {
     && fullName.length <= MAX_FULLNAME_LENGTH) {
     return true;
   }
+
+  return false;
 };
 
 export const validatePassword = password => {
   if (MIN_PASSWORD_LENGTH <= password.length 
     && password.length <= MAX_PASSWORD_LENGTH) {
     return true;
+
   }
+  
+  return false;
 };
 
 export const validateVerifyPassword = (password1, password2) => {
   if (password1 === password2) {
     return true;
   }
+
+  return false;
 };
