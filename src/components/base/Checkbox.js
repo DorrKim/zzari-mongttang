@@ -1,6 +1,8 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
+
+import Text from '@base/Text';
 import colors from '@constants/colors';
 import useToggle from '@hooks/useToggle';
 
@@ -10,35 +12,37 @@ const Label = styled.label`
   font-size: 12px;
   `;
 
+const CheckboxInput = styled.input`
+  display: none;
+`;
+
 const CheckboxSwitch = styled.div`
-  background-color: ${colors.ACCENT};
+  ${({ checkStyle }) => checkStyle};
   display: inline-block;
   padding: 3px 4px;
   border-radius: 20px;
   user-select: none;
 `;
 
-const CheckboxInput = styled.input`
-  display: none;
-
-  &:checked + div {
-    background-color: red;
-  }
-`;
-
-const Checkbox = ({ name, on = false, onChange, ...props }) => {
+const Checkbox = ({ 
+  name,
+  on = false, 
+  unCheckedStyle = { backgroundColor: colors.ACCENT_BACKGROUND },
+  checkedStyle = { backgroundColor: colors.ACCENT }, 
+  onChange, 
+  ...props }) => {
   const [checked, toggle] = useToggle(on);
 
-  const handleChange = e => {
+  const handleChange = () => {
     toggle();
-    onChange && onChange(e);
+    onChange && onChange(checked);
   };
 
   return (
     <Label {...props}>
       <CheckboxInput type="checkbox" onChange={handleChange} checked={checked}/>
-      <CheckboxSwitch >
-        {name}
+      <CheckboxSwitch checkStyle={checked ? checkedStyle : unCheckedStyle }>
+        <Text size='sm'>{name}</Text>
       </CheckboxSwitch>
     </Label>
   );
@@ -47,6 +51,8 @@ const Checkbox = ({ name, on = false, onChange, ...props }) => {
 Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
   on: PropTypes.bool,
+  unCheckedStyle: PropTypes.object,
+  checkedStyle: PropTypes.object,
   onChange: PropTypes.func
 };
 
