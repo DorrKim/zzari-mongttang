@@ -1,27 +1,29 @@
 import React, { useCallback } from 'react';
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 import colors from '@constants/colors';
+
+const InputStyled = styled.input`
+  ${({ inputStyle }) => inputStyle};
+`;
 
 const Input = ({ block = false, width, height, fontSize, placeholder, onChange, ...props }) => {
   const InputStyle = {
     display: block ? 'block' : 'inline-block',
     width,
     height,
-    fontSize
+    fontSize,
+    outLineColor: colors.ACCENT
   };
   const handleChange = useCallback(e => {
     onChange && onChange(e.target.value);
   }, [onChange]);
   
   return (
-    <input {...props} 
-      placeholder={placeholder} 
-      style={{ 
-        ...props.style,
-        ...InputStyle,
-        outlineColor: colors.ACCENT
-      }} 
+    <InputStyled {...props} 
+      placeholder={placeholder}
+      inputStyle={InputStyle}
       onChange={handleChange} />
   );
 };
@@ -35,6 +37,5 @@ Input.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
-  style: PropTypes.object,
   onChange: PropTypes.func
 };
