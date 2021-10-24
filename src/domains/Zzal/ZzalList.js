@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 
-import useAsync from '@hooks/useAsync';
 import styled from '@emotion/styled';
 import Image from '@base/Image';
-
+import useAxios from '@hooks/useAxios';
+import Grid from '@base/Grid';
 
 let observer = null;
 const LOAD_IMG_EVENT_TYPE = 'fetch';
@@ -19,12 +19,17 @@ const checkIntersect = (entries, observer) => {
   });
 };
 
-const ZzalList = () => {
-  const [itemCount, setItemCount] = useState(9);
+const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
+  const [initialPosts, fetchPost] = useAxios(`/posts/channel/${channel}`);
+  const [itemCount, setItemCount] = useState(6);
   const [isInit, setIsInit] = useState(false);
   const ref = useRef(null);
-  const fetchItem = () => setItemCount(prev => prev + 9);
-  const TEST_IMG_URL = 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d373d836-bb5d-4bf6-8f12-baebd8aa3dca/%EC%A0%9C%EB%AA%A9%EC%9D%84_%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94_-003_%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20211024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211024T062214Z&X-Amz-Expires=86400&X-Amz-Signature=ed791d1519057291afbd5941bd826c845dfc979358c99d6a3d3575d0631603c7&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25EC%25A0%259C%25EB%25AA%25A9%25EC%259D%2584%2520%25EC%259E%2585%25EB%25A0%25A5%25ED%2595%25B4%25EC%25A3%25BC%25EC%2584%25B8%25EC%259A%2594_-003%2520%281%29.png%22';
+  const fetchItem = () => setItemCount(prev => prev + 6);
+  // const TEST_IMG_URL = 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/287d62dc-d081-4e02-949e-cc75fc018279/20160902_57c9307c5a024.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20211024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211024T184206Z&X-Amz-Expires=86400&X-Amz-Signature=0632049d22f4c33b1fad570c85dbe388d95daa7d08652d48d1b0654f9c9fb917&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%2220160902_57c9307c5a024.gif%22';  
+  
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
   useEffect(() => {
     if (!ref.current) {
@@ -38,15 +43,9 @@ const ZzalList = () => {
     };
   }, [ref]);
 
-  const initialPosts = useAsync(async () => {
-    return await axios  
-      .get('https://jsonplaceholder.typicode.com/photos')
-      .then(res => res.data);
-  }, []);  
-
   useEffect(() => {      
     if (!observer) {
-      observer = new IntersectionObserver(checkIntersect, { threshold: 0 });
+      observer = new IntersectionObserver(checkIntersect, { threshold: 0.5 });
     }
 
     if (!isInit) {
@@ -62,18 +61,59 @@ const ZzalList = () => {
   
   return (
     <StyledList>
-      {(initialPosts.value || []).filter((_, idx) => idx < itemCount).map(post => (
-        <Image key={post.id} src={TEST_IMG_URL} type='circle' height='200px'/>
-      )
-      )}  
-      <div ref={ref}></div>
+      <Grid gridProps={gridProps}>
+        {(initialPosts.value || []).filter((_, idx) => idx < itemCount).map(post => (
+          <div id={post._id} key={post._id} style={{ width: '152px',
+            height: '152px',
+            overflow: 'hidden',
+            alignContent: 'center' }}>
+            <Image src={post.image} height='100%'/>
+          </div>
+        )
+        )}  
+        <div ref={ref}></div>
+      </Grid>
     </StyledList>
   );
 };
 
+const gridProps = {
+  xs: {
+    row: 2,
+    col: 2,
+    gap: 10,
+    position: ['center', 'start']
+  },
+  sm: {
+    row: 3,
+    col: 3,
+    gap: 15
+  },
+  md: {
+    row: 4,
+    col: 4,
+    gap: 20
+  },
+  lg: {
+    row: 5,
+    col: 5,
+    gap: 25
+  },
+  xl: {
+    row: 6,
+    col: 6,
+    gap: 30
+  }
+};
+
 const StyledList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 400px);
+  width: 100%;
+  height: 30vh;
+  padding: 10px 20px;  
 `;
+
+ZzalList.propTypes = {
+  channel: PropTypes.string
+};
 
 export default ZzalList;
