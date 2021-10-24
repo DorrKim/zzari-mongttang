@@ -1,29 +1,51 @@
-import { useCallback, useRef, useState } from 'react';
+import { useReducer, useRef, useCallback } from 'react';
 
-const useAsyncFn = (fn, deps) => {
+const reducer = (_state, action) => {
+  switch (action.type) {
+    case 'LOADING':
+      return {
+        isLoading: true,
+        value: null,
+        error: null
+      };
+    case 'SUCCESS':
+      return {
+        isLoading: false,
+        value: action.value,
+        error: null
+      };
+    case 'ERROR':
+      return {
+        isLoading: false,
+        value: null,
+        error: action.error
+      };
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+const useAsyncFn = (fn, deps = []) => {
+  const [state, dispatch] = useReducer(reducer, {
+    isLoading: false,
+    value: null,
+    error: false
+  });
   const lastCallId = useRef(0);
-  const [state, setState] = useState({ isLoading: false });
 
   const callback = useCallback((...args) => {
     const callId = ++lastCallId.current;
 
-    if (!state.isLoading) {
-      setState({ ...state,
-        isLoading: true });        
-    }
+    dispatch({ type: 'LOADING' });
 
     return fn(...args).then(
       value => {
-        callId === lastCallId.current && setState({ value,
-          isLoading: false });
-        
-        return value;
-      },
+        callId === lastCallId.current && dispatch({ type: 'SUCCESS',
+          value });
+      }, 
       error => {
-        callId === lastCallId.current && setState({ error,
-          isLoading: false });
-        
-        return error;
+        callId === lastCallId.current && dispatch({ type: 'ERROR',
+          error });
       });
   }, deps);
 
