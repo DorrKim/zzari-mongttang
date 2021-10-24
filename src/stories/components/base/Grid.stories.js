@@ -9,7 +9,8 @@ export default {
 
 const Item = styled.div`
   border: 4px solid;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   background-color: red;
 `;
 
@@ -18,7 +19,8 @@ export const Default = () => {
     xs: {
       row: 2,
       col: 2,
-      gap: 10
+      gap: 10,
+      position: ['center', 'start']
     },
     sm: {
       row: 3,
@@ -43,7 +45,14 @@ export const Default = () => {
   };
 
   return (
-    <Grid gridProps={gridProps}>
+    <Grid 
+      style={
+        { 
+          width: '100%', 
+          height: '100vh' 
+        }
+      } 
+      gridProps={gridProps}>
       <Item> Item1 </Item>
       <Item> Item2 </Item>
       <Item> Item3 </Item>
