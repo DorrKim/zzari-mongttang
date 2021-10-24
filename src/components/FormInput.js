@@ -7,6 +7,7 @@ const Alert = styled.div`
   font-size: 12px;
   color: red;
   height: 16px;
+  padding: 0 5px;
 `;
 
 const FormInput = ({ type = 'text', onChange, value, placeholder, errorMessage, ...props }) => {
