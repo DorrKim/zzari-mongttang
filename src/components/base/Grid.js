@@ -24,7 +24,7 @@ const GridBox = styled.div(({
 
   const styleObj = Object
     .entries(gridProps)
-    .reduce((acc, [key, { row, col, gap }]) => {
+    .reduce((acc, [key, { row = 2, col = 2, gap = 10 }]) => {
       const { [key]: newKey } = mediaQuery;
   
       acc[newKey] = {
