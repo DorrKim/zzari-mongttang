@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 
+const useToggle = (currentState = false) => {
+  const [state, setState] = useState(currentState);
 
-const useToggle = initialState => {
-  const [checked, setChecked] = useState(initialState);
-  const toggle = useCallback(() => setChecked(checked => !checked));
-
-  return [checked, toggle];
+  const handleToggle = useCallback(() => setState(() => !state));  
+  
+  return [state, handleToggle];
 };
 
 export default useToggle;
