@@ -13,7 +13,7 @@
       "@utils/*": ["./src/utils/*"],
       "@api/*": ["./src/utils/api/*"],
       "@constants/*": ["./src/utils/constants/*"],
-      "@library/*": ["./ssrc/utils/library/*"]
+      "@library/*": ["./src/utils/library/*"]
     }
   }
 }
