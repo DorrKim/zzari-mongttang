@@ -10,7 +10,7 @@ const useIntervalFn = (fn, ms) => {
 
   const run = useCallback(() => {
     timerId.current && clearInterval(timerId.current);
-    setInterval(() => {
+    timerId.current = setInterval(() => {
       cb.current();
     }, ms);
   }, [ms]);
