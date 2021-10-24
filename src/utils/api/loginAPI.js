@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { getItem, setItem } from '../storage';
 
 const API_END_POINTS = 'http://13.209.30.200:5001';
@@ -10,20 +11,26 @@ export const loginAPI = {
       fullName,
       password 
     };
-
-    const res = await _request(`${API_END_POINTS}/signup`, {
-      method: 'post',
-      data
-    });
-
-    if (res) {
+    try {
+      const res = await _request(`${API_END_POINTS}/signup`, {
+        method: 'post',
+        data
+      });
+      if (res.status === 400) {
+        console.log(res.data);
+        
+        return;
+      }
       const { user, token } = res;
       setItem('IdToken', token);
       console.log('SignUp Complete!', user);
       console.log('set Token into Storage!', token);
-
         
+          
       return user;
+    
+    } catch (e) {
+      console.log(e);
     }
   },
 
@@ -32,20 +39,21 @@ export const loginAPI = {
       email,
       password
     };
-    
     const res = await _request(`${API_END_POINTS}/login`, {
       method: 'post',
       data
     });
-
-    if (res) {
-      const { user, token } = res;
-      setItem('IdToken', token);
-      console.log('LogIn Complete!', user);
-      console.log('set Token into Storage!', token);
-
-      return user;
+    if (res.status === 400) {
+      console.log(res.data);
+      
+      return;
     }
+    const { user, token } = res;
+    setItem('IdToken', token);
+    console.log('LogIn Complete!', user);
+    console.log('set Token into Storage!', token);
+
+    return user;
   },
 
   async postLogOut(){
@@ -55,8 +63,8 @@ export const loginAPI = {
     console.log('Logout!', res);
 
     return res;
-
   },
+
   async getAuthUser(){
     const token = getItem('IdToken', '');
     const user = await _request(`${API_END_POINTS}/auth-user`, {
@@ -68,7 +76,6 @@ export const loginAPI = {
   }
 };
 
-
 const _request = async (url, options) => {
   try {
     const data = await axios({
@@ -76,10 +83,9 @@ const _request = async (url, options) => {
       ...options
     })
       .then(res => res.data)
-      .catch(err => console.log(err));
+      .catch(err => err.response);
     
     return data;
-
   } catch (e){
     console.error(e);
   }
