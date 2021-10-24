@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
@@ -7,13 +7,13 @@ import useAxios from '@hooks/useAxios';
 import Grid from '@base/Grid';
 
 let observer = null;
-const LOAD_IMG_EVENT_TYPE = 'fetch';
+const LOAD_POST_EVENT_TYPE = 'fetch';
 
 const checkIntersect = (entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      entry.target.dispatchEvent(new CustomEvent(LOAD_IMG_EVENT_TYPE));
+      entry.target.dispatchEvent(new CustomEvent(LOAD_POST_EVENT_TYPE));
       observer.observe(entry.target);
     } 
   });
@@ -36,10 +36,14 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
       return;
     }
 
-    ref.current.addEventListener(LOAD_IMG_EVENT_TYPE, () => fetchItem());
+    const handleLoadPost = useCallback(() => {
+      () => fetchItem();
+    });
+
+    ref.current.addEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
 
     return () => {
-      ref.current.removeEventListener(LOAD_IMG_EVENT_TYPE, () => fetchItem());
+      ref.current.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
     };
   }, [ref]);
 
