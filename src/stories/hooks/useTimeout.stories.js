@@ -13,7 +13,7 @@ export const Default = () => {
   
   return (
     <div>
-      <div>useTimeoutFn 실험</div>
+      <div>useTimeout 실험</div>
       <div>3초후에 문구가 등잡합니다.</div>
       <div>{state ? '새로고침을 눌러 초기화 하세요' : ''}</div>
       <button onClick={clear}>정지</button>
