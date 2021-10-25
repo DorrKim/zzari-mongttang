@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
@@ -30,13 +30,17 @@ const Checkbox = ({
   unCheckedStyle = { backgroundColor: colors.ACCENT_BACKGROUND },
   checkedStyle = { backgroundColor: colors.ACCENT }, 
   onChange, 
-  ...props }) => {
+  ...props 
+}) => {
   const [checked, toggle] = useToggle(on);
-
-  const handleChange = () => {
+  
+  const handleChange = useCallback(() => {
     toggle();
+  }, []);
+
+  useEffect(() => {
     onChange && onChange(checked);
-  };
+  }, [checked]);
 
   return (
     <Label {...props}>
