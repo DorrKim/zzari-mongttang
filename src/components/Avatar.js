@@ -12,7 +12,7 @@ const StyledImage = styled(Image)`
   object-fit: cover;
 `;
 
-const Avatar = ({ src = DEFAULT_PROFILE_URL, size, onClick }) => {
+const Avatar = ({ src = DEFAULT_PROFILE_URL, size, onClick, ...props }) => {
 
   return (
     <StyledImage
@@ -21,6 +21,7 @@ const Avatar = ({ src = DEFAULT_PROFILE_URL, size, onClick }) => {
       width={size} 
       height={size} 
       onClick={onClick}
+      {...props}
     />
   );
 };
