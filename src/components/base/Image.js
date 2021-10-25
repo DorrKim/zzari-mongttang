@@ -59,7 +59,6 @@ const Image = ({
         ...state,
         isPlaceholderLoaded: true
       });
-      console.log('placeholderLoaded!');
       isInit.current = false;
     } 
   };
@@ -68,7 +67,6 @@ const Image = ({
       ...state,
       isdetected: true
     });
-    console.log('image Detected!');
   };
 
   useEffect(() => {
