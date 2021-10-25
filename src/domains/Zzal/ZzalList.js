@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
-// import Image from '@base/Image';
 import ZzalItem from '@domains/Zzal/ZzalItem';
 import useAxios from '@hooks/useAxios';
 import Grid from '@base/Grid';
@@ -22,15 +21,10 @@ const checkIntersect = (entries, observer) => {
 const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
   const [initialPosts, fetchPost] = useAxios(`/posts/channel/${channel}`);
   const [itemCount, setItemCount] = useState(6);
-  const fetchItem = () => setItemCount(prev => prev + 6);
+  const [isFetchable, setIsFetchable] = useState(false);
   const init = useRef(false);
   const ref = useRef(null);
-  const [isFetchable, setIsFetchable] = useState(false);
-  // const TEST_IMG_URL = 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/287d62dc-d081-4e02-949e-cc75fc018279/20160902_57c9307c5a024.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20211024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211024T184206Z&X-Amz-Expires=86400&X-Amz-Signature=0632049d22f4c33b1fad570c85dbe388d95daa7d08652d48d1b0654f9c9fb917&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%2220160902_57c9307c5a024.gif%22';  
-
-  // const isFetchable = useCallback(() => {
-  //   return ref.current && !initialPosts.isLoading && itemCount < initialPosts.value?.length;
-  // }, [ref, itemCount, initialPosts]);
+  const fetchItem = () => setItemCount(prev => prev + 6);
 
   useEffect(() => {
     const { isLoading, value } = initialPosts; 
@@ -73,7 +67,6 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
       observer.observe(ref.current);
     }
   }, [initialPosts, observer, isFetchable]);
-
   
   return (
     <StyledList>
@@ -98,27 +91,31 @@ const gridProps = {
     row: 2,
     col: 2,
     gap: 10,
-    position: ['center', 'start']
+    position: ['center', 'center']
   },
   sm: {
     row: 3,
     col: 3,
-    gap: 15
+    gap: 15,
+    position: ['center', 'center']
   },
   md: {
     row: 4,
     col: 4,
-    gap: 20
+    gap: 20,
+    position: ['center', 'center']
   },
   lg: {
     row: 5,
     col: 5,
-    gap: 25
+    gap: 25,
+    position: ['center', 'center']
   },
   xl: {
     row: 6,
     col: 6,
-    gap: 30
+    gap: 30,
+    position: ['center', 'center']
   }
 };
 
@@ -126,6 +123,7 @@ const StyledList = styled.div`
   width: 100%;
   height: 30vh;
   padding: 10px 20px;  
+  box-sizing: border-box;
 `;
 
 ZzalList.propTypes = {
