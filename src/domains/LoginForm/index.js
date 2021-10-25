@@ -33,10 +33,10 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
       return;
     }
 
-    const error = onLogin && await onLogin({ email,
+    const res = onLogin && await onLogin({ email,
       password });
       
-    error && setisLoginFailed(true);
+    res?.error && setisLoginFailed(true);
   });
 
   const handleToSubmitPage = useCallback(() => {
@@ -44,8 +44,8 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
   });
 
   return (
-    <Flex justifyContent='center'>
-      <form onSubmit={handleLogin} {...props}>
+    <Flex column justifyContent='space-between' alignItems='center' {...props}>
+      <form onSubmit={handleLogin} >
         <FormInput 
           onChange={handleEmailChange} 
           value={email} 
@@ -57,6 +57,7 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
         />
         <FormInput
           type='password'
+          style={{ marginTop: 20 }}
           onChange={handlePasswordChange}
           value={password}
           placeholder='비밀번호'
@@ -70,6 +71,7 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
           style={{ 
             border: 'none',
             display: 'block',
+            marginTop: 60,
             marginBottom: 16 }}
           backgroundColor={'#FD9F28'} 
           borderRadius={'4px'} 
