@@ -6,13 +6,14 @@ import Text from '@components/base/Text';
 import Button from '@/components/base/Button';
 import colors from '@/utils/constants/colors';
 import styled from '@emotion/styled';
+import FollowContainer from './FollowContainer';
 
 const UserInfoWrapper = styled(Flex)`
   width: 160px;
   margin-left: 16px;
 `;
 
-const UserInfo = ({ fullName, followers = [], following = [] }) => {
+const UserInfo = ({ fullName, followers, following }) => {
   return (
     <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
       <Text bold size='lg' style={{ 
@@ -25,17 +26,9 @@ const UserInfo = ({ fullName, followers = [], following = [] }) => {
         margin: '8px 16px' }}>
         {fullName}
       </Text>
-      <Flex justifyContent="center" style={{ width: '100%',
-        marginBottom: '8px' }}>
-        <Flex column alignItems='center' style={{ margin: '0 8px' }}>
-          <Text bold >{`${followers.length}`}</Text>
-          <Text bold size="sm" >팔로워</Text>
-        </Flex> 
-        <Flex column alignItems='center' style={{ margin: '0 8px' }}>
-          <Text bold>{`${following.length}`}</Text>
-          <Text bold size="sm">팔로잉</Text>
-        </Flex>
-      </Flex>
+      <FollowContainer 
+        followers={followers} 
+        following={following}/>
 
       <Button backgroundColor={colors.ACCENT} width='80%' height={32} borderRadius='.25rem' borderWidth={0} style={{ padding: 0 }}>
         <Text bold color="white">팔로우</Text>
