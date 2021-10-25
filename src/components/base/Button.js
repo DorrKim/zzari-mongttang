@@ -1,0 +1,78 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import styled from '@emotion/styled';
+
+const StyledButton = styled.button(({ 
+  backgroundColor, width, height,
+  borderColor, borderRadius, borderWidth,
+  hover, focus, active, cursor,
+  ...props }) => ({
+  backgroundColor,
+  width,
+  height,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  '&:hover': hover,
+  '&:focus': focus,
+  '&:active': active,
+  cursor,
+  ...props
+}));
+
+
+const Button = ({
+  backgroundColor = 'red', width = '100px', height = '100px',
+  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin',
+  hover = { backgroundColor: 'blue' }, 
+  focus = { background: 'yellow',
+    color: 'blue' }, 
+  active = {
+    color: 'blue',
+    backgroundColor: 'yellow',
+    textDecoration: 'none'
+  }, cursor = 'pointer',
+  children, onClick, ...props }) => {
+
+  return (
+    <StyledButton 
+      type='button'
+      backgroundColor={backgroundColor}
+      width={width}
+      height={height}
+      borderColor={borderColor}
+      borderRadius={borderRadius}
+      borderWidth={borderWidth}
+      hover={hover}
+      focus={focus}
+      active={active}
+      cursor={cursor}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </StyledButton>
+  );
+};
+
+Button.propTypes = {
+  backgroundColor: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  borderColor: PropTypes.string,
+  borderRadius: PropTypes.string,
+  borderWidth: PropTypes.string,
+  hover: PropTypes.object,
+  focus: PropTypes.object,
+  active: PropTypes.object,
+  cursor: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.string
+  ]).isRequired,
+  onClick: PropTypes.func.isRequired
+};
+
+export default Button;
