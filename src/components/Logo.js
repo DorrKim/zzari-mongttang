@@ -16,7 +16,7 @@ const Logo = ({ link, ...props }) => {
 
   return <ImageStyled 
     src={imageSrc} 
-    onClick={link ? () => history.push('/') : ''}
+    onClick={link ? () => history.push('/') : null}
     {...props} 
   />;
 };
