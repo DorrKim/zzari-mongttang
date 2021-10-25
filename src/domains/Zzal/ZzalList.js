@@ -15,7 +15,6 @@ const checkIntersect = (entries, observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
       entry.target.dispatchEvent(new CustomEvent(LOAD_POST_EVENT_TYPE));
-      observer.observe(entry.target);
     } 
   });
 };
@@ -23,10 +22,20 @@ const checkIntersect = (entries, observer) => {
 const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
   const [initialPosts, fetchPost] = useAxios(`/posts/channel/${channel}`);
   const [itemCount, setItemCount] = useState(6);
-  const [isInit, setIsInit] = useState(false);
-  const ref = useRef(null);
   const fetchItem = () => setItemCount(prev => prev + 6);
+  const init = useRef(false);
+  const ref = useRef(null);
+  const [isFetchable, setIsFetchable] = useState(false);
   // const TEST_IMG_URL = 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/287d62dc-d081-4e02-949e-cc75fc018279/20160902_57c9307c5a024.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20211024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211024T184206Z&X-Amz-Expires=86400&X-Amz-Signature=0632049d22f4c33b1fad570c85dbe388d95daa7d08652d48d1b0654f9c9fb917&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%2220160902_57c9307c5a024.gif%22';  
+
+  // const isFetchable = useCallback(() => {
+  //   return ref.current && !initialPosts.isLoading && itemCount < initialPosts.value?.length;
+  // }, [ref, itemCount, initialPosts]);
+
+  useEffect(() => {
+    const { isLoading, value } = initialPosts; 
+    setIsFetchable(ref.current && !isLoading && value && itemCount < value.length);
+  }, [ref, itemCount, initialPosts]);
 
   useEffect(() => {
     fetchPost();
@@ -34,7 +43,8 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
 
   const handleLoadPost = useCallback(() => {
     fetchItem();
-  }, []);
+    observer.observe(ref.current);
+  }, [observer]);
 
   useEffect(() => {
     if (!ref.current) {
@@ -52,17 +62,18 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
     if (!observer) {
       observer = new IntersectionObserver(checkIntersect, { threshold: 0.5 });
     }
-
-    if (!isInit) {
-      setIsInit(true);
+    
+    if (!init.current) {
+      init.current = true;
       
       return;
     }
-
-    if (ref.current && !initialPosts.isLoading) {
+    
+    if (isFetchable) {
       observer.observe(ref.current);
     }
-  }, [isInit, initialPosts, observer]);
+  }, [initialPosts, observer, isFetchable]);
+
   
   return (
     <StyledList>
