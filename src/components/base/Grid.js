@@ -24,12 +24,12 @@ const GridBox = styled.div(({
 
   const styleObj = Object
     .entries(gridProps)
-    .reduce((acc, [key, { row = 2, col = 2, gap = 10, position = ['start', 'start'] }]) => {
+    .reduce((acc, [key, { gap = 10, position = ['start', 'start'] }]) => {
       const { [key]: newKey } = mediaQuery;
   
       acc[newKey] = {
-        gridTemplateRows: `repeat(${row}, 1fr)`,
-        gridTemplateColumns: `repeat(${col}, 1fr)`,
+        gridTemplateRows: 'repeat(auto-fill, minmax(160px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
         gap: `${gap}px`,
         justifyItems: position[0],
         alignItems: position[1]
