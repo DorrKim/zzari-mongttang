@@ -1,11 +1,12 @@
 import useAsyncFn from '@hooks/useAsyncFn';
 import axios from 'axios';
 
+const BASE_URL = 'http://13.209.30.200:5001';
 
-axios.defaults.baseURL = 'http://13.209.30.200:5001';
+axios.defaults.baseURL = BASE_URL;
 
 const useAxios = (url, options = {}) => useAsyncFn(
-  async() => await axios({
+  () => axios({
     url,
     ...options
   }).then(res => res.data));
