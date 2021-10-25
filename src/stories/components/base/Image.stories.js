@@ -24,9 +24,6 @@ export default {
         type: 'radio',
         options: ['circle', 'square']
       }
-    },
-    placeholder: {
-      defaultValue: 'https://via.placeholder.com/500'
     }
   }
 };
@@ -37,6 +34,7 @@ export const Default = props => {
 };
 
 export const Lazy = props => {
+  
   return (
     <>
       <Image src="https://picsum.photos/300" width={300} height={300} lazy {...props} />
