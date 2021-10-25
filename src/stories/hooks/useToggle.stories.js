@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import useToggle from '@hooks/useToggle';
 
 export default {
@@ -7,13 +7,12 @@ export default {
 };
 
 const Toggle = () => {
-  
   const [isToggled, handleToggle] = useToggle(true);
- 
-  const handleClick = () => {
+
+  const handleClick = useCallback(() => {
     handleToggle();
-  };
-  
+  }, []);
+
   return (
     <>
       <button 
