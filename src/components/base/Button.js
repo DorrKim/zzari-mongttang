@@ -10,7 +10,7 @@ const StyledButton = styled.button(({
   backgroundColor, width, height,
   borderColor, borderRadius, borderWidth,
   hover, active, cursor,
-  ...style }) => ({
+  style }) => ({
   backgroundColor,
   width,
   height,
