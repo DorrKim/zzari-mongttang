@@ -16,8 +16,8 @@ const useScroll = () => {
     const handleScroll = () => {
       setCoordinates(
         {
-          x: ref.current.scrollLeft,
-          y: ref.current.scrollTop
+          x: element.scrollLeft,
+          y: element.scrollTop
         }
       );
     };
