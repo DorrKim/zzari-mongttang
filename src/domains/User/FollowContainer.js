@@ -3,21 +3,28 @@ import PropTypes from 'prop-types';
 
 import Flex from '@/components/base/Flex';
 import Text from '@components/base/Text';
+import styled from '@emotion/styled';
 
+const FollowWrapper = styled(Flex)`
+  width: 100%;
+  margin-bottom: 8px;
+`; 
 
+const FollowItem = styled(Flex)`
+  margin: 0 8px
+`;
 const FollowContainer = ({ followers = [], following = [] }) => {
   return (
-    <Flex justifyContent="center" style={{ width: '100%',
-      marginBottom: '8px' }}>
-      <Flex column alignItems='center' style={{ margin: '0 8px' }}>
+    <FollowWrapper justifyContent="center" >
+      <FollowItem column alignItems='center' >
         <Text bold >{`${followers.length}`}</Text>
         <Text bold size="sm" >팔로워</Text>
-      </Flex> 
-      <Flex column alignItems='center' style={{ margin: '0 8px' }}>
+      </FollowItem> 
+      <FollowItem column alignItems='center'>
         <Text bold>{`${following.length}`}</Text>
         <Text bold size="sm">팔로잉</Text>
-      </Flex>
-    </Flex>
+      </FollowItem>
+    </FollowWrapper>
   );
 };
 
