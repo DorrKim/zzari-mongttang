@@ -48,7 +48,7 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
     ref.current.addEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
 
     return () => {
-      ref.current.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
+      ref.current?.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
     };
   }, [ref, handleLoadPost]);
 
@@ -71,15 +71,12 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
   return (
     <StyledList>
       <Grid gridProps={gridProps}>
-        {(initialPosts.value || []).filter((_, idx) => idx < itemCount).map(post => (
-          <div id={post._id} key={post._id} style={{ width: '152px',
-            height: '152px',
-            overflow: 'hidden',
-            alignContent: 'center' }}>
-            <ZzalItem src={post.image} height='100%'/>
-          </div>
-        )
-        )}  
+        {(initialPosts.value || [])
+          .filter((_, idx) => idx < itemCount)
+          .map(post => (
+            <ZzalItem key={post._id} id={post._id} src={post.image} height='100%'/>
+          ))
+        }  
         <div ref={ref}></div>
       </Grid>
     </StyledList>
@@ -90,31 +87,31 @@ const gridProps = {
   xs: {
     row: 2,
     col: 2,
-    gap: 10,
+    gap: 5,
     position: ['center', 'center']
   },
   sm: {
     row: 3,
     col: 3,
-    gap: 15,
+    gap: 6,
     position: ['center', 'center']
   },
   md: {
-    row: 4,
-    col: 4,
-    gap: 20,
+    row: 5,
+    col: 5,
+    gap: 7,
     position: ['center', 'center']
   },
   lg: {
-    row: 5,
-    col: 5,
-    gap: 25,
+    row: 6,
+    col: 6,
+    gap: 8,
     position: ['center', 'center']
   },
   xl: {
-    row: 6,
-    col: 6,
-    gap: 30,
+    row: 7,
+    col: 7,
+    gap: 10,
     position: ['center', 'center']
   }
 };
