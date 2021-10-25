@@ -29,7 +29,7 @@ const useAsyncFn = (fn, deps = []) => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     value: null,
-    error: false
+    error: null
   });
   const lastCallId = useRef(0);
 

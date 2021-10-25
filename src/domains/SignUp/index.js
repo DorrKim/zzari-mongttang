@@ -1,5 +1,0 @@
-/*
-SignUpForm
-SignUpInput
-SignUpButton
-*/

@@ -9,8 +9,7 @@ export default {
     width: { control: 'text' },
     height: { control: 'text' },
     onClick: { action: 'clicked' },
-    borderColor: { contorl: 'color' },
-    borderRadius: { contorl: 'text' },
+    border: { contorl: 'text' },
     borderWidth: { contorl: 'text' },
     children: { options: ['h1', 'Bold', 'Italic'],
       mapping: {
