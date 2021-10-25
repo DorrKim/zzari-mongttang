@@ -5,17 +5,25 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import DetailPage from './pages/DetailPage';
-import LoginPage from './pages/LoginPage';
-import MainPage from './pages/MainPage';
-import PersonalPage from './pages/PersonalPage';
-import SearchPage from './pages/SearchPage';
-import SignUpPage from './pages/SignUpPage';
-import UploadPage from './pages/UploadPage';
+
+import Header from '@domains/Header';
+import DetailPage from '@pages/DetailPage';
+import LoginPage from '@pages/LoginPage';
+import MainPage from '@pages/MainPage';
+import PersonalPage from '@pages/PersonalPage';
+import SearchPage from '@pages/SearchPage';
+import SignUpPage from '@pages/SignUpPage';
+import UploadPage from '@pages/UploadPage';
+import useToggle from './hooks/useToggle';
 
 function App() {
+  const [isAuthorized, toggle] = useToggle(false);
+
   return (
     <Router>
+      <Header isAuthorized={isAuthorized} />
+      <input type='checkbox' checked={isAuthorized} onChange={() => toggle()} />
+      {isAuthorized ? '로그인 됨' : '로그인 안됨'}
       <nav>
         <ul>
           <li>
