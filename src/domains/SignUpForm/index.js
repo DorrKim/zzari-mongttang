@@ -46,7 +46,8 @@ const SignUpForm = ({ onSignUp, onCancel }) => {
   const handleEmailChange = useCallback(value => {
     setEmail(value);
     setValidateForm(validateForm => ({ ...validateForm,
-      isEmail: validateEmail(value) }));
+      isEmail: validateEmail(value),
+      isEmailInUse: false }));
   }, []);
 
   const handleFullNameChange = useCallback(value => {
@@ -71,13 +72,13 @@ const SignUpForm = ({ onSignUp, onCancel }) => {
       return;
     }
     setIsSignUpable(false);
-    const error = onSignUp && await onSignUp({
+    const res = onSignUp && await onSignUp({
       email,
       fullName,
       password
     });
-
-    if (error) {
+    
+    if (res?.error) {
       setValidateForm({ ...validateForm,
         isEmailInUse: true });
       setIsSignUpable(false);
