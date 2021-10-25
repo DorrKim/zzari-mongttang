@@ -11,7 +11,7 @@ const FollowWrapper = styled(Flex)`
 `; 
 
 const FollowItem = styled(Flex)`
-  margin: 0 8px
+  margin: 0 12px
 `;
 const FollowContainer = ({ followers = [], following = [] }) => {
   return (

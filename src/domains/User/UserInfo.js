@@ -13,19 +13,22 @@ const UserInfoWrapper = styled(Flex)`
   margin-left: 16px;
 `;
 
+const UserName = styled(Text)`
+  height: 32px;
+  line-height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  margin: 8px 16px;
+`;
+
 const UserInfo = ({ fullName, followers, following }) => {
   return (
     <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
-      <Text bold size='lg' style={{ 
-        height: '32px',
-        lineHeight: '32px',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-        maxWidth: '160px',
-        margin: '8px 16px' }}>
+      <UserName bold size='lg' >
         {fullName}
-      </Text>
+      </UserName>
       <FollowContainer 
         followers={followers} 
         following={following}/>
