@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import styled from '@emotion/styled';
+
+import colors from '@constants/colors';
+
+const { ACCENT } = colors;
 
 const StyledButton = styled.button(({ 
   backgroundColor, width, height,
   borderColor, borderRadius, borderWidth,
-  hover, focus, active, cursor,
-  ...props }) => ({
+  hover, active, cursor,
+  ...style }) => ({
   backgroundColor,
   width,
   height,
@@ -15,24 +18,16 @@ const StyledButton = styled.button(({
   borderRadius,
   borderWidth,
   '&:hover': hover,
-  '&:focus': focus,
   '&:active': active,
   cursor,
-  ...props
+  ...style
 }));
 
-
 const Button = ({
-  backgroundColor = 'red', width = '100px', height = '100px',
-  borderColor = 'blue', borderRadius = '10px', borderWidth = 'thin',
-  hover = { backgroundColor: 'blue' }, 
-  focus = { background: 'yellow',
-    color: 'blue' }, 
-  active = {
-    color: 'blue',
-    backgroundColor: 'yellow',
-    textDecoration: 'none'
-  }, cursor = 'pointer',
+  backgroundColor = ACCENT, width = '100px', height = '100px',
+  border = 'none', borderWidth = 'thin',
+  hover = { filter: 'brightness(90%)' },
+  active = { filter: 'brightness(80%)' }, cursor = 'pointer',
   children, onClick, ...props }) => {
 
   return (
@@ -41,11 +36,9 @@ const Button = ({
       backgroundColor={backgroundColor}
       width={width}
       height={height}
-      borderColor={borderColor}
-      borderRadius={borderRadius}
+      border={border}
       borderWidth={borderWidth}
       hover={hover}
-      focus={focus}
       active={active}
       cursor={cursor}
       onClick={onClick}
@@ -60,11 +53,9 @@ Button.propTypes = {
   backgroundColor: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  borderColor: PropTypes.string,
-  borderRadius: PropTypes.string,
-  borderWidth: PropTypes.string,
+  border: PropTypes.string,
+  borderWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hover: PropTypes.object,
-  focus: PropTypes.object,
   active: PropTypes.object,
   cursor: PropTypes.string,
   children: PropTypes.oneOfType([
