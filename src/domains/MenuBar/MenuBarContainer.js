@@ -13,9 +13,26 @@ const MenuBarContainerStyled = styled(Flex)`
   row-gap: 6px;
   background-color: white;
   box-shadow: 0 1px 2px -1px ${colors.PRIMARY};
+  position:absolute;
+  top: auto;
+  left: -60px;
+  z-index: 500;
+  animation: show 0.3s forwards;
+
+  @keyframes show {
+    from {
+      opacity: 0;
+      transform: scaleY(0) translateY(-50%);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1) translateY(0);
+    }
+  }
 `;
 
 const MenuBarContainer = ({ children, ...props }) => {
+
   const MenuItems = React.Children.toArray(children)
     .filter(element => {
       if (React.isValidElement(element)) {
@@ -25,9 +42,12 @@ const MenuBarContainer = ({ children, ...props }) => {
       return false;
     });
 
-  return <MenuBarContainerStyled column {...props}>
-    {MenuItems}
-  </MenuBarContainerStyled>;
+  return (
+    <div>
+      <MenuBarContainerStyled column {...props}>
+        {MenuItems}
+      </MenuBarContainerStyled>
+    </div>);
 };
 
 MenuBarContainer.propTypes = {
