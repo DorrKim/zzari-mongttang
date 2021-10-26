@@ -1,18 +1,19 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 
 import Text from '@base/Text';
+import Flex from '@base/Flex';
+import Button from '@base/Button';
 import Logo from '@components/Logo';
-import Flex from '@/components/base/Flex';
-import Button from '@/components/base/Button';
-import colors from '@/utils/constants/colors';
-
+import colors from '@constants/colors';
+import Avatar from '@components/Avatar';
+import MenuBar from '@domains/MenuBar';
+import useToggle from '@hooks/useToggle';
+import useClickAway from '@hooks/useClickAway';
+// Sample Image
 import imageSrc from '@assets/test.gif';
-import Avatar from '@/components/Avatar';
-import useToggle from '@/hooks/useToggle';
-import Modal from '@/components/base/Modal';
 
 const HeaderStyled = styled.header`
 padding: 0 16px;
@@ -20,7 +21,16 @@ padding: 0 16px;
 
 const Header = ({ isAuthorized, ...props }) => {
   const [showMenuBar, toggleMenuBar] = useToggle(false);
+  const avatarRef = useRef(null);
   const history = useHistory();
+  const menuBarRef = useClickAway(e => {
+    if (e.path.includes(avatarRef.current) || !showMenuBar) {
+
+      return;
+    }
+
+    toggleMenuBar();
+  });
   
   const handleToUploadPage = useCallback(() => {
     if (!isAuthorized) {
@@ -30,7 +40,6 @@ const Header = ({ isAuthorized, ...props }) => {
     }
 
     history.push('/upload');
-
   }, [isAuthorized]);
 
   const handleToLoginPage = useCallback(() => {
@@ -39,7 +48,7 @@ const Header = ({ isAuthorized, ...props }) => {
 
   const handleAvatarClick = useCallback(() => {
     toggleMenuBar();
-  }, [toggleMenuBar]);
+  }, [showMenuBar, toggleMenuBar]);
 
   return (
     <HeaderStyled {...props}>
@@ -57,21 +66,30 @@ const Header = ({ isAuthorized, ...props }) => {
         </Button>
         {isAuthorized
           ? (
-            <Avatar src={imageSrc} size={45} onClick={handleAvatarClick} />
+            <div ref={avatarRef} style={{ position: 'relative' }}>
+              <Avatar src={imageSrc} size={45} onClickCapture={handleAvatarClick} />
+              <div ref={menuBarRef}>
+                {showMenuBar 
+                  ? (
+                    <MenuBar />
+                  )
+                  : null}
+              </div>
+            </div>
           )
-          : (<Button 
-            width={70} height={40} 
-            backgroundColor={colors.PRIMARY}
-            borderWidth='0' 
-            borderRadius='4px' 
-            onClick={handleToLoginPage}
-          >
-            <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
-          </Button>
+          : (
+            <Button 
+              width={70} height={40} 
+              backgroundColor={colors.PRIMARY}
+              borderWidth='0' 
+              borderRadius='4px' 
+              onClick={handleToLoginPage}
+            >
+              <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+            </Button>
           )
         }
       </Flex>
-      <Modal visible={showMenuBar} onClose={handleAvatarClick}>Modal</Modal>
     </HeaderStyled>
   );
 };
