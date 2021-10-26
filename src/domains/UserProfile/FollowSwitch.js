@@ -6,10 +6,10 @@ import Button from '@/components/base/Button';
 import Text from '@/components/base/Text';
 import useToggle from '@/hooks/useToggle';
 
-const FollowSwitch = ({ onClick }) => {
+const FollowSwitch = () => {
   const [state, handleToggle] = useToggle(false);
   const handleClick = useCallback(() => {
-    onClick();
+
     handleToggle();
   }, []);
 

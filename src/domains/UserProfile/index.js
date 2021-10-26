@@ -13,7 +13,7 @@ const ProfileWrapper = styled(Flex)`
 
 
 const Profile = ({ fullName, followers, following, src }) => {  
-  
+
   return (
     <ProfileWrapper>
       <Avatar 
@@ -21,7 +21,7 @@ const Profile = ({ fullName, followers, following, src }) => {
         size={120}
         onClick={() => alert('a')}
       />
-      <UserInfo fullName={fullName} followers={followers} following={following}/> 
+      <UserInfo fullName={fullName} followers={followers} following={following} /> 
     </ProfileWrapper>
   );
 };
