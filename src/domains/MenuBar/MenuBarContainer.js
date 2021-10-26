@@ -1,9 +1,9 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 import Flex from '@base/Flex';
-import colors from '@/utils/constants/colors';
-import styled from '@emotion/styled';
+import colors from '@constants/colors';
 
 const MenuBarContainerStyled = styled(Flex)`
   height: 156px;

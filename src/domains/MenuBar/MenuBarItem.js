@@ -2,9 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-import Button from '@/components/base/Button';
+import Button from '@base/Button';
 import Text from '@base/Text';
-import colors from '@/utils/constants/colors';
+import colors from '@constants/colors';
 
 const ButtonStyled = styled(Button)`
   background-color: transparent;
