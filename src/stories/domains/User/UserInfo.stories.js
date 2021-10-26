@@ -1,5 +1,5 @@
 import React from 'react';
-import UserInfo from '@domains/User/UserInfo';
+import UserInfo from '@domains/UserProfile/UserInfo';
 
 export default {
   title: 'Domain/User/UserInfo',
