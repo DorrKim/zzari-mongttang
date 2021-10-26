@@ -20,15 +20,17 @@ const StyledTabItem = styled(Flex)`
 `;
 
 const TabItem = ({ children }) => {
+
   return (
-    <StyledTabItem className="active" justifyContent='center' alignItems='center'>{children}</StyledTabItem>
+    <StyledTabItem justifyContent='center' alignItems='center'>{children}</StyledTabItem>
   );
 };
 
 const Tab = ({ children }) => {
+  
   return (
     <TabWrapper alignItems='stretch' justifyContent='stretch'>
-      {children.map((child, index) => <TabItem key={index}>{child}</TabItem>)}
+      {children.map((child, index) => <TabItem key={index} >{child}</TabItem>)}
     </TabWrapper>
   );
 };
