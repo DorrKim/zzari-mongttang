@@ -1,9 +1,13 @@
 import React from 'react';
-import Header from '@/domains/Header';
+import Header from '@domains/Header';
 
 export default {
   title: 'Domains/Header',
-  component: Header
+  argTypes: {
+    isAuthorized: {
+      control: 'boolean'
+    }
+  }
 };
 
-export const Default = () => <Header/>;
+export const Default = args => <Header {...args}/>;
