@@ -18,8 +18,8 @@ export default {
 // const result = await response.json();
 
 // console.log(result)
-export const Default = () => {
+export const Default = args => {
   return (
-    <UserProfile ></UserProfile>
+    <UserProfile {...args} ></UserProfile>
   );
 }; 
