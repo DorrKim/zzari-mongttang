@@ -19,9 +19,12 @@ const HeaderStyled = styled.header`
 padding: 0 16px;
 `;
 
-const Header = ({ isAuthorized, ...props }) => {
+const Header = ({ ...props }) => {
   const [showMenuBar, toggleMenuBar] = useToggle(false);
+  const { authState } = useAuthorization();
   const history = useHistory();
+
+  const { isAuthorized } = authState;
   
   const handleToUploadPage = useCallback(() => {
     if (!isAuthorized) {
