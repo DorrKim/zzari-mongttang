@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ZzalList from '@/domains/Zzal/ZzalList';
+import ZzalList from '@domains/Zzal/ZzalList';
 
 const MainPage = () => {
   

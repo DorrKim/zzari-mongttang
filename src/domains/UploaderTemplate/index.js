@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Image from '@components/base/Image';
+import Image from '@base/Image';
 import Uploader from '@domains/Uploader';
 
 const FILE_TYPE = 'image/* video/*';

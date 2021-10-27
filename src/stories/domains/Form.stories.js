@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SignUpForm from '@/domains/SignUpForm';
-import LoginForm from '@/domains/LoginForm';
+import SignUpForm from '@domains/SignUpForm';
+import LoginForm from '@domains/LoginForm';
 
 export default {
   title: 'Domains/Forms'
