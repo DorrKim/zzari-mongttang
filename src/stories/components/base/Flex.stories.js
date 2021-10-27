@@ -1,5 +1,5 @@
 import React from 'react';
-import Flex from '@/components/base/Flex';
+import Flex from '@base/Flex';
 import styled from '@emotion/styled';
 
 

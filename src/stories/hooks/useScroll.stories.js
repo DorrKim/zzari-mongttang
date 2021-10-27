@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import useScroll from '@/hooks/useScroll';
+import useScroll from '@hooks/useScroll';
 
 
 export default {
