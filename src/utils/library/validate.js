@@ -10,7 +10,7 @@ export const validateEmail = email => {
 };
 
 export const validateFullName = fullName => {
-  if (MIN_FULLNAME_LENGTH <= fullName.length 
+  if (MIN_FULLNAME_LENGTH <= fullName?.length 
     && fullName.length <= MAX_FULLNAME_LENGTH) {
     return true;
   }
@@ -19,7 +19,7 @@ export const validateFullName = fullName => {
 };
 
 export const validatePassword = password => {
-  if (MIN_PASSWORD_LENGTH <= password.length 
+  if (MIN_PASSWORD_LENGTH <= password?.length 
     && password.length <= MAX_PASSWORD_LENGTH) {
     return true;
 
@@ -35,3 +35,36 @@ export const validateVerifyPassword = (password1, password2) => {
 
   return false;
 };
+
+export const validateForm = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name) {
+      case 'email':
+        !validateEmail(values[name])
+          ? acc[name] = true
+          : null;
+        
+        return acc;
+      case 'fullName':
+        !validateFullName(values[name])
+          ? acc[name] = true
+          : null;
+        
+        return acc;
+      case 'password':
+        !validatePassword(values[name])
+          ? acc[name] = true
+          : null;
+        
+        return acc;
+      case 'verifyPassword':
+        !validateVerifyPassword(values[name], values.password)
+          ? acc[name] = true
+          : null;
+        
+        return acc;
+      default:
+        return acc;
+    }
+  }, {});
