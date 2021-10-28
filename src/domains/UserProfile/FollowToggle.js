@@ -7,10 +7,11 @@ import Text from '@base/Text';
 import useToggle from '@hooks/useToggle';
 
 
-const FollowToggle = ({ isMyProfile }) => {
-  const [state, handleToggle] = useToggle(false);
+const FollowToggle = ({ isMyProfile, onClick, followState }) => {
+  const [state, handleToggle] = useToggle(!followState);
   const handleClick = useCallback(() => {
     handleToggle();
+    onClick && onClick();
   }, []);
 
 
@@ -34,8 +35,9 @@ const FollowToggle = ({ isMyProfile }) => {
 };
 
 FollowToggle.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  isMyProfile: PropTypes.bool
+  onClick: PropTypes.func,
+  isMyProfile: PropTypes.bool,
+  followState: PropTypes.bool
 };
 
 export default FollowToggle;

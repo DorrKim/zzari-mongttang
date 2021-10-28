@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import PropTypes from 'prop-types';
 import Profile from '@domains/UserProfile';
 
 
-const PersonalPage = ({ myUserId = '61759164359c4371f68ac707', isAuthorized = true }) => {
+const PersonalPage = ({ isAuthorized = true }) => {
   const { userId } = useParams();
   const [fetchState, fetchUserData] = useAxios(`/users/${userId}`);
   
-  useEffect(() => {
+
+  useEffect(async () => {
     console.log(`isLogined: ${isAuthorized}`);
-    fetchUserData();   
-  }, []);
-  
-  const fetchSuccess = fetchState.value !== null; 
-  const isMyPage = Boolean(myUserId === userId);
+    fetchUserData();
+  }, [fetchUserData]);
+
+  const fetchSuccess = useMemo(() => Boolean(fetchState.value !== null), [fetchState.value]);
   
   return (
     <>
@@ -26,16 +26,16 @@ const PersonalPage = ({ myUserId = '61759164359c4371f68ac707', isAuthorized = tr
           followers={fetchState.value.followers}
           following={fetchState.value.following}
           src={fetchState.value.image}
-          isMyProfile={isMyPage}>
+          userId={userId}>
         </Profile>
       } 
+     
     </>
   );
 };
 
 PersonalPage.propTypes = {
-  isAuthorized: PropTypes.bool,
-  myUserId: PropTypes.string
+  isAuthorized: PropTypes.bool
 };
 
 export default PersonalPage;

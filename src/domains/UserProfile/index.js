@@ -12,8 +12,18 @@ const ProfileWrapper = styled(Flex)`
   height: 120px;
 `;
 
-const Profile = ({ fullName, followers, following, src, isMyProfile }) => {  
-
+const Profile = ({ 
+  myUserId = '61795b2aa1f9673a2292a0d8', 
+  fullName, 
+  followers,
+  following, 
+  src, 
+  userId, 
+  onClick 
+}) => {  
+  const isMyProfile = myUserId === userId;
+  const followState = followers.some(follow => follow.follower._id === myUserId);
+  
   return (
     <ProfileWrapper>
       <Avatar 
@@ -24,7 +34,9 @@ const Profile = ({ fullName, followers, following, src, isMyProfile }) => {
         fullName={fullName} 
         followers={followers} 
         following={following} 
-        isMyProfile={isMyProfile} 
+        isMyProfile={isMyProfile}
+        followState={followState}
+        onClick={onClick} 
       /> 
     </ProfileWrapper>
   );
@@ -35,7 +47,9 @@ Profile.propTypes = {
   followers: PropTypes.array,
   following: PropTypes.array.isRequired,
   src: PropTypes.string,
-  isMyProfile: PropTypes.bool
+  userId: PropTypes.string,
+  myUserId: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default Profile;
