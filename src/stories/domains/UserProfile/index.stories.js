@@ -12,12 +12,6 @@ export default {
   }
 };
 
-// const MY_ID = '61759164359c4371f68ac707';
-
-// const response = await fetch(`http://13.209.30.200:5001/users/${MY_ID}`);
-// const result = await response.json();
-
-// console.log(result)
 export const Default = args => {
   return (
     <UserProfile {...args} ></UserProfile>

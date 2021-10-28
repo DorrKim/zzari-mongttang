@@ -6,10 +6,11 @@ import Button from '@base/Button';
 import Text from '@base/Text';
 import useToggle from '@hooks/useToggle';
 
-const FollowSwitch = () => {
+
+const FollowToggle = ({ onClick }) => {
   const [state, handleToggle] = useToggle(false);
   const handleClick = useCallback(() => {
-
+    onClick();
     handleToggle();
   }, []);
 
@@ -27,8 +28,8 @@ const FollowSwitch = () => {
   );
 };
 
-FollowSwitch.propTypes = {
+FollowToggle.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
-export default FollowSwitch;
+export default FollowToggle;

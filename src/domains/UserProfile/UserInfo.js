@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import Flex from '@base/Flex';
 import Text from '@base/Text';
 import FollowContainer from './FollowContainer';
-import FollowSwitch from './FollowSwitch';
+import FollowToggle from './FollowToggle';
 
 const UserInfoWrapper = styled(Flex)`
   width: 160px;
@@ -31,7 +31,7 @@ const UserInfo = ({ fullName, followers, following }) => {
       <FollowContainer 
         followers={followers} 
         following={following}/>
-      <FollowSwitch />
+      <FollowToggle />
     </UserInfoWrapper>
   );
 };
@@ -39,9 +39,7 @@ const UserInfo = ({ fullName, followers, following }) => {
 UserInfo.propTypes = {
   fullName: PropTypes.string.isRequired,
   followers: PropTypes.array,
-  following: PropTypes.array,
-  onClick: PropTypes.func
-
+  following: PropTypes.array
 };
 
 export default UserInfo;

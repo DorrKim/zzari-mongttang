@@ -6,11 +6,11 @@ import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
 import Flex from '@/components/base/Flex';
 
+
 const ProfileWrapper = styled(Flex)`
   width: 328px;
   height: 120px;
 `;
-
 
 const Profile = ({ fullName, followers, following, src }) => {  
 
@@ -19,9 +19,11 @@ const Profile = ({ fullName, followers, following, src }) => {
       <Avatar 
         src={src} 
         size={120}
-        onClick={() => alert('a')}
       />
-      <UserInfo fullName={fullName} followers={followers} following={following} /> 
+      <UserInfo 
+        fullName={fullName} 
+        followers={followers} 
+        following={following} /> 
     </ProfileWrapper>
   );
 };
