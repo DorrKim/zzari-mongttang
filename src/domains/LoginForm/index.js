@@ -5,23 +5,8 @@ import PropTypes from 'prop-types';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
-import { validateEmail } from '@library/validate';
+import { validateForm } from '@library/validate';
 import useForm from '@hooks/useForm';
-
-const validate = values => Object
-  .keys(values)
-  .reduce((acc, name) => {
-    switch (name){
-      case 'email':
-        !validateEmail(values[name]) 
-          ? acc[name] = true 
-          : null;
-        
-        return acc;
-      default:
-        return acc;
-    }
-  }, {});
 
 const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
@@ -30,7 +15,7 @@ const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
       password: ''
     },
     onSubmit: onLogin,
-    validate
+    validate: validateForm
   });
 
   const handleToSubmitPage = useCallback(() => {
