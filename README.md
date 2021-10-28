@@ -8,7 +8,7 @@
 <img alt="React" src ="https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=white"/> &emsp;
 <img alt="Storybook" src ="https://img.shields.io/badge/Storybook-FF4785.svg?&style=for-the-badge&logo=Storybook&logoColor=white"/> &emsp;
 <img alt="Yarn" src ="https://img.shields.io/badge/Yarn-2C8EBB.svg?&style=for-the-badge&logo=Yarn&logoColor=white"/> &emsp;
-<img alt="Netlify" src ="https://img.shields.io/badge/Netlify-00C7B7.svg?&style=for-the-badge&logo=Netlify&logoColor=white"/>
+<img alt="Vercel" src ="https://img.shields.io/badge/Vercel-000000.svg?&style=for-the-badge&logo=Vercel&logoColor=white"/>
 </div>
 
 <br>
@@ -100,7 +100,6 @@
 ## Library
 - Icon: React-icons
 - Image: ReactFreezeFrame
-
 <br>
 
 ## Usage
@@ -125,7 +124,7 @@
 <br>
 
 ## Contributing
-김정운_[github]() <br>
-김현석_[github]() <br>
-김홍중_[github]() <br>
-도가영_[github]() <br>
+김정운_[github](https://github.com/AlangGY) <br>
+김현석_[github](https://github.com/dorrdorr9311) <br>
+김홍중_[github](https://github.com/HongJungKim-dev) <br>
+도가영_[github](https://github.com/young-d) <br>
