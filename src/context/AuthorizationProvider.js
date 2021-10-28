@@ -10,20 +10,24 @@ const AuthorizationProvider = ({ children }) => {
   const [authState, setAuthState] = useSessionStorage('auth', {
     isAuthorized: false,
     authToken: '',
-    myUserId: ''
+    myUser: {}
   });
 
-  const updateAuthState = useCallback(({ authToken, myUserId }) => {
-    if (!authToken || !myUserId) {
-      console.error('cannot updateAuthState without authToken or myUserId!');
+  const updateAuthState = useCallback(({ authToken, myUser }) => {
+    if (!authToken || !myUser) {
+      console.error('cannot updateAuthState without authToken or myUser!');
 
       return; 
     }
-    
+    const { _id, fullName, image } = myUser;
     setAuthState({
       isAuthorized: true,
       authToken,
-      myUserId
+      myUser: {
+        _id,
+        fullName,
+        image
+      }
     });
   }, []);
 
@@ -31,7 +35,7 @@ const AuthorizationProvider = ({ children }) => {
     setAuthState({
       isAuthorized: false,
       authToken: '',
-      myUserId: ''
+      myUser: ''
     });
   }, []);
 
