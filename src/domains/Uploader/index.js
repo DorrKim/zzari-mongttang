@@ -2,92 +2,50 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
+import Image from '@components/base/Image';
+
+const FILE_TYPE = 'image/* video/*';
+
+const resizedStyle = { objectFit: 'cover' };
+
 const Input = styled.input({
   display: 'none'
 });
 
-const Uploader = ({ accept, value, droppable, 
-  children, onChange, style, ...props }) => {
-  const [file, setFile] = useState(value);
+const Uploader = ({ accept = FILE_TYPE, droppable, 
+  file, src, alt,
+  onChange, onDrop, style, 
+  width, height, type, 
+  children, ...props }) => {
   const [dragging, setDragging] = useState(false);
-  const [src, setSrc] = useState('');
 
   const inputRef = useRef(null);
-
-  const handleFileChanged = event => {
-    // eslint-disable-next-line prefer-destructuring
-    const files = event.target.files;
-    
-    const changedFile = files[0];
-
-    setFile(changedFile);
-    onChange && onChange(changedFile);
-
-    const reader = new FileReader();
-
-    reader.readAsDataURL(changedFile);
-    reader.addEventListener('load', () => {
-      // eslint-disable-next-line prefer-destructuring 
-      setSrc(reader.result);
-    });
-  };
-
+  
   const handleFileChosen = () => {
     inputRef.current.click();
   };
-
-  const handleDrageDefault = event => {
+  
+  const handleDragOver = event => {
     if (!droppable) {
       return;
     }
   
     event.preventDefault();
     event.stopPropagation();
-  };
-  const handleDragEnter = event => {
-    handleDrageDefault(event);
-
-    // eslint-disable-next-line prefer-destructuring
-    const { items } = event.dataTransfer;
-    if (items && items.length > 0) {
-      setDragging(true);
-    }
+    setDragging(true);
   };
 
   const handleDragLeave = event => {
-    handleDrageDefault(event);
+    handleDragOver(event);
     setDragging(false);
   };
-
-  const handleDragOver = event => {
-    handleDrageDefault(event);
-  };
-
-  const handleFileDrop = event => {
-    handleDrageDefault(event);
-    // eslint-disable-next-line prefer-destructuring
-    const { files } = event.dataTransfer;
-    const changedFile = files[0];
-    setFile(changedFile);
-    onChange && onChange(changedFile);
-
-    const reader = new FileReader();
-
-    reader.readAsDataURL(changedFile); //file
-    reader.addEventListener('load', () => {
-      // eslint-disable-next-line prefer-destructuring 
-      setSrc(reader.result);
-    });
-    setDragging(false);
-  };
-
+  
   return (
     <div 
       style={{ display: 'inline-block',
         ...style }}
       onClick={handleFileChosen}
-      onDrop={handleFileDrop}
-      onDrageEnter={handleDragEnter}
+      onDrop={onDrop}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       {...props}
@@ -97,9 +55,32 @@ const Uploader = ({ accept, value, droppable,
         ref={inputRef}
         name={droppable ? 'post' : 'profile'}
         accept={accept}
-        onChange={handleFileChanged}
+        onChange={onChange}
       />
-      {typeof children === 'function' ? children(file, dragging, src) : children}
+      {file || src !== ''
+        ? <div>
+          <Image
+            src={src}
+            alt={alt}
+            width={width} 
+            height={height}
+            type={type}
+            style={{ ...resizedStyle,
+              ...style }}
+          >
+          </Image>
+        </div>
+        : <div 
+          style={{
+            width: `${width}`,
+            height: `${height}`,
+            border: '4px dashed #aaa',
+            borderColor: dragging ? '#FD9F28' : '#aaa'
+          }}
+        >
+          {'image upload!'}
+        </div>}
+      {children}
     </div>
   );
 };
@@ -107,18 +88,29 @@ const Uploader = ({ accept, value, droppable,
 Uploader.propTypes = {
   name: PropTypes.string,
   accept: PropTypes.string,
-  value: PropTypes.string,
-  droppable: PropTypes.oneOfType([
+  droppable: PropTypes.bool,
+  style: PropTypes.object,
+  onChange: PropTypes.func,
+  onDrop: PropTypes.func,
+  width: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func,
-    PropTypes.object
+    PropTypes.number
+  ]),
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
   ]),
   children: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.object
+    PropTypes.node
   ]),
-  style: PropTypes.object,
-  onChange: PropTypes.func.isRequired
+  type: PropTypes.oneOf([
+    'circle',
+    'square'
+  ]),
+  file: PropTypes.object,
+  src: PropTypes.string,
+  alt: PropTypes.string
 };
 
 export default Uploader;

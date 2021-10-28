@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Uploader from '@/domains/Uploader';
+import Uploader from '@domains/Uploader';
+import UploadPage from '@pages/UploadPage';
 import Image from '@components/base/Image';
-import UploaderTemplate from '@domains/UploaderTemplate';
 
 export default {
   title: 'Component/domains/Uploader',
@@ -64,14 +64,6 @@ export const DroppableImg = () => {
   );
 };
 
-export const DroppableTemplateImg = () => {
-  return (
-    <UploaderTemplate
-      droppable={true}
-      width={'328px'}
-      height={'248px'}
-      type={'square'}
-    >
-    </UploaderTemplate>
-  );
+export const UploaderImg = () => {
+  <UploadPage/>;
 };
