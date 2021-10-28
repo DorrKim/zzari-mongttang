@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@components/base/Button';
+import Button from '@base/Button';
 
 export default {
   title: 'Component/base/Button',

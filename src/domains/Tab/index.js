@@ -1,42 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+
 import Flex from '@/components/base/Flex';
-import colors from '@/utils/constants/colors';
+import TabItem from './TabItem';
 
 const TabWrapper = styled(Flex)`
+  position: relative;
   height: 50px;  
   width: 300px;
 `;
 
-const StyledTabItem = styled(Flex)`
-  color: ${colors.TEXT_SUBTLE};
-  border-bottom: 1px solid ${colors.BORDER_SUBTLE};
-  flex: 1 1 0%;
-
-  &.active {
-    color: ${colors.ACCENT}
-  }
-`;
-
-const TabItem = ({ children }) => {
-
-  return (
-    <StyledTabItem justifyContent='center' alignItems='center'>{children}</StyledTabItem>
-  );
-};
-
 const Tab = ({ children }) => {
-  
+  const [currIdx, setCurrIndex] = useState(0);
+ 
   return (
-    <TabWrapper alignItems='stretch' justifyContent='stretch'>
-      {children.map((child, index) => <TabItem key={index} >{child}</TabItem>)}
+    <TabWrapper 
+      alignItems='stretch' 
+      justifyContent='stretch'>
+      {children.map((child, index) => (
+        <TabItem 
+          key={index} 
+          active={currIdx === index} 
+          onClick={() => setCurrIndex(index)}>
+          {child}
+        </TabItem>
+      ))}
     </TabWrapper>
   );
-};
-
-TabItem.propTypes = {
-  children: PropTypes.node
 };
 
 Tab.propTypes = {
