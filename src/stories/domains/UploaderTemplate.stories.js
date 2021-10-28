@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Uploader from '@/domains/Uploader';
-import Image from '@components/base/Image';
+import Uploader from '@domains/Uploader';
+import Image from '@base/Image';
 import UploaderTemplate from '@domains/UploaderTemplate';
 
 export default {

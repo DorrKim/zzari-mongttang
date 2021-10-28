@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
 
-import SignUpForm from '@/domains/SignUpForm';
-import Flex from '@/components/base/Flex';
-import { loginAPI } from '@/utils/api/loginAPI';
+import SignUpForm from '@domains/SignUpForm';
+import Flex from '@base/Flex';
+import { loginAPI } from '@api/loginAPI';
 import { useHistory } from 'react-router';
 
 const SignUpTitle = styled.h1`

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
 
-import LoginForm from '@/domains/LoginForm';
-import { loginAPI } from '@/utils/api/loginAPI';
+import LoginForm from '@domains/LoginForm';
+import { loginAPI } from '@api/loginAPI';
 import { useHistory } from 'react-router';
 
 // 임시 컴포넌트

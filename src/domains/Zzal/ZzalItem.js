@@ -5,6 +5,7 @@ import Image from '@base/Image';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import ReactFreezeframe from 'react-freezeframe';
+import colors from '@utils/constants/colors';
 
 const ZzalItem = ({
   id,
@@ -25,7 +26,8 @@ const ZzalItem = ({
       <StyledItem>
         <Image 
           src={imageUrl} 
-          onClick={onToDetailPage} 
+          onClick={onToDetailPage}
+          style={{ border: `2px solid ${colors.PRIMARY_LIGHT}` }}
           {...props}>
         </Image>
       </StyledItem>

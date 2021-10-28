@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '@base/Button';
 import { validateEmail, validateFullName, validatePassword, validateVerifyPassword } from '@library/validate';
 import FormInput from '@components/FormInput';
-import Flex from '@/components/base/Flex';
+import Flex from '@base/Flex';
 
 const SignUpForm = ({ onSignUp, onCancel }) => {
   const [email, setEmail] = useState('');

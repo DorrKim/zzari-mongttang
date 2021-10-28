@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import colors from '@/utils/constants/colors';
-import Button from '@/components/base/Button';
-import Text from '@/components/base/Text';
-import useToggle from '@/hooks/useToggle';
+import colors from '@constants/colors';
+import Button from '@base/Button';
+import Text from '@base/Text';
+import useToggle from '@hooks/useToggle';
 
 const FollowSwitch = ({ onClick }) => {
   const [state, handleToggle] = useToggle(false);
