@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import Flex from '@base/Flex';
 import Text from '@base/Text';
 import FollowContainer from './FollowContainer';
-import FollowSwitch from './FollowSwitch';
+import FollowToggle from './FollowToggle';
 
 const UserInfoWrapper = styled(Flex)`
   width: 160px;
@@ -22,16 +22,16 @@ const UserName = styled(Text)`
   margin: 8px 16px;
 `;
 
-const UserInfo = ({ fullName, followers, following, onClickFollowItem, onClickFollowBtn }) => {
+const UserInfo = ({ fullName, followers, following }) => {
   return (
     <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
       <UserName bold size='lg' >
         {fullName}
       </UserName>
-      <FollowContainer onClick = {onClickFollowItem}
+      <FollowContainer 
         followers={followers} 
         following={following}/>
-      <FollowSwitch onClick={onClickFollowBtn}/>
+      <FollowToggle />
     </UserInfoWrapper>
   );
 };
@@ -39,9 +39,7 @@ const UserInfo = ({ fullName, followers, following, onClickFollowItem, onClickFo
 UserInfo.propTypes = {
   fullName: PropTypes.string.isRequired,
   followers: PropTypes.array,
-  following: PropTypes.array,
-  onClickFollowItem: PropTypes.func,
-  onClickFollowBtn: PropTypes.func
+  following: PropTypes.array
 };
 
 export default UserInfo;

@@ -8,7 +8,6 @@ import Logo from '@components/Logo';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
 import colors from '@constants/colors';
-
 import imageSrc from '@assets/test.gif';
 import Avatar from '@components/Avatar';
 import useToggle from '@hooks/useToggle';
