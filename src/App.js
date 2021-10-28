@@ -43,7 +43,8 @@ function App() {
               <Link to="/search/hongjung">검색결과</Link>
             </li>
             <li>
-              <Link to="/user/1">유저1</Link>
+              {/* <Link to="/user/1">유저1</Link> */}
+              <Link to="/user/617254d827ef072f7d78081a">유저1</Link>
             </li>
             <li>
               <Link to="/zzal/1">짤1</Link>
