@@ -37,9 +37,8 @@ const ZzalItem = ({
 
 const StyledItem = styled.div`
   display: flex;
-  width: 152px;
-  height: 152px;
-  padding: 8px;
+  width: 240px;
+  height: 240px;
   justify-content: center;
   box-sizing: border-box;
   border-radius: 4px;

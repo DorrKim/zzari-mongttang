@@ -7,20 +7,23 @@ import Text from '@base/Text';
 import Logo from '@components/Logo';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
-import colors from '@utils/constants/colors';
-
+import colors from '@constants/colors';
 import imageSrc from '@assets/test.gif';
 import Avatar from '@components/Avatar';
 import useToggle from '@hooks/useToggle';
 import Modal from '@base/Modal';
+import { useAuthorization } from '@context/AuthorizationProvider';
 
 const HeaderStyled = styled.header`
 padding: 0 16px;
 `;
 
-const Header = ({ isAuthorized, ...props }) => {
+const Header = ({ ...props }) => {
   const [showMenuBar, toggleMenuBar] = useToggle(false);
+  const { authState } = useAuthorization();
   const history = useHistory();
+
+  const { isAuthorized } = authState;
   
   const handleToUploadPage = useCallback(() => {
     if (!isAuthorized) {
