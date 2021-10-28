@@ -16,17 +16,26 @@ import PersonalPage from '@pages/PersonalPage';
 import SearchPage from '@pages/SearchPage';
 import SignUpPage from '@pages/SignUpPage';
 import UploadPage from '@pages/UploadPage';
-import useToggle from './hooks/useToggle';
+import { useAuthorization } from '@context/AuthorizationProvider';
 
 
 function App() {
-  const [isAuthorized, toggle] = useToggle(false);
+  const { authState, updateAuthState, clearAuthState } = useAuthorization();
+  const { isAuthorized } = authState;
 
+  // test Code
+  const handleAuthorized = () => {
+    !isAuthorized
+      ? updateAuthState({ authToken: 'testToken',
+        myUserId: 'testId' })
+      : clearAuthState();
+  };
+  
   return (
     <>
       <Router>
-        <Header isAuthorized={isAuthorized} />
-        <input type='checkbox' checked={isAuthorized} onChange={() => toggle()} />
+        <Header />
+        <input type='checkbox' checked={isAuthorized} onChange={handleAuthorized} />
         {isAuthorized ? '로그인 됨' : '로그인 안됨'}
         <nav>
           <ul>
