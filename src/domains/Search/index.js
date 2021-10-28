@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 
 import styled from '@emotion/styled';
 import Input from '@base/Input';
+// import colors from '@constants/colors';
 
 
 const SearchBar = ({ onToSubmitPage }) => {
@@ -17,7 +18,6 @@ const SearchBar = ({ onToSubmitPage }) => {
   const handleToSubmitPage = useCallback(e => {
     e.preventDefault();
     
-    console.log(search);
     onToSubmitPage && onToSubmitPage(search);
   }, [onToSubmitPage, search]);
 
@@ -31,7 +31,12 @@ const SearchBar = ({ onToSubmitPage }) => {
           fontSize='20px'
           autoComplete='off'
           placeholder='검색어를 입력하세요'
-          style={{ width: '100%' }}
+          style={{ width: '100%',
+            border: 'none',
+            borderRadius: '20px',
+            padding: '0 20px',
+            boxShadow: '3px 3px 8px #e0e0e0' }}
+          // backgroundColor: '#f1f1fe' }}
           value={search || ''}
           onChange={handleKeywordChange}/>
       </form>
@@ -40,8 +45,11 @@ const SearchBar = ({ onToSubmitPage }) => {
 };
 
 const SearchForm = styled.div`
-  width: 80vw;
-  margin: 0 auto;
+  width: 600px;
+  margin: 10px auto;
+  @media(max-width: 630px) {
+    width: 90vw;
+  }
 `;
 
 SearchBar.propTypes = {
