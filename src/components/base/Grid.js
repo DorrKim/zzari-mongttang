@@ -28,11 +28,13 @@ const GridBox = styled.div(({
       const { [key]: newKey } = mediaQuery;
   
       acc[newKey] = {
-        gridTemplateRows: 'repeat(auto-fill, minmax(160px, 1fr))',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+        gridTemplateRows: 'repeat(auto-fit, minmax(240px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
         gap: `${gap}px`,
         justifyItems: position[0],
-        alignItems: position[1]
+        alignItems: position[1],
+        gridAutoRows: '240px',
+        gridAutoColumns: '240px'
       };
     
       return acc;
