@@ -1,34 +1,41 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import Profile from '@domains/UserProfile';
 
-import UserProfile from '@domains/UserProfile';
-const BASE_URL = 'http://13.209.30.200:5001';
 
-axios.defaults.baseURL = BASE_URL;
-
-const PersonalPage = () => {
+const PersonalPage = ({ myUserId = '61759164359c4371f68ac707', isAuthorized = true }) => {
   const { userId } = useParams();
-  const [initialUser, fetchUser] = useAxios(`/users/${userId}`);
-
+  const [fetchState, fetchUserData] = useAxios(`/users/${userId}`);
+  
   useEffect(() => {
-    const { isLoading, value } = initialUser;
-    console.log(isLoading, value);
-  }, [initialUser.value]);
-
-  useEffect(() => {
-    fetchUser();
+    console.log(`isLogined: ${isAuthorized}`);
+    fetchUserData();   
   }, []);
+  
+  const fetchSuccess = fetchState.value !== null; 
+  const isMyPage = Boolean(myUserId === userId);
   
   return (
     <>
-      <h1>유저 아이디 {userId}</h1>
-      <UserProfile></UserProfile>
+      {
+        fetchSuccess
+        && <Profile 
+          fullName={fetchState.value.fullName} 
+          followers={fetchState.value.followers}
+          following={fetchState.value.following}
+          src={fetchState.value.image}
+          isMyProfile={isMyPage}>
+        </Profile>
+      } 
     </>
   );
-  
 };
 
+PersonalPage.propTypes = {
+  isAuthorized: PropTypes.bool,
+  myUserId: PropTypes.string
+};
 
 export default PersonalPage;

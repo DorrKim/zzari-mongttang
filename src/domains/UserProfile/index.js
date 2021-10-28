@@ -12,7 +12,7 @@ const ProfileWrapper = styled(Flex)`
   height: 120px;
 `;
 
-const Profile = ({ fullName, followers, following, src }) => {  
+const Profile = ({ fullName, followers, following, src, isMyProfile }) => {  
 
   return (
     <ProfileWrapper>
@@ -23,7 +23,9 @@ const Profile = ({ fullName, followers, following, src }) => {
       <UserInfo 
         fullName={fullName} 
         followers={followers} 
-        following={following} /> 
+        following={following} 
+        isMyProfile={isMyProfile} 
+      /> 
     </ProfileWrapper>
   );
 };
@@ -32,7 +34,8 @@ Profile.propTypes = {
   fullName: PropTypes.string.isRequired,
   followers: PropTypes.array,
   following: PropTypes.array.isRequired,
-  src: PropTypes.string
+  src: PropTypes.string,
+  isMyProfile: PropTypes.bool
 };
 
 export default Profile;

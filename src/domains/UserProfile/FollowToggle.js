@@ -7,28 +7,35 @@ import Text from '@base/Text';
 import useToggle from '@hooks/useToggle';
 
 
-const FollowToggle = () => {
+const FollowToggle = ({ isMyProfile }) => {
   const [state, handleToggle] = useToggle(false);
   const handleClick = useCallback(() => {
     handleToggle();
   }, []);
 
+
   return (
     <Button 
-      backgroundColor={state ? colors.ACCENT : colors.PRIMARY} 
+      backgroundColor={isMyProfile 
+        ? colors.BORDER_SUBTLE 
+        : state ? colors.ACCENT : colors.PRIMARY} 
       width='80%' 
       height={32} 
       borderRadius='.25rem' 
       borderWidth={0} 
       style={{ padding: 0 }}
-      onClick={handleClick}>
-      <Text bold color="white"> {state ? '팔로우' : '언팔로우'}</Text>
+      onClick={isMyProfile ? null : handleClick}>
+      <Text bold color="white"> 
+        {isMyProfile 
+          ? '내 정보 수정' 
+          : state ? '팔로우' : '언팔로우'}</Text>
     </Button>
   );
 };
 
 FollowToggle.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  isMyProfile: PropTypes.bool
 };
 
 export default FollowToggle;
