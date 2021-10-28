@@ -50,8 +50,6 @@ const SignUpPage = () => {
       history.push('/');
     } 
   }, [signUpAPIState]);
-
-  console.log(signUpAPIState);
   
   return (
     <>
