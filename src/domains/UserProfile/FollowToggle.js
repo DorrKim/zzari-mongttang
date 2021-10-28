@@ -7,10 +7,9 @@ import Text from '@base/Text';
 import useToggle from '@hooks/useToggle';
 
 
-const FollowToggle = ({ onClick }) => {
+const FollowToggle = () => {
   const [state, handleToggle] = useToggle(false);
   const handleClick = useCallback(() => {
-    onClick();
     handleToggle();
   }, []);
 

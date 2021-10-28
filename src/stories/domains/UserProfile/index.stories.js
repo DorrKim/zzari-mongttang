@@ -3,7 +3,7 @@ import UserProfile from '@domains/UserProfile';
 
 
 export default {
-  title: 'Domain/UserProfile',
+  title: 'Domains/UserProfile',
   component: UserProfile,
   argTypes: {
     fullName: {
