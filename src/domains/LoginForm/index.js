@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 // import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -6,51 +6,50 @@ import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
 import { validateEmail } from '@library/validate';
+import useForm from '@hooks/useForm';
 
-const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
-  const [email, setEmail] = useState('');
-  const [isEmail, setIsEmail] = useState(false);
-  const [password, setPassword] = useState('');
-  const [isLoginFailed, setisLoginFailed] = useState(false);
-
-  useEffect(() => {
-    setIsEmail(validateEmail(email));
-  }, [email]);
-
-  const handleEmailChange = useCallback(value => {
-    setEmail(value);
-    setisLoginFailed(false);
-  }, []);
-
-  const handlePasswordChange = useCallback(value => {
-    setPassword(value);
-    setisLoginFailed(false);
-  }, []);
-
-  const handleLogin = useCallback(async e => {
-    e.preventDefault();
-    if (!isEmail) {
-      return;
+const validate = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name){
+      case 'email':
+        !validateEmail(values[name]) 
+          ? acc[name] = true 
+          : null;
+        
+        return acc;
+      default:
+        return acc;
     }
+  }, {});
 
-    const res = onLogin && await onLogin({ email,
-      password });
-      
-    res?.error && setisLoginFailed(true);
+const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
+  const { values, isLoading, error, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: onLogin,
+    validate
   });
 
   const handleToSubmitPage = useCallback(() => {
     onToSubmitPage && onToSubmitPage();
-  });
+  }, [onToSubmitPage]);
+  
 
+  const { email, password } = values;
+  
   return (
     <Flex column justifyContent='space-between' alignItems='center' {...props}>
-      <form onSubmit={handleLogin} >
+      <form onSubmit={handleSubmit} >
         <FormInput 
-          onChange={handleEmailChange} 
+          onChange={value => handleChange({ 
+            name: 'email',
+            value })} 
           value={email} 
           placeholder='이메일' 
-          errorMessage={!isEmail 
+          errorMessage={error.email 
             ? '이메일 형식에 맞추어주세요.'
             : ''
           } 
@@ -58,16 +57,19 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
         <FormInput
           type='password'
           style={{ marginTop: 20 }}
-          onChange={handlePasswordChange}
+          onChange={value => handleChange({
+            name: 'password',
+            value
+          })}
           value={password}
           placeholder='비밀번호'
-          errorMessage={isLoginFailed && isEmail
+          errorMessage={loginError
             ? '로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인해주세요'
             : ''}
         />
         <Button 
           type='submit'
-          disabled={!isEmail}
+          disabled={isLoading}
           style={{ 
             border: 'none',
             display: 'block',
@@ -105,6 +107,7 @@ const LoginForm = ({ onLogin, onToSubmitPage, ...props }) => {
 };
 
 LoginForm.propTypes = {
+  loginError: PropTypes.bool,
   onLogin: PropTypes.func,
   onToSubmitPage: PropTypes.func
 };
