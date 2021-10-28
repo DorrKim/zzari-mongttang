@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ZzalList from '@/domains/Zzal/ZzalList';
-import SearchBar from '@/domains/Search/SearchBar';
+import ZzalList from '@domains/Zzal/ZzalList';
+import SearchBar from '@domains/Search/SearchBar';
 
 const MainPage = () => {
   

@@ -5,11 +5,13 @@ import Image from '@base/Image';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import ReactFreezeframe from 'react-freezeframe';
-import colors from '@/utils/constants/colors';
+import colors from '@utils/constants/colors';
+import Favorite from '@components/Favorite';
 
 const ZzalItem = ({
   id,
   imageUrl = '',
+  number,
   ...props
 }) => {
   const history = useHistory();
@@ -24,12 +26,17 @@ const ZzalItem = ({
       ref={freeze} 
       options={{ trigger: 'hover' }}>
       <StyledItem>
-        <Image 
-          src={imageUrl} 
-          onClick={onToDetailPage}
-          style={{ border: `2px solid ${colors.PRIMARY_LIGHT}` }}
-          {...props}>
-        </Image>
+        <div>
+          <Image 
+            src={imageUrl} 
+            onClick={onToDetailPage}
+            style={{ border: `2px solid ${colors.PRIMARY_LIGHT}` }}
+            {...props}>
+          </Image>
+          <Favorite 
+            number={number}
+          />
+        </div>
       </StyledItem>
     </ReactFreezeframe>
   );
@@ -54,7 +61,11 @@ const StyledItem = styled.div`
 
 ZzalItem.propTypes = {
   id: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  number: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
 };
 
 export default ZzalItem;

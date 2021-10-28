@@ -1,4 +1,5 @@
 import React from 'react';
+
 import UploaderTemplate from '@domains/UploaderTemplate';
 
 const UploadPage = () => {

@@ -74,7 +74,9 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
         {(initialPosts.value || [])
           .filter((_, idx) => idx < itemCount)
           .map(post => (
-            <ZzalItem key={post._id} id={post._id} src={post.image} height='100%'/>
+            <>
+              <ZzalItem key={post._id} id={post._id} src={post.image} height='100%' number={'3'}/>
+            </>
           ))
         }  
         <div ref={ref}></div>
