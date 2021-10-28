@@ -12,8 +12,7 @@ const StyledTabItem = styled(Flex)`
 `;
 
 const TabItem = ({ children, active, ...props }) => {
-  console.log(active);
-  
+
   return (
     <StyledTabItem 
       justifyContent='center' 
