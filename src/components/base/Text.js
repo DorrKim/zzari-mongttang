@@ -19,7 +19,7 @@ const Text = ({
   children, 
   block,
   size = 'md', 
-  color = 'black', 
+  color, 
   bold,
   style,
   ...props

@@ -1,9 +1,10 @@
 import React from 'react';
-import UserInfo from '@domains/User/UserInfo';
+import UserProfile from '@domains/UserProfile';
+
 
 export default {
-  title: 'Domain/User/UserInfo',
-  component: UserInfo,
+  title: 'Domains/UserProfile',
+  component: UserProfile,
   argTypes: {
     fullName: {
       control: 'text'
@@ -13,6 +14,6 @@ export default {
 
 export const Default = args => {
   return (
-    <UserInfo fullName="" {...args}></UserInfo>
+    <UserProfile {...args} ></UserProfile>
   );
-};
+}; 

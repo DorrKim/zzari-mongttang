@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@/components/base/Grid';
+import Grid from '@base/Grid';
 import styled from '@emotion/styled';
 
 export default {
