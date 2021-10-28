@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Flex from '@/components/base/Flex';
-import Text from '@components/base/Text';
+import Flex from '@base/Flex';
+import Text from '@base/Text';
 import styled from '@emotion/styled';
 
 const FollowWrapper = styled(Flex)`

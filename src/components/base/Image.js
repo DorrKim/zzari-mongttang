@@ -16,11 +16,11 @@ const IMAGE_TYPES = {
 const ImageStyled = styled.img`
   display: 'block';
   cursor : pointer;
-  ${({ type, width, height }) => ({ 
-    type,
+  ${({ width, height }) => ({ 
     width,
     height 
   })};
+  ${({ type }) => type}
 `;
 
 let observer = null;

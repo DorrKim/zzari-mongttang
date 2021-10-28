@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-import Flex from '@/components/base/Flex';
-import Text from '@components/base/Text';
+import Flex from '@base/Flex';
+import Text from '@base/Text';
 import FollowContainer from './FollowContainer';
 import FollowSwitch from './FollowSwitch';
 
