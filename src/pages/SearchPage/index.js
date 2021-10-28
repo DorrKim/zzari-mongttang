@@ -8,7 +8,6 @@ import useAxios from '@hooks/useAxios';
 
 const SearchPage = () => {
   const { keyword } = useParams();
-  console.log(keyword);
   
   const history = useHistory();
   const [zzalList, fetchList] = useAxios();
@@ -20,7 +19,6 @@ const SearchPage = () => {
   }, [keyword]);
 
   const handleToSearchPage = useCallback(value => {
-    // window.location.replace(`/search=${value}`);
     value && history.push(`/search=${value}`);
   }, []);
   
