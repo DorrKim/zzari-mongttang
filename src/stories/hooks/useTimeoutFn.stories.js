@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useTimeoutFn from '@/hooks/useTimeoutFn';
+import useTimeoutFn from '@hooks/useTimeoutFn';
 
 export default {
   title: 'Hook/useTimeoutFn'
