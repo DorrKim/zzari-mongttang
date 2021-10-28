@@ -5,7 +5,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
 
-  const handleChange = ({ target }) => {
+  const handleChange = target => {
     const { name, value } = target;
     setValues({ 
       ...values,
@@ -18,7 +18,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     setIsLoading(true);
     const newError = validate ? validate(values) : {};
     if (Object.values(newError).length === 0) {
-      await onSubmit(values);
+      onSubmit && await onSubmit(values);
     }
     setError(newError);
     setIsLoading(false);
