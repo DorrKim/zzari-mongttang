@@ -1,37 +1,20 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-
-import Flex from '@/components/base/Flex';
 import TabItem from './TabItem';
 
-const TabWrapper = styled(Flex)`
-  position: relative;
-  height: 50px;  
-  width: 300px;
-`;
+const Tab = ({ children, activeIndex, ...props }) => {
+  const [currIndex, setCurrIndex] = useState(() => {
+    if (activeIndex) {
+      return activeIndex;
+    } else {
+      return React.Children.toArray(children).findIndex(element => (
+        React.isValidElement(element) 
+        && ['Tab.Item', 'Tab.Header', 'Tab.Panel'].includes(element.props.__Type)
+      ));
+    }
+  });
 
-const Tab = ({ children }) => {
-  const [currIdx, setCurrIndex] = useState(0);
- 
-  return (
-    <TabWrapper 
-      alignItems='stretch' 
-      justifyContent='stretch'>
-      {children.map((child, index) => (
-        <TabItem 
-          key={index} 
-          active={currIdx === index} 
-          onClick={() => setCurrIndex(index)}>
-          {child}
-        </TabItem>
-      ))}
-    </TabWrapper>
-  );
 };
 
-Tab.propTypes = {
-  children: PropTypes.node
-};
+Tab.Item = TabItem;
 
 export default Tab;

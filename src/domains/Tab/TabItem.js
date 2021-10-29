@@ -2,31 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-import Flex from '@base/Flex';
-import colors from '@constants/colors';
-
-const StyledTabItem = styled(Flex)`
-  color: ${({ active }) => active ? `${colors.ACCENT}` : `${colors.TEXT_SUBTLE}`};
-  border-bottom: ${({ active }) => active ? `2px solid ${colors.ACCENT}` : `.5px solid ${colors.TEXT_SUBTLE}`};
-  flex: 1 1 0%;
+const TabItemWrapper = styled.div`
+  display: inline-flex;
+  justify-Content: center;
+  align-items: center;
+  width: 150px;
+  height: 60px;
+  border: 2px solid;
+  color: ${({ active }) => active ? 'red' : 'blue'}
 `;
 
-const TabItem = ({ children, active, ...props }) => {
-
+const TabItem = ({ 
+  children,
+  active, 
+  index, 
+  ...props }) => {
   return (
-    <StyledTabItem 
-      justifyContent='center' 
-      alignItems='center' 
-      active={active} 
-      {...props}>
+    <TabItemWrapper active ={active} index={index} {...props}>
       {children}
-    </StyledTabItem>
+    </TabItemWrapper>
   );
 };
 
 TabItem.propTypes = {
   children: PropTypes.node,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  index: PropTypes.number
 };
 
 export default TabItem;
