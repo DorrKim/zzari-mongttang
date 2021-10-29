@@ -72,8 +72,8 @@ const Uploader = ({ accept = FILE_TYPE, droppable,
         </div>
         : <div 
           style={{
-            width: `${width}`,
-            height: `${height}`,
+            width,
+            height,
             border: '4px dashed #aaa',
             borderColor: dragging ? '#FD9F28' : '#aaa'
           }}

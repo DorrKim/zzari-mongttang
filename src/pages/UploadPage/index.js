@@ -6,7 +6,7 @@ const UploadPage = () => {
   const [file, setFile] = useState(undefined);
   const [src, setSrc] = useState('');
   const [alt, setAlt] = useState('');
-
+  
   const setUrl = changedFile => {
     const reader = new FileReader();
     if (!changedFile) {
@@ -14,6 +14,7 @@ const UploadPage = () => {
       
       return;
     }
+    
     reader.readAsDataURL(changedFile);
     reader.addEventListener('load', () => {
       setSrc(reader.result);
