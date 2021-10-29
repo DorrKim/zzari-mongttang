@@ -1,36 +1,40 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import PropTypes from 'prop-types';
 import Profile from '@domains/UserProfile';
 
-
-const PersonalPage = ({ isAuthorized = true }) => {
+const PersonalPage = () => {
   const { userId } = useParams();
-  const [fetchState, fetchUserData] = useAxios(`/users/${userId}`);
+  const [userData, fetchUserData] = useAxios(`/users/${userId}`);
   
 
-  useEffect(async () => {
-    console.log(`isLogined: ${isAuthorized}`);
+  useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
 
-  const fetchSuccess = useMemo(() => Boolean(fetchState.value !== null), [fetchState.value]);
+  const { isLoading, value, error } = userData;
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (error) {
+    return <div>에러발생</div>;
+  }
+  if (!value) {
+    return <button onClick={fetchUserData}>불러오기</button>;
+  }
   
   return (
-    <>
-      {
-        fetchSuccess
-        && <Profile 
-          fullName={fetchState.value.fullName} 
-          followers={fetchState.value.followers}
-          following={fetchState.value.following}
-          src={fetchState.value.image}
-          userId={userId}>
-        </Profile>
-      } 
-     
-    </>
+    <Profile 
+      fullName={userData.value.fullName} 
+      followers={userData.value.followers}
+      following={userData.value.following}
+      src={userData.value.image}
+      userId={userId}
+      handleClick={fetchUserData}
+    >
+    </Profile>
   );
 };
 

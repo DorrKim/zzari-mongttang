@@ -6,7 +6,7 @@ const BASE_URL = 'http://13.209.30.200:5001';
 axios.defaults.baseURL = BASE_URL;
 
 const useAxios = (url, initialOptions = {}) => useAsyncFn(
-  (options) => axios({
+  options => axios({
     url,
     ...initialOptions,
     ...options

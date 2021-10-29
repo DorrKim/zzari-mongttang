@@ -22,7 +22,7 @@ const UserName = styled(Text)`
   margin: 8px 16px;
 `;
 
-const UserInfo = ({ fullName, followers, following, isMyProfile, followState, onClick }) => {
+const UserInfo = ({ fullName, followers, following, isMyProfile, followState, handleClickFollow, handleClickUnFollow }) => {
   
   return (
     <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
@@ -32,7 +32,11 @@ const UserInfo = ({ fullName, followers, following, isMyProfile, followState, on
       <FollowContainer 
         followers={followers} 
         following={following}/>
-      <FollowToggle isMyProfile={isMyProfile} followState={followState} onClick={onClick}/>
+      <FollowToggle 
+        isMyProfile={isMyProfile} 
+        followState={followState} 
+        handleClickFollow={handleClickFollow}
+        handleClickUnFollow={handleClickUnFollow}/>
     </UserInfoWrapper>
   );
 };
@@ -43,7 +47,8 @@ UserInfo.propTypes = {
   following: PropTypes.array,
   isMyProfile: PropTypes.bool,
   followState: PropTypes.bool,
-  onClick: PropTypes.func
+  handleClickFollow: PropTypes.func,
+  handleClickUnFollow: PropTypes.func
 };
 
 export default UserInfo;
