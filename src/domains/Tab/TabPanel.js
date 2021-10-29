@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const TabPanelWrapper = styled.div`
-  border: 2px solid yellow;
 `;
 
 const TabPanel = ({ children, currIndex }) => {

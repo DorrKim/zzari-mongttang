@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const TabHeaderWrapper = styled.div`
-  border: 4px solid green;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  height: 50px;
 `;
 
 const TabHeader = ({ children, handleClickTabItem, currIndex }) => {

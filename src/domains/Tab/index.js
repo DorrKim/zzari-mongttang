@@ -9,6 +9,7 @@ import TabPanel from './TabPanel';
 const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 300px;
 `;
 
 const Tab = ({ children, activeIndex = 0, ...props }) => {
