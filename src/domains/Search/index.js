@@ -1,19 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router'; 
 
 import styled from '@emotion/styled';
 import Input from '@base/Input';
 // import colors from '@constants/colors';
 
 
-const SearchBar = ({ onToSubmitPage }) => {
-  const { keyword } = useParams();
-  const [search, setSearch] = useState(keyword);
+const SearchBar = ({ initialKeyword = '', onToSubmitPage }) => {
+  const [search, setSearch] = useState(initialKeyword);
 
   const handleKeywordChange = useCallback(value => {
     setSearch(value);
-  }, []);
+  }, [initialKeyword]);
 
   const handleToSubmitPage = useCallback(e => {
     e.preventDefault();
@@ -53,7 +51,7 @@ const SearchForm = styled.div`
 `;
 
 SearchBar.propTypes = {
-  value: PropTypes.string,
+  initialKeyword: PropTypes.string,
   onToSubmitPage: PropTypes.func
 };
 
