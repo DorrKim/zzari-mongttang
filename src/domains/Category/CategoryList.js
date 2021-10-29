@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CategoryList = ({ children, initialSelected = 0, onChange, ...props }) => {
-  const [selectedIndex, setSelectedIndex] = useState(initialSelected);
+const CategoryList = ({ children, selectedIndex = 0, onChange, ...props }) => {
+  const [currentIdx, setCurrentIdx] = useState(selectedIndex);
+
+  useEffect(() => {
+    setCurrentIdx(selectedIndex);
+  }, [selectedIndex]);
 
   const Categories = React.Children.toArray(children)
     .filter(element => {
@@ -13,10 +17,10 @@ const CategoryList = ({ children, initialSelected = 0, onChange, ...props }) => 
     .map((element, index) => {
       return React.cloneElement(element, {
         ...element.props,
-        selected: index === selectedIndex,
+        selected: index === currentIdx,
         onClick: () => {
-          if (index !== selectedIndex) {
-            setSelectedIndex(index);
+          if (index !== currentIdx) {
+            setCurrentIdx(index);
             onChange && onChange(element.props);
           }
         }
@@ -32,7 +36,7 @@ CategoryList.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.node
   ]),
-  initialSelected: PropTypes.number,
+  selectedIndex: PropTypes.number,
   onChange: PropTypes.func
 };
 
