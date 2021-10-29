@@ -60,7 +60,10 @@ const Header = ({ ...props }) => {
         </Button>
         {isAuthorized
           ? (
-            <Avatar src={imageSrc} size={45} onClick={handleAvatarClick} />
+            <Avatar 
+              src={authState.myUser.image ? authState.myUser.image : imageSrc } 
+              size={45} 
+              onClick={handleAvatarClick} />
           )
           : (<Button 
             width={70} height={40} 
