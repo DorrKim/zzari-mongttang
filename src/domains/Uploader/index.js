@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 import Image from '@components/base/Image';
 
-const FILE_TYPE = 'image/* video/*';
+const FILE_TYPE = 'image/*';
 
 const resizedStyle = { objectFit: 'cover' };
 
@@ -12,11 +12,17 @@ const Input = styled.input({
   display: 'none'
 });
 
-const Uploader = ({ accept = FILE_TYPE, droppable, 
-  file, src, alt,
-  onChange, onDrop, style, 
-  width, height, type, 
-  children, ...props }) => {
+const Uploader = ({ 
+  accept = FILE_TYPE,
+  droppable, 
+  src,
+  alt,
+  style, 
+  width,
+  height,
+  type,
+  onChange,
+  ...props }) => {
   const [dragging, setDragging] = useState(false);
 
   const inputRef = useRef(null);
@@ -29,7 +35,6 @@ const Uploader = ({ accept = FILE_TYPE, droppable,
     if (!droppable) {
       return;
     }
-  
     event.preventDefault();
     event.stopPropagation();
     setDragging(true);
@@ -42,10 +47,11 @@ const Uploader = ({ accept = FILE_TYPE, droppable,
   
   return (
     <div 
-      style={{ display: 'inline-block',
-        ...style }}
-      onClick={handleFileChosen}
-      onDrop={onDrop}
+      style={{ 
+        display: 'inline-block',
+        ...style 
+      }}
+      onDrop={handleFileChosen}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       {...props}
@@ -57,7 +63,7 @@ const Uploader = ({ accept = FILE_TYPE, droppable,
         accept={accept}
         onChange={onChange}
       />
-      {file || src !== ''
+      {src
         ? <div>
           <Image
             src={src}
@@ -65,22 +71,25 @@ const Uploader = ({ accept = FILE_TYPE, droppable,
             width={width} 
             height={height}
             type={type}
+            onClick={handleFileChosen}
             style={{ ...resizedStyle,
               ...style }}
           >
           </Image>
         </div>
-        : <div 
-          style={{
-            width,
-            height,
-            border: '4px dashed #aaa',
-            borderColor: dragging ? '#FD9F28' : '#aaa'
-          }}
-        >
-          {'image upload!'}
-        </div>}
-      {children}
+        : (
+          <div 
+            onClick={handleFileChosen}
+            style={{
+              width,
+              height,
+              border: '4px dashed #aaa',
+              borderColor: dragging ? '#FD9F28' : '#aaa'
+            }}
+          >
+            {'image upload!'}
+          </div>)
+      }
     </div>
   );
 };
@@ -108,7 +117,6 @@ Uploader.propTypes = {
     'circle',
     'square'
   ]),
-  file: PropTypes.object,
   src: PropTypes.string,
   alt: PropTypes.string
 };
