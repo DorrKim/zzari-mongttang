@@ -45,10 +45,6 @@ const EditProfilePage = () => {
     }
   });
 
-  useEffect(() => {
-    console.log(updateFullNameAPIState, updateProfileImageAPIState, updatePasswordAPIState);
-  }, [updateFullNameAPIState, updateProfileImageAPIState, updatePasswordAPIState]);
-
   const handleEditProfile = useCallback(async values => {
     const { image: initialImage, fullName: initialFullName } = initialFormState;
     if (values.image && initialImage !== values.image) {
