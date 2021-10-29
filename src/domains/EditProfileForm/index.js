@@ -6,12 +6,17 @@ import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
 import { validateForm } from '@library/validate';
+import Uploader from '@domains/Uploader';
+
 
 const EDIT_PROFILE_ERROR_MESSAGES = {
+  image: '이미지 형식만을 선택해주세요!',
   fullName: '2자이상 10자이하의 이름을 입력해주세요.',
   password: '6자이상 18자이하의 비밀번호를 입력해주세요.',
   verifyPassword: '비밀번호가 일치하지 않습니다.'
 };
+
+let reader = null;
 
 const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
@@ -20,6 +25,56 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
     validate: validateForm
   });
   const [errorMessage, setErrorMessage] = useState(error);
+
+  const handleCancelClick = useCallback(() => {
+    onCancel && onCancel();
+  }, [onCancel]);
+
+  const makeImageDataToUrl = useCallback(changedFile => {
+    if (!reader){
+      reader = new FileReader();
+    }
+    if (!changedFile) {
+      
+      return;
+    }
+    
+    reader.readAsDataURL(changedFile);
+  }, [reader]);
+
+  const handleFileChanged = useCallback(e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const changedFile = e.dataTransfer
+      ? e.dataTransfer.files[0]
+      : e.target.files[0];
+
+    if (!changedFile) {
+      return;
+    }
+
+    if (changedFile.type.includes('image')){
+      handleChange({ name: 'imageData',
+        value: changedFile });
+      makeImageDataToUrl(changedFile);
+    } else {
+      alert(EDIT_PROFILE_ERROR_MESSAGES.image);
+      handleChange({ name: 'imageData',
+        value: null });
+    }
+  }, [makeImageDataToUrl, handleChange]);
+
+  useEffect(() => {
+    const handleLoadedUrl = () => {
+      handleChange({ name: 'imageUrl',
+        value: reader.result });
+    };
+
+    reader?.addEventListener('load', handleLoadedUrl);
+
+    return () => reader?.removeEventListener('load', handleLoadedUrl);
+  }, [reader]);
 
   useEffect(() => {
     const newErrorMessage = Object
@@ -32,17 +87,22 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
       }, {});
     setErrorMessage(newErrorMessage);
   }, [error]);
-
-  const handleCancelClick = useCallback(() => {
-    onCancel && onCancel();
-  }, [onCancel]);
   
-  const { fullName, password, verifyPassword } = values;
+  const { fullName, password, verifyPassword, imageUrl } = values;
     
   return (
-    <Flex justifyContent='center'>
-      <form onSubmit={handleSubmit}>
-        {/* <div>Image Uploader...</div> */}
+    <form onSubmit={handleSubmit}>
+      <Flex column alignItems='center'>
+        <Uploader 
+          droppable
+          width={150}
+          height={150}
+          type='circle'
+          alt='profileImage'
+          src={imageUrl ? imageUrl : ''}
+          onChange={handleFileChanged} 
+          onDrop={handleFileChanged}
+        />
         <FormInput
           onChange={value => handleChange({ name: 'fullName',
             value })}
@@ -88,8 +148,8 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
             onClick={handleCancelClick} 
           >취소</Button>
         </Flex>
-      </form>
-    </Flex>
+      </Flex>
+    </form>
   );
 };
 
