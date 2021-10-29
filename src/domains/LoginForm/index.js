@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 // import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
-import FormInput from '@/components/FormInput';
+import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
 import { validateEmail } from '@library/validate';

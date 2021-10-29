@@ -2,7 +2,7 @@ import React from 'react';
 import UserInfo from '@domains/UserProfile/UserInfo';
 
 export default {
-  title: 'Domain/User/UserInfo',
+  title: 'Domains/UserProfile/UserInfo',
   component: UserInfo,
   argTypes: {
     fullName: {
