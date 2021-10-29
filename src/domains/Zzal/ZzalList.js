@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
-import useAxios from '@hooks/useAxios';
 import Grid from '@base/Grid';
 
 let observer = null;
@@ -18,27 +17,25 @@ const checkIntersect = (entries, observer) => {
   });
 };
 
-const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
-  const [initialPosts, fetchPost] = useAxios(`/posts/channel/${channel}`);
+const ZzalList = ({ zzalList }) => {
   const [itemCount, setItemCount] = useState(6);
   const [isFetchable, setIsFetchable] = useState(false);
   const init = useRef(false);
   const ref = useRef(null);
   const fetchItem = () => setItemCount(prev => prev + 6);
 
-  useEffect(() => {
-    const { isLoading, value } = initialPosts; 
-    setIsFetchable(ref.current && !isLoading && value && itemCount < value.length);
-  }, [ref, itemCount, initialPosts]);
-
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
   const handleLoadPost = useCallback(() => {
     fetchItem();
     observer.observe(ref.current);
-  }, [observer]);
+  }, [zzalList, observer]);
+
+  useEffect(() => {
+    const { isLoading, value } = zzalList; 
+
+    setIsFetchable(ref.current && !isLoading && value && itemCount < value.length);
+
+    value?.length < itemCount && ref.current?.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
+  }, [zzalList, ref, itemCount]);
 
   useEffect(() => {
     if (!ref.current) {
@@ -66,15 +63,15 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
     if (isFetchable) {
       observer.observe(ref.current);
     }
-  }, [initialPosts, observer, isFetchable]);
+  }, [observer, isFetchable]);
   
   return (
     <StyledList>
       <Grid gridProps={gridProps}>
-        {(initialPosts.value || [])
+        {(zzalList.value || [])
           .filter((_, idx) => idx < itemCount)
-          .map(post => (
-            <ZzalItem key={post._id} id={post._id} src={post.image} height='100%'/>
+          .map(item => (
+            <ZzalItem key={item._id} id={item._id} src={item.image} height='100%'/>
           ))
         }  
         <div ref={ref}></div>
@@ -85,46 +82,41 @@ const ZzalList = ({ channel = '61755fa5359c4371f68ac695' }) => {
 
 const gridProps = {
   xs: {
-    row: 2,
-    col: 2,
-    gap: 5,
+    gap: 8,
     position: ['center', 'center']
   },
   sm: {
-    row: 3,
-    col: 3,
-    gap: 6,
+    gap: 8,
     position: ['center', 'center']
   },
   md: {
-    row: 5,
-    col: 5,
-    gap: 7,
+    gap: 8,
     position: ['center', 'center']
   },
   lg: {
-    row: 6,
-    col: 6,
     gap: 8,
     position: ['center', 'center']
   },
   xl: {
-    row: 7,
-    col: 7,
-    gap: 10,
+    gap: 8,
     position: ['center', 'center']
   }
 };
 
 const StyledList = styled.div`
-  width: 100%;
-  height: 30vh;
-  padding: 10px 20px;  
+  width: 994px;
+  margin: 100px auto;
   box-sizing: border-box;
+  @media(max-width: 1176px) {
+    width: 746px;
+  }
+  @media(max-width: 768px) {
+    width: 490px;
+  }
 `;
 
 ZzalList.propTypes = {
-  channel: PropTypes.string
+  zzalList: PropTypes.object
 };
 
 export default ZzalList;
