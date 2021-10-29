@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import PropTypes from 'prop-types';
+
 import Profile from '@domains/UserProfile';
+import ZzalFeed from '@domains/Zzal/ZzalFeed';
 
 const PersonalPage = () => {
   const { userId } = useParams();
@@ -25,15 +27,21 @@ const PersonalPage = () => {
   }
 
   return (
-    <Profile 
-      fullName={userData.value.fullName} 
-      followers={userData.value.followers}
-      following={userData.value.following}
-      src={userData.value.image}
-      userId={userId}
-      handleClick={fetchUserData}
-    >
-    </Profile>
+    <>
+      <Profile 
+        fullName={userData.value.fullName} 
+        followers={userData.value.followers}
+        following={userData.value.following}
+        src={userData.value.image}
+        userId={userId}
+        handleClick={fetchUserData}
+      >
+      </Profile>
+      <ZzalFeed 
+        userId={userId}
+        likeZzals={userData.value.likes} 
+      ></ZzalFeed>
+    </>
   );
 };
 

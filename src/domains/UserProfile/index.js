@@ -65,7 +65,7 @@ const Profile = ({
         followers={followers} 
         following={following} 
         isMyProfile={isMyProfile}
-        followState={myFollow}
+        followState={!!myFollow}
         handleClickUnFollow={handleClickUnFollow} 
         handleClickFollow={handleClickFollow} 
       /> 
