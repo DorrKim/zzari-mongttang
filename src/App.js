@@ -70,7 +70,7 @@ function App() {
           <Route path="/signup">
             <SignUpPage />
           </Route>
-          <Route path="/search/:keyword">
+          <Route path="/search=:keyword">
             <SearchPage />
           </Route>
           <Route path="/user/:userId">

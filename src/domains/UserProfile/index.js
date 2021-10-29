@@ -20,7 +20,7 @@ const Profile = ({
   followers,
   following, 
   src, 
-  userId, 
+  userId,
   handleClick 
 }) => {
   const isMyProfile = myUserId === userId;
@@ -65,7 +65,7 @@ const Profile = ({
         followers={followers} 
         following={following} 
         isMyProfile={isMyProfile}
-        followState={!!myFollow}
+        followState={myFollow}
         handleClickUnFollow={handleClickUnFollow} 
         handleClickFollow={handleClickFollow} 
       /> 

@@ -8,10 +8,9 @@ const PersonalPage = () => {
   const { userId } = useParams();
   const [userData, fetchUserData] = useAxios(`/users/${userId}`);
   
-
   useEffect(() => {
     fetchUserData();
-  }, [fetchUserData]);
+  }, []);
 
   const { isLoading, value, error } = userData;
 
@@ -24,7 +23,7 @@ const PersonalPage = () => {
   if (!value) {
     return <button onClick={fetchUserData}>불러오기</button>;
   }
-  
+
   return (
     <Profile 
       fullName={userData.value.fullName} 
