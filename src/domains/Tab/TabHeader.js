@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const TabHeaderWrapper = styled.div`
-  border: 4px solid red;
+  border: 4px solid green;
 `;
 
 const TabHeader = ({ children, handleClickTabItem, currIndex }) => {
@@ -25,7 +25,6 @@ const TabHeader = ({ children, handleClickTabItem, currIndex }) => {
         } 
       });
     });
-
 
   return (
     <TabHeaderWrapper>

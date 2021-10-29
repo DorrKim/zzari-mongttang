@@ -1,18 +1,19 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
 import TabHeader from './TabHeader';
 import TabItem from './TabItem';
-import PropTypes from 'prop-types';
+import TabPanel from './TabPanel';
 
 const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100px;
-  border: 2px solid;
 `;
 
 const Tab = ({ children, activeIndex = 0, ...props }) => {
   const [currIndex, setCurrIndex] = useState(activeIndex);
+
   const tabHeader = React.Children
     .toArray(children)
     .filter(element => {
@@ -28,10 +29,26 @@ const Tab = ({ children, activeIndex = 0, ...props }) => {
         handleClickTabItem: setCurrIndex
       });
     });
-      
+
+  const tabPanel = React.Children
+    .toArray(children)
+    .filter(element => {
+      return (
+        React.isValidElement(element) 
+      && element.props.__TYPE === 'Tab.Panel'   
+      );
+    })
+    .map(element => {
+      return React.cloneElement(element, {
+        ...element.props,
+        currIndex
+      });
+    }); 
+  
   return (
     <TabWrapper {...props}>
       {tabHeader}
+      {tabPanel}
     </TabWrapper>
   ); 
 };
@@ -43,4 +60,5 @@ Tab.propTypes = {
 
 Tab.Item = TabItem;
 Tab.Header = TabHeader;
+Tab.Panel = TabPanel;
 export default Tab;
