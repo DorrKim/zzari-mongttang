@@ -1,39 +1,23 @@
-import React, { useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 import Text from '@base/Text';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
 import Logo from '@components/Logo';
 import colors from '@constants/colors';
-import Avatar from '@components/Avatar';
-import MenuBar from '@domains/MenuBar';
-import useToggle from '@hooks/useToggle';
-import useClickAway from '@hooks/useClickAway';
-// Sample Image
-import imageSrc from '@assets/test.gif';
 import { useAuthorization } from '@context/AuthorizationProvider';
+import ProfileButton from './ProfileButton';
 
 const HeaderStyled = styled.header`
 padding: 0 16px;
 `;
 
 const Header = ({ ...props }) => {
-  const [showMenuBar, toggleMenuBar] = useToggle(false);
-  const avatarRef = useRef(null);
   const history = useHistory();
-  const menuBarRef = useClickAway(e => {
-    if (e.path.includes(avatarRef.current) || !showMenuBar) {
-
-      return;
-    }
-
-    toggleMenuBar();
-  });
   const { authState } = useAuthorization();
-
   const { isAuthorized } = authState;
   
   const handleToUploadPage = useCallback(() => {
@@ -50,53 +34,38 @@ const Header = ({ ...props }) => {
     !isAuthorized && history.push('/login');
   }, [isAuthorized]);
 
-  const handleAvatarClick = useCallback(() => {
-    toggleMenuBar();
-  }, [showMenuBar, toggleMenuBar]);
 
   return (
     <HeaderStyled {...props}>
       <Flex alignItems='center' justifyContent='flex-end' style={{ gap: 16 }}>
         <Logo link style={{ marginRight: 'auto' }} />
-        <Button 
-          width={70} height={40} 
+        <HeaderButton 
           backgroundColor={colors.PRIMARY_BACKGROUND}
-          borderColor={colors.PRIMARY}
-          borderWidth='0' 
-          borderRadius='4px'
           onClick={handleToUploadPage}
         > 
           <Text bold color={colors.PRIMARY}>글 작성</Text> 
-        </Button>
+        </HeaderButton>
         {isAuthorized
-          ? (
-            <div ref={avatarRef} style={{ position: 'relative' }}>
-              <Avatar src={imageSrc} size={45} onClickCapture={handleAvatarClick} />
-              <div ref={menuBarRef}>
-                {showMenuBar 
-                  ? (
-                    <MenuBar />
-                  )
-                  : null}
-              </div>
-            </div>
-          )
-          : (
-            <Button 
-              width={70} height={40} 
-              backgroundColor={colors.PRIMARY}
-              borderWidth='0' 
-              borderRadius='4px' 
-              onClick={handleToLoginPage}
-            >
-              <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
-            </Button>
-          )
+          ? <ProfileButton userId={authState.myUser?._id} />
+          : <HeaderButton 
+            backgroundColor={colors.PRIMARY}
+            onClick={handleToLoginPage}
+          >
+            <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+          </HeaderButton>
+          
         }
       </Flex>
     </HeaderStyled>
   );
 };
+
+const HeaderButton = styled(Button)`
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+`;
 
 // 임시
 Header.propTypes = {
