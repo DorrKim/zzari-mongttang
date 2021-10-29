@@ -15,7 +15,7 @@ const TabItemWrapper = styled.div`
 const TabItem = ({ 
   children,
   active, 
-  index, 
+  index,
   ...props }) => {
   return (
     <TabItemWrapper active ={active} index={index} {...props}>
@@ -24,10 +24,15 @@ const TabItem = ({
   );
 };
 
+TabItem.defaultProps = {
+  __TYPE: 'Tab.Item'
+};
+
 TabItem.propTypes = {
   children: PropTypes.node,
   active: PropTypes.bool,
   index: PropTypes.number
+
 };
 
 export default TabItem;
