@@ -7,27 +7,16 @@ import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
 import { validateForm } from '@library/validate';
 
-const SIGN_UP_ERRORS = {
-  emailInUse: 'The email address is already being used.'
-};
-
-const SIGN_UP_ERROR_MESSAGES = {
-  email: '이메일 형식에 맞추어주세요.',
-  emailInUse: '이미 사용중인 이메일입니다',
+const EDIT_PROFILE_ERROR_MESSAGES = {
   fullName: '2자이상 10자이하의 이름을 입력해주세요.',
   password: '6자이상 18자이하의 비밀번호를 입력해주세요.',
   verifyPassword: '비밀번호가 일치하지 않습니다.'
 };
 
-const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
+const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
-    initialValues: {
-      email: '',
-      fullName: '',
-      password: '',
-      verifyPassword: ''
-    },
-    onSubmit: onSignUp,
+    initialValues,
+    onSubmit: onEditProfile,
     validate: validateForm
   });
   const [errorMessage, setErrorMessage] = useState(error);
@@ -36,16 +25,11 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
     const newErrorMessage = Object
       .keys(error)
       .reduce((acc, name) => {
-        const { [name]: errorMessage } = SIGN_UP_ERROR_MESSAGES;
+        const { [name]: errorMessage } = EDIT_PROFILE_ERROR_MESSAGES;
         acc[name] = errorMessage;
       
         return acc;
       }, {});
-    if (!newErrorMessage.email
-       && signupError?.response.data === SIGN_UP_ERRORS.emailInUse) {
-      const { emailInUse } = SIGN_UP_ERROR_MESSAGES;
-      newErrorMessage.email = emailInUse;
-    }
     setErrorMessage(newErrorMessage);
   }, [error]);
 
@@ -53,24 +37,17 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
     onCancel && onCancel();
   }, [onCancel]);
   
-  const { email, fullName, password, verifyPassword } = values;
+  const { fullName, password, verifyPassword } = values;
     
   return (
     <Flex justifyContent='center'>
       <form onSubmit={handleSubmit}>
-        <FormInput 
-          onChange={value => handleChange({ name: 'email',
-            value })} 
-          value={email} 
-          placeholder='이메일' 
-          errorMessage={errorMessage.email
-          } 
-        />
+        {/* <div>Image Uploader...</div> */}
         <FormInput
           onChange={value => handleChange({ name: 'fullName',
             value })}
           value={fullName}
-          placeholder='닉네임'
+          placeholder='닉네임 (2자이상 10자이하)'
           errorMessage={errorMessage.fullName
           }
         />
@@ -79,7 +56,7 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
           onChange={value => handleChange({ name: 'password',
             value })}
           value={password}
-          placeholder='비밀번호'
+          placeholder='변경할 비밀번호 (6자이상 18자이하)'
           errorMessage={errorMessage.password
           }
         />
@@ -88,7 +65,7 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
           onChange={value => handleChange({ name: 'verifyPassword',
             value })}
           value={verifyPassword}
-          placeholder='비밀번호 확인'
+          placeholder='변경할 비밀번호 확인'
           errorMessage={errorMessage.verifyPassword
           }
         />
@@ -101,7 +78,7 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
             backgroundColor={'#FD9F28'} 
             width={164} 
             height={60}
-          >생성</Button>
+          >수정</Button>
           <Button 
             style={{ border: 'none' }}
             borderRadius={'4px'} 
@@ -116,10 +93,10 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
   );
 };
 
-SignUpForm.propTypes = {
-  signupError: PropTypes.object,
-  onSignUp: PropTypes.func.isRequired,
+EditProfileForm.propTypes = {
+  initialValues: PropTypes.object,
+  onEditProfile: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
-export default SignUpForm;
+export default EditProfileForm;
