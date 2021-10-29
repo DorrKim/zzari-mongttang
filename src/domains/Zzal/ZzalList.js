@@ -71,7 +71,7 @@ const ZzalList = ({ zzalList }) => {
         {(zzalList.value || [])
           .filter((_, idx) => idx < itemCount)
           .map(item => (
-            <ZzalItem key={item._id} id={item._id} imageUrl={item.image} height='100%'/>
+            <ZzalItem key={item._id} id={item._id} imageUrl={item.image} height='100%' number={'3'}/>
           ))
         }  
         <div ref={ref}></div>

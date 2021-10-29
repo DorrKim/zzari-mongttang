@@ -6,9 +6,9 @@ import Icon from '@components/base/Icon';
 import useToggle from '@hooks/useToggle';
 import Number from '@components/Number';
 
-const FavoriteContainer = styled.div({
+const FavoriteContainer = styled.div`
   display: 'flex'
-});
+`;
 
 const Favorite = ({ number }) => {
   const [isToggled, handleToggle] = useToggle();
