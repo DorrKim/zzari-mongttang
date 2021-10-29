@@ -1,5 +1,5 @@
 import React from 'react';
-import useIntervalFn from '@/hooks/useIntervalFn';
+import useIntervalFn from '@hooks/useIntervalFn';
 
 export default {
   title: 'Hook/useIntervalFn'

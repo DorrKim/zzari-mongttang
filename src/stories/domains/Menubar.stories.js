@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MenuBarContainer, MenuBarItem } from '@/domains/MenuBar';
-import Divider from '@/components/base/Divider';
-import colors from '@/utils/constants/colors';
+import { MenuBarContainer, MenuBarItem } from '@domains/MenuBar';
+import Divider from '@base/Divider';
+import colors from '@constants/colors';
 
 
 export default {

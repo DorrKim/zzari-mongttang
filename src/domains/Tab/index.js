@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-import Flex from '@/components/base/Flex';
+import Flex from '@base/Flex';
 import TabItem from './TabItem';
 
 const TabWrapper = styled(Flex)`

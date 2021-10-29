@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import colors from '@/utils/constants/colors';
+import colors from '@constants/colors';
 
 const Line = styled.hr`
   border: none;

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-import Image from '@components/base/Image';
+import Image from '@base/Image';
 
 const FILE_TYPE = 'image/* video/*';
 
