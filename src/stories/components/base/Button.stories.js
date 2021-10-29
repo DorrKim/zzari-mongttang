@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@components/base/Button';
+import Button from '@base/Button';
 
 export default {
   title: 'Component/base/Button',
@@ -9,8 +9,7 @@ export default {
     width: { control: 'text' },
     height: { control: 'text' },
     onClick: { action: 'clicked' },
-    borderColor: { contorl: 'color' },
-    borderRadius: { contorl: 'text' },
+    border: { contorl: 'text' },
     borderWidth: { contorl: 'text' },
     children: { options: ['h1', 'Bold', 'Italic'],
       mapping: {

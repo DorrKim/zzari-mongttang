@@ -4,8 +4,8 @@ import { ICON_TYPES } from '@constants/icons';
 
 const Icon = ({ 
   name, 
-  fontSize = '16px', 
-  color = 'black',
+  fontSize, 
+  color,
   ...props 
 }) => {
   const { [name]: IconTag } = ICON_TYPES;

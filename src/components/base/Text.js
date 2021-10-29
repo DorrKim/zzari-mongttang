@@ -19,8 +19,9 @@ const Text = ({
   children, 
   block,
   size = 'md', 
-  color = 'black', 
+  color, 
   bold,
+  style,
   ...props
 }) => {
   const tag = block ? 'div' : 'span';
@@ -31,7 +32,7 @@ const Text = ({
     <StyledText as={tag} fontSize={fontSize} style={{
       color,
       fontWeight,
-      ...props.style
+      ...style
     }} {...props}>
       { children }
     </StyledText>
