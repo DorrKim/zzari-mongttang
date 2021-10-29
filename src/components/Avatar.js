@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from '@components/base/Image';
+import Image from '@base/Image';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 

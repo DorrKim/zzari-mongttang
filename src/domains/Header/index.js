@@ -14,12 +14,13 @@ import useToggle from '@hooks/useToggle';
 import useClickAway from '@hooks/useClickAway';
 // Sample Image
 import imageSrc from '@assets/test.gif';
+import { useAuthorization } from '@context/AuthorizationProvider';
 
 const HeaderStyled = styled.header`
 padding: 0 16px;
 `;
 
-const Header = ({ isAuthorized, ...props }) => {
+const Header = ({ ...props }) => {
   const [showMenuBar, toggleMenuBar] = useToggle(false);
   const avatarRef = useRef(null);
   const history = useHistory();
@@ -31,6 +32,9 @@ const Header = ({ isAuthorized, ...props }) => {
 
     toggleMenuBar();
   });
+  const { authState } = useAuthorization();
+
+  const { isAuthorized } = authState;
   
   const handleToUploadPage = useCallback(() => {
     if (!isAuthorized) {
