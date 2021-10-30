@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -12,15 +12,22 @@ const MenuBar = ({ ...props }) => {
   const { authState, clearAuthState } = useAuthorization();
   const history = useHistory();
 
-  const { myUser } = authState;
+  
+  const handleToPersonalPage = useCallback(() => {
+    const { myUser } = authState;
+    myUser?._id && history.push(`/user/${myUser._id}`);
+  }, [authState]);
+
+  const handleToEditProfile = useCallback(() => {
+    history.push('/editProfile');
+  }, []);
 
   return (
     <MenuBarContainer {...props}>
-      <MenuBarItem onClick={
-        myUser?._id ? () => history.push(`/user/${myUser._id}`) : null}>
+      <MenuBarItem onClick={handleToPersonalPage}>
                   개인 페이지
       </MenuBarItem>
-      <MenuBarItem onClick={() => history.push('/editProfile')}>
+      <MenuBarItem onClick={handleToEditProfile}>
                   정보 수정
       </MenuBarItem>
       <Divider color={colors.PRIMARY_BACKGROUND} />
