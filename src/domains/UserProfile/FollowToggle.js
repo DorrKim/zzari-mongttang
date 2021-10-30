@@ -15,13 +15,14 @@ const FollowToggle = ({
   //const [state, handleToggle] = useToggle(!followState);
   const handleClick = useCallback(() => {
     //handleToggle();
+    console.log(followState);
     if (followState) {
       handleClickUnFollow && handleClickUnFollow();
     } else {
       handleClickFollow && handleClickFollow();
     }
 
-  }, []);
+  }, [followState]);
   
   return (
     <Button 

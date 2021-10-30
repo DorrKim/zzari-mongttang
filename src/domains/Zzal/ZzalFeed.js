@@ -21,17 +21,6 @@ const ZzalFeed = ({ userId, likeZzals }) => {
 
   const { isLoading, value, error } = userPostData; 
 
-  if (isLoading) {
-    return <div>Loading...</div>; 
-  }
-  
-  if (error) {
-    return <div>에러발생</div>;
-  }
-  if (!value) {
-    return <button onClick={fetchUserPostData}>불러오기</button>;
-  }
-
   return (
     <>
       <Tab>
@@ -41,7 +30,12 @@ const ZzalFeed = ({ userId, likeZzals }) => {
         </Tab.Header>
         <Tab.Panel>
           <ZzalList index={0} zzalList={likeZzalPostState} ></ZzalList>
-          <ZzalList index={1} zzalList={userPostData} ></ZzalList>
+          <div index={1}>
+            {isLoading && <div>Loading...</div>}
+            {!isLoading && error && <div>Loading...</div>}
+            {!isLoading && !error && !value && <div>Loading...</div>}
+            <ZzalList zzalList={userPostData} ></ZzalList>
+          </div>
         </Tab.Panel>
       </Tab>
       

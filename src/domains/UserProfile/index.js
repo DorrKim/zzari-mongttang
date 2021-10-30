@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import useAxios from '@hooks/useAxios';
@@ -20,38 +20,62 @@ const Profile = ({
   followers,
   following, 
   src, 
-  userId,
-  handleClick 
+  userId 
 }) => {
-  const isMyProfile = myUserId === userId;
-  const myFollow = followers.find(follow => follow.follower._id === myUserId);
+  /**
+   *  1. follower._id === myUserId 인 모든 follower에 대해서 하나만 남기고 모든 팔로우 취소
+   *  2. follow._id를 상태로 저장
+   *  3. 
+   */
+  const [currFollowId, setCurrFollowId] = useState(() => {
+    return followers.find(follow => follow.follower._id === myUserId)?._id;
+  });
+
   const [, fetchUnFollowData] = useAxios('/follow/delete', {
     method: 'delete',
-    data: {
-      id: myFollow?._id
-    },
     headers: {
       Authorization: `bearer ${TOKEN}`
     }     
   });
-  const [, fetchFollowData] = useAxios('/follow/create', {
+  const [followData, fetchFollowData] = useAxios('/follow/create', {
     method: 'post',
-    data: {
-      userId
-    },
     headers: {
       Authorization: `bearer ${TOKEN}`
     }     
   });
 
-  const handleClickUnFollow = async () => {
-    await fetchUnFollowData();
-    handleClick && handleClick();
-  };
+  const isMyProfile = useMemo(() => myUserId === userId, [myUserId, userId]);
+
+  const followState = useMemo(() => !!currFollowId, [currFollowId]);
+
+  useEffect(() => {
+    if (followData.value) {
+      setCurrFollowId(followData.value._id);
+    }
+  }, [followData.value]);
+
+  const handleClickUnFollow = useCallback(async () => { 
+    if (!currFollowId) {
+      
+      return; 
+    }
+    await fetchUnFollowData({
+      data: {
+        id: currFollowId
+      }
+    });
+    setCurrFollowId(null);
+  }, [currFollowId, fetchUnFollowData, setCurrFollowId]);
 
   const handleClickFollow = async () => {
-    await fetchFollowData();
-    handleClick && handleClick();
+    if (currFollowId) {
+      return;
+    }
+    fetchFollowData({
+      data: {
+        userId
+      }
+    });
   };
 
   return (
@@ -65,7 +89,7 @@ const Profile = ({
         followers={followers} 
         following={following} 
         isMyProfile={isMyProfile}
-        followState={!!myFollow}
+        followState={followState}
         handleClickUnFollow={handleClickUnFollow} 
         handleClickFollow={handleClickFollow} 
       /> 

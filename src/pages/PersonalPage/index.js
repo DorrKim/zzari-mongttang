@@ -34,7 +34,6 @@ const PersonalPage = () => {
         following={userData.value.following}
         src={userData.value.image}
         userId={userId}
-        handleClick={fetchUserData}
       >
       </Profile>
       <ZzalFeed 
