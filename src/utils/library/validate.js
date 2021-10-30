@@ -9,48 +9,17 @@ export const validateEmail = email => {
   return regex.test(email);
 };
 
-export const validateFullName = fullName => {
-  if (MIN_FULLNAME_LENGTH <= fullName?.length 
-    && fullName.length <= MAX_FULLNAME_LENGTH) {
-    return true;
-  }
+export const validateFullName = fullName => (MIN_FULLNAME_LENGTH <= fullName?.length 
+    && fullName.length <= MAX_FULLNAME_LENGTH); 
 
-  return false;
-};
+export const validatePassword = password => (MIN_PASSWORD_LENGTH <= password?.length 
+    && password.length <= MAX_PASSWORD_LENGTH);
 
-export const validatePassword = password => {
-  if (MIN_PASSWORD_LENGTH <= password?.length 
-    && password.length <= MAX_PASSWORD_LENGTH) {
-    return true;
+export const validateVerifyPassword = (password1, password2) => password1 === password2;
 
-  }
-  
-  return false;
-};
+export const validateTitle = title => title.length > 0;
 
-export const validateVerifyPassword = (password1, password2) => {
-  if (password1 === password2) {
-    return true;
-  }
-
-  return false;
-};
-
-export const validateTitle = title => {
-  if (title.length > 0){
-    return true;
-  }
-  
-  return false;
-};
-
-export const validateImage = imageData => {
-  if (imageData.type.includes('image')){
-    return true;
-  }
-
-  return false;
-};
+export const validateImage = imageData => imageData.type.includes('image');
 
 export const validateLogin = values => Object
   .keys(values)
@@ -104,7 +73,7 @@ export const validateEditProfile = values => Object
   .keys(values)
   .reduce((acc, name) => {
     switch (name) {
-      case 'image':
+      case 'imageData':
         !validateImage(values[name])
           ? acc[name] = true
           : null;
@@ -137,7 +106,7 @@ export const validateUploadPost = values => Object
   .keys(values)
   .reduce((acc, name) => {
     switch (name) {
-      case 'image':
+      case 'imageData':
         !validateImage(values[name])
           ? acc[name] = true
           : null;
@@ -147,7 +116,7 @@ export const validateUploadPost = values => Object
         !validateTitle(values[name])
           ? acc[name] = true
           : null;
-          
+
         return acc;
       default:
         return acc;
