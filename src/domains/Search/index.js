@@ -11,7 +11,7 @@ const SearchBar = ({ initialKeyword = '', onToSubmitPage }) => {
 
   const handleKeywordChange = useCallback(value => {
     setSearch(value);
-  }, [initialKeyword]);
+  }, []);
 
   const handleToSubmitPage = useCallback(e => {
     e.preventDefault();

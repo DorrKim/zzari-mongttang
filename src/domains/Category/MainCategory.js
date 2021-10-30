@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Flex from '@base/Flex';
@@ -7,26 +7,29 @@ import CategoryChip from './CategoryChip';
 import CategoryList from './CategoryList';
 
 
-const CategoryCarousel = ({ channelId, onClickChip }) => {
+const MainCategory = ({ channelId, onClickChip }) => {
   const [categoryList, fetchList] = useAxios('/channels');
+  const { isLoading, value } = categoryList;
 
   useEffect(() => {
     fetchList();
   }, []);
 
-  const findIinitialChip = categoryList.value && Object.values(categoryList.value).findIndex(chip => chip._id === channelId);
+  const selectedChip = useMemo(() => value 
+    && Object.values(categoryList.value)
+      .findIndex(({ _id }) => _id === channelId), [value]);
 
   const handleClickChip = useCallback(e => {
     onClickChip(e.id);
-  }, []);
+  }, [onClickChip]);
 
   return (
     <>
       <button>Prev</button>
       <Flex>
-        <CategoryList selectedIndex={findIinitialChip} onChange={handleClickChip}>
-          {(categoryList.value?.map(category => (
-            <CategoryChip key={category._id} name={category.name} id={category._id} />
+        <CategoryList selectedIndex={selectedChip} onChange={handleClickChip}>
+          {!isLoading && (value?.map(({ _id, name }) => (
+            <CategoryChip key={_id} name={name} id={_id} />
           ))
           )}
         </CategoryList>
@@ -36,9 +39,9 @@ const CategoryCarousel = ({ channelId, onClickChip }) => {
   );
 };
 
-CategoryCarousel.propTypes = {
+MainCategory.propTypes = {
   channelId: PropTypes.string,
   onClickChip: PropTypes.func
 };
 
-export default CategoryCarousel;
+export default MainCategory;
