@@ -44,7 +44,10 @@ const StyledText = styled.div`
 `;
 
 Text.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
   block: PropTypes.bool,
   size: PropTypes.string,
   color: PropTypes.string,
