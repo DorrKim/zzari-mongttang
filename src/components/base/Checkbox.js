@@ -18,9 +18,10 @@ const CheckboxInput = styled.input`
 const CheckboxSwitch = styled.div`
   ${({ checkStyle }) => checkStyle};
   display: inline-block;
-  padding: 3px 4px;
+  padding: 5px 10px;
   border-radius: 20px;
   user-select: none;
+  line-height: 100%;
 `;
 
 const Checkbox = ({ 
@@ -40,7 +41,7 @@ const Checkbox = ({
     <Label {...props}>
       <CheckboxInput type="checkbox" onChange={handleChange} checked={checked}/>
       <CheckboxSwitch checkStyle={checked ? checkedStyle : unCheckedStyle }>
-        <Text size='sm'>{name}</Text>
+        <Text style={{ whiteSpace: 'nowrap' }} size='md'>{name}</Text>
       </CheckboxSwitch>
     </Label>
   );
