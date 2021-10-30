@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import imageSrc from '@assets/no_img.png';
@@ -10,23 +10,19 @@ import MenuBar from '@domains/MenuBar';
 
 const ProfileButton = ({ userId, ...props }) => {
   const [showMenuBar, toggleMenuBar] = useToggle(false);
-  const avatarRef = useRef(null);
-  const menuBarRef = useClickAway(e => {
-    if (e.path.includes(avatarRef.current) || !showMenuBar) {
 
+  const menuBarRef = useClickAway(() => {
+    if (!showMenuBar){
       return;
     }
 
     toggleMenuBar();
   });
 
-
   return (
-    <div ref={avatarRef} style={{ position: 'relative' }} {...props}>
+    <div ref={menuBarRef} style={{ position: 'relative' }} {...props}>
       <Avatar src={imageSrc} size={45} onClick={toggleMenuBar} />
-      <div ref={menuBarRef}>
-        <MenuBar userId={userId} style={{ display: showMenuBar ? 'flex' : 'none' }} />
-      </div>
+      <MenuBar userId={userId} style={{ display: showMenuBar ? 'flex' : 'none' }} />
     </div>
   );
 };
