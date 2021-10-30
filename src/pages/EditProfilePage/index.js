@@ -80,6 +80,12 @@ const EditProfilePage = () => {
 
   // 최초 페이지 접근 본인 확인
   useEffect(() => {
+    if (!authState.myUser) {
+      alert('본인 확인에 실패하였습니다. 다시 로그인후에 시도해주세요.');
+      history.replace('/login');
+      
+      return;
+    }
     getMyUser({
       url: `/users/${authState.myUser._id}`
     });
