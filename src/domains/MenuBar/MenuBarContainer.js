@@ -34,13 +34,7 @@ const MenuBarContainerStyled = styled(Flex)`
 const MenuBarContainer = ({ children, ...props }) => {
 
   const MenuItems = React.Children.toArray(children)
-    .filter(element => {
-      if (React.isValidElement(element)) {
-        return true;
-      }
-
-      return false;
-    });
+    .filter(element => React.isValidElement(element));
 
   return (
     <div>
