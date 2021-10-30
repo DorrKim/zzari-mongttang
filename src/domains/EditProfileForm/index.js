@@ -5,7 +5,7 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
-import { validateForm } from '@library/validate';
+import { validateSignUp } from '@library/validate';
 import Uploader from '@domains/Uploader';
 
 
@@ -22,7 +22,7 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
     initialValues,
     onSubmit: onEditProfile,
-    validate: validateForm
+    validate: validateSignUp
   });
   const [errorMessage, setErrorMessage] = useState(error);
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import LoginForm from '@domains/LoginForm';
@@ -14,6 +14,7 @@ const Logo = styled.div`
 `;
 
 const LoginPage = () => {
+  const [isLogined, setIsLogined] = useState(false);
   const [loginAPIState, postLogin] = useAxios('/login', {
     method: 'post'
   });
@@ -49,9 +50,14 @@ const LoginPage = () => {
           fullName,
           image
         }});
-      history.push('/');
+
+      setIsLogined(true);
     }
-  }, [loginAPIState]);
+  }, [loginAPIState]);  
+
+  useEffect(() => {
+    isLogined && history.push('/');
+  }, [isLogined]);
   
   return <>
     <Logo> 로고 </Logo>

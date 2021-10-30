@@ -46,13 +46,13 @@ const Header = ({ ...props }) => {
           <Text bold color={colors.PRIMARY}>글 작성</Text> 
         </HeaderButton>
         {isAuthorized
-          ? <ProfileButton userId={authState.myUser?._id} />
+          ? <ProfileButton myUser={authState.myUser} />
           : <HeaderButton 
             backgroundColor={colors.PRIMARY}
             onClick={handleToLoginPage}
-            >
-              <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
-            </HeaderButton>  
+          >
+            <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+          </HeaderButton>  
         }
       </Flex>
     </HeaderStyled>
