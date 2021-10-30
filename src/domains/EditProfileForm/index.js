@@ -99,7 +99,7 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
           height={150}
           type='circle'
           alt='profileImage'
-          src={imageUrl ? imageUrl : ''}
+          src={imageUrl || ''}
           onChange={handleFileChanged} 
           onDrop={handleFileChanged}
         />
