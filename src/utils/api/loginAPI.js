@@ -76,7 +76,7 @@ export const loginAPI = {
   }
 };
 
-const _request = async (url, options) => {
+export const _request = async (url, options) => {
   try {
     const data = await axios({
       url,
