@@ -24,7 +24,7 @@ const Profile = ({
   src, 
   userId 
 }) => {
-  const [countFollowing, setcountFollowing] = useState(following.length);
+  const [countFollower, setcountFollower] = useState(followers.length);
   const [currFollowId, setCurrFollowId] = useState(() => {
     return followers.find(follow => follow.follower._id === myUserId)?._id;
   });
@@ -49,13 +49,13 @@ const Profile = ({
   useEffect(() => {
     if (followData.value) {
       setCurrFollowId(followData.value._id);
-      setcountFollowing(prevState => prevState + 1);
+      setcountFollower(prevState => prevState + 1);
     }
   }, [followData.value]);
 
   useEffect(() => {
     if (unfollowData.value) {  
-      setcountFollowing(prevState => prevState - 1);
+      setcountFollower(prevState => prevState - 1);
     }
   }, [unfollowData.value]);
 
@@ -93,8 +93,8 @@ const Profile = ({
 
   const followContainer = (
     <FollowContainer 
-      countFollower={followers.length} 
-      countFollowing={countFollowing}/>
+      countFollower={countFollower} 
+      countFollowing={following.length}/>
   );
 
   return (
