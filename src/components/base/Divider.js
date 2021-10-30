@@ -5,7 +5,7 @@ import colors from '@constants/colors';
 
 const Line = styled.hr`
   border: none;
-  background-color: #aaa;
+  background-color: ${({ color }) => color};
 
   &.vertical {
     position: relative;
@@ -14,27 +14,22 @@ const Line = styled.hr`
     width: 1px;
     height: 13px;
     vertical-align: middle;
+    margin: ${({ size }) => `0 ${size}px`}
   }
 
   &.horizontal {
     display: block;
     width: 100%;
     height: 1px;
+    margin: ${({ size }) => `${size}px 0`}
   }
 `;
 
 const Divider = ({ type = 'horizontal', // horizontal, vertical
   size = 8, color = colors.BORDER_NORMAL,
   ...props }) => {
-  const dividerStyle = {
-    margin: type === 'vertical' 
-      ? `0 ${size}px` 
-      : `${size}px 0`,
-    backgroundColor: color
-  };
-  
-  return <Line className={type} {...props} style={{ ...dividerStyle,
-    ...props.style }} />;
+
+  return <Line className={type} size={size} color={color} {...props} />;
 };
 
 Divider.propTypes = {
