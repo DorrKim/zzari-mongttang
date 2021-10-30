@@ -17,7 +17,8 @@ const ProfileWrapper = styled(Flex)`
 `;
 
 const Profile = ({ 
-  myUserId = '61795b2aa1f9673a2292a0d8', 
+  //myUserId = '61795b2aa1f9673a2292a0d8', 
+  myUserId = '61759164359c4371f68ac707', 
   fullName, 
   followers,
   following, 

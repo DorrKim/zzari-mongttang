@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import colors from '@constants/colors';
 import Button from '@base/Button';
 import Text from '@base/Text';
-//import useToggle from '@hooks/useToggle';
+import { useHistory } from 'react-router';
 
 
 const FollowToggle = ({ 
@@ -12,10 +12,13 @@ const FollowToggle = ({
   handleClickFollow, 
   handleClickUnFollow, 
   followState }) => {
-  //const [state, handleToggle] = useToggle(!followState);
-  const handleClick = useCallback(() => {
-    //handleToggle();
-    console.log(followState);
+  const history = useHistory();
+  
+  const onToEditProfilePage = useCallback(() => {
+    history.push('/editProfile');
+  });
+
+  const handleToggleFollow = useCallback(() => {
     if (followState) {
       handleClickUnFollow && handleClickUnFollow();
     } else {
@@ -35,8 +38,8 @@ const FollowToggle = ({
       borderWidth={0} 
       style={{ padding: 0 }}
       onClick={isMyProfile 
-        ? null 
-        : handleClick}>
+        ? onToEditProfilePage 
+        : handleToggleFollow}>
       <Text bold color="white"> 
         {isMyProfile 
           ? '내 정보 수정' 
