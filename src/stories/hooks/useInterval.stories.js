@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useInterval from '@/hooks/useInterval';
+import useInterval from '@hooks/useInterval';
 
 export default {
   title: 'Hook/useInterval'
