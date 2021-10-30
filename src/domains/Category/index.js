@@ -27,31 +27,30 @@ const MainCategory = ({ channelId, onChange }) => {
       .findIndex(({ _id }) => _id === channelId), [value, channelId]
   );
  
-  const handlePrev = () => {
+  const handleOffsetX = useCallback(width => {
+    setOffsetX(width);
+    ref.current.style.transform = `translateX(${width}px)`;
+  }, [ref]);
+  
+  const handlePrev = useCallback(() => {
     const MAX_OFFSET_X = 0;
-    if (offsetX + viewerWidth > MAX_OFFSET_X) {
-      setOffsetX(MAX_OFFSET_X);
-      ref.current.style.transform = `translateX(${MAX_OFFSET_X}px)`;
-    } else {
-      setOffsetX(offsetX => offsetX + viewerWidth);
-      ref.current.style.transform = `translateX(${offsetX + viewerWidth}px)`;
-    }
-  };
 
-  const handleNext = () => {
+    offsetX + viewerWidth > MAX_OFFSET_X 
+      ? handleOffsetX(MAX_OFFSET_X) 
+      : handleOffsetX(offsetX + viewerWidth);
+  }, [offsetX, viewerWidth, handleOffsetX]);
+
+  const handleNext = useCallback(() => {
     if (!categoryListWidth) {
       return;
     }
 
     const MIN_OFFSET_X = - categoryListWidth + viewerWidth;
-    if (offsetX - viewerWidth < MIN_OFFSET_X) {
-      ref.current.style.transform = `translateX(${MIN_OFFSET_X}px)`;
-      setOffsetX(MIN_OFFSET_X);
-    } else {
-      ref.current.style.transform = `translateX(${offsetX - viewerWidth}px)`;
-      setOffsetX(offsetX => offsetX - viewerWidth);
-    }
-  };
+
+    offsetX - viewerWidth < MIN_OFFSET_X 
+      ? handleOffsetX(MIN_OFFSET_X) 
+      : handleOffsetX(offsetX - viewerWidth);
+  }, [offsetX, viewerWidth, handleOffsetX, categoryListWidth]);
 
   const handleChangeChip = useCallback(e => {
     onChange(e.id);
