@@ -19,15 +19,11 @@ const AuthorizationProvider = ({ children }) => {
 
       return; 
     }
-    const { _id, fullName, image } = myUser;
+    
     setAuthState({
       isAuthorized: true,
       authToken,
-      myUser: {
-        _id,
-        fullName,
-        image
-      }
+      myUser
     });
   }, []);
 
@@ -35,7 +31,7 @@ const AuthorizationProvider = ({ children }) => {
     setAuthState({
       isAuthorized: false,
       authToken: '',
-      myUser: ''
+      myUser: {}
     });
   }, []);
 

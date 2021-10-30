@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import Text from '@base/Text';
 import colors from '@constants/colors';
-import useToggle from '@hooks/useToggle';
 
 
 const Label = styled.label`
@@ -26,21 +25,16 @@ const CheckboxSwitch = styled.div`
 
 const Checkbox = ({ 
   name,
-  on = false, 
+  checked = false, 
   unCheckedStyle = { backgroundColor: colors.ACCENT_BACKGROUND },
   checkedStyle = { backgroundColor: colors.ACCENT }, 
   onChange, 
   ...props 
 }) => {
-  const [checked, toggle] = useToggle(on);
   
-  const handleChange = useCallback(() => {
-    toggle();
+  const handleChange = useCallback(e => {
+    onChange && onChange(e);
   }, []);
-
-  useEffect(() => {
-    onChange && onChange(checked);
-  }, [checked]);
 
   return (
     <Label {...props}>
@@ -54,7 +48,7 @@ const Checkbox = ({
 
 Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
-  on: PropTypes.bool,
+  checked: PropTypes.bool,
   unCheckedStyle: PropTypes.object,
   checkedStyle: PropTypes.object,
   onChange: PropTypes.func
