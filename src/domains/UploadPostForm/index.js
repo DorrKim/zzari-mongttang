@@ -50,19 +50,16 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     const changedFile = e.dataTransfer
       ? e.dataTransfer.files[0]
       : e.target.files[0];
-
     if (!changedFile) {
       return;
     }
-
+      
     if (changedFile.type.includes('image')){
       handleChange({ name: 'imageData',
         value: changedFile });
       makeImageDataToUrl(changedFile);
     } else {
       alert(UPLOAD_POST_ERROR_MESSAGES.image);
-      handleChange({ name: 'imageData',
-        value: null });
     }
   }, [makeImageDataToUrl, handleChange]);
 
