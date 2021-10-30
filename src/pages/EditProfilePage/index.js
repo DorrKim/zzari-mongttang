@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import Flex from '@base/Flex';
@@ -18,33 +18,27 @@ const EditProfilePage = () => {
   });
   const history = useHistory();
 
+  const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
+
   const [getIsAuthUserAPIState, getAuthUser] = useAxios('/auth-user', {
-    headers: {
-      Authorization: `bearer ${authState.authToken}`
-    }
+    headers
   });
 
   const [getMyUserAPIState, getMyUser] = useAxios();
 
   const [updateProfileImageAPIState, updateProfileImage] = useAxios('/users/upload-photo', {
     method: 'post',
-    headers: {
-      Authorization: `bearer ${authState.authToken}`
-    }
+    headers
   });
 
   const [updateFullNameAPIState, updateFullName] = useAxios('/settings/update-user', {
     method: 'put',
-    headers: {
-      Authorization: `bearer ${authState.authToken}`
-    }
+    headers
   });
 
   const [updatePasswordAPIState, updatePassword] = useAxios('/settings/update-password', {
     method: 'put',
-    headers: {
-      Authorization: `bearer ${authState.authToken}`
-    }
+    headers
   });
 
   const handleUpdateProfile = useCallback(async values => {
@@ -85,7 +79,7 @@ const EditProfilePage = () => {
   });
 
   // 최초 페이지 접근 본인 확인
-  useEffect(async () => {
+  useEffect(() => {
     getMyUser({
       url: `/users/${authState.myUser._id}`
     });
