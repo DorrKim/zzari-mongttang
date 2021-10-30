@@ -16,10 +16,8 @@ const MainPage = () => {
     fetchList();
   }, []);
 
-  console.log(zzalList.value);
-
   const handleToSearchPage = useCallback(value => {
-    value && history.push(`/search/${value}`);
+    value && history.push(`/search=${value}`);
   }, []);
   
   return (
