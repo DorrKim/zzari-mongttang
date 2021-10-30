@@ -24,8 +24,6 @@ const ZzalList = ({ zzalList }) => {
   const ref = useRef(null);
   const fetchItem = () => setItemCount(prev => prev + 6);
 
-  useEffect(() => console.log(zzalList.value), [zzalList]);
-  
   const handleLoadPost = useCallback(() => {
     fetchItem();
     observer.observe(ref.current);
