@@ -31,12 +31,13 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
   }, [onCancel]);
 
   const makeImageDataToUrl = useCallback(changedFile => {
-    if (!reader){
-      reader = new FileReader();
-    }
     if (!changedFile) {
       
       return;
+    }
+
+    if (!reader){
+      reader = new FileReader();
     }
     
     reader.readAsDataURL(changedFile);
@@ -46,9 +47,7 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const changedFile = e.dataTransfer
-      ? e.dataTransfer.files[0]
-      : e.target.files[0];
+    const changedFile = e.dataTransfer?.files[0] || e.target.files[0];
 
     if (!changedFile) {
       return;
