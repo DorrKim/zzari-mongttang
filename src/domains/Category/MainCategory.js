@@ -17,7 +17,8 @@ const MainCategory = ({ channelId, onClickChip }) => {
 
   const selectedChip = useMemo(() => value 
     && Object.values(categoryList.value)
-      .findIndex(({ _id }) => _id === channelId), [value]);
+      .findIndex(({ _id }) => _id === channelId), [value, channelId]
+  );
 
   const handleClickChip = useCallback(e => {
     onClickChip(e.id);
