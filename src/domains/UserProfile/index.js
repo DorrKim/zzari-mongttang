@@ -8,23 +8,34 @@ import UserInfo from './UserInfo';
 import Flex from '@components/base/Flex';
 import FollowToggle from './FollowToggle';
 import FollowContainer from './FollowContainer';
+import { useAuthorization } from '@context/AuthorizationProvider';
+import { useHistory } from 'react-router';
 
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzk1YjJhYTFmOTY3M2EyMjkyYTBkOCIsImVtYWlsIjoienphcmkzQGFiYy5jb20ifSwiaWF0IjoxNjM1NDQyNDA3fQ.NMICSNByNDkdbMLiiomT2WDU74yiV7jJAwf6TsktbAI';
 
 const ProfileWrapper = styled(Flex)`
   width: 328px;
   height: 120px;
 `;
 
-const Profile = ({ 
-  //myUserId = '61795b2aa1f9673a2292a0d8', 
-  myUserId = '61759164359c4371f68ac707', 
+const Profile = ({   
   fullName, 
   followers,
   following, 
   src, 
   userId 
 }) => {
+  const history = useHistory();
+  const { authState } = useAuthorization();
+  const { isAuthorized, authToken, myUser } = authState;
+  const { _id: myUserId } = myUser;
+
+  const headers = useMemo(() => {
+    
+    return {
+      Authorization: `bearer ${authToken}`
+    };
+  }, [authToken]);
+
   const [countFollower, setcountFollower] = useState(followers.length);
   const [currFollowId, setCurrFollowId] = useState(() => {
     return followers.find(follow => follow.follower._id === myUserId)?._id;
@@ -32,20 +43,23 @@ const Profile = ({
 
   const [unfollowData, fetchUnFollowData] = useAxios('/follow/delete', {
     method: 'delete',
-    headers: {
-      Authorization: `bearer ${TOKEN}`
-    }     
-  });
+    headers     
+  }); 
+
   const [followData, fetchFollowData] = useAxios('/follow/create', {
     method: 'post',
-    headers: {
-      Authorization: `bearer ${TOKEN}`
-    }     
+    headers    
   });
 
   const isMyProfile = useMemo(() => myUserId === userId, [myUserId, userId]);
 
   const followState = useMemo(() => !!currFollowId, [currFollowId]);
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      setCurrFollowId(null);
+    }
+  }, [isAuthorized]);
 
   useEffect(() => {
     if (followData.value) {
@@ -61,19 +75,24 @@ const Profile = ({
   }, [unfollowData.value]);
 
   const handleClickUnFollow = useCallback(async () => { 
-    if (!currFollowId) {
-      
-      return; 
-    }
-    await fetchUnFollowData({
-      data: {
-        id: currFollowId
-      }
-    });
-    setCurrFollowId(null);
-  }, [currFollowId, fetchUnFollowData, setCurrFollowId]);
+    if (currFollowId && isAuthorized) {
 
-  const handleClickFollow = async () => {
+      await fetchUnFollowData({
+        data: {
+          id: currFollowId
+        }
+      });
+      setCurrFollowId(null);  
+    }
+  }, [isAuthorized, currFollowId, fetchUnFollowData, setCurrFollowId]);
+
+  const handleClickFollow = useCallback(async () => {
+    if (!isAuthorized) {
+      confirm('해당 기능을 이용하기 위해서 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?') && history.push('/login');
+      
+      return;
+    }
+
     if (currFollowId) {
       return;
     }
@@ -82,7 +101,7 @@ const Profile = ({
         userId
       }
     });
-  };
+  }, [isAuthorized, userId, currFollowId, fetchFollowData]);
 
   const followToggleButton = (
     <FollowToggle 
@@ -118,9 +137,7 @@ Profile.propTypes = {
   followers: PropTypes.array,
   following: PropTypes.array.isRequired,
   src: PropTypes.string,
-  userId: PropTypes.string,
-  myUserId: PropTypes.bool,
-  handleClick: PropTypes.func
+  userId: PropTypes.string
 };
 
 export default Profile;

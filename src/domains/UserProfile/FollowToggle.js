@@ -25,7 +25,7 @@ const FollowToggle = ({
       handleClickFollow && handleClickFollow();
     }
 
-  }, [followState]);
+  }, [followState, handleClickUnFollow, handleClickFollow]);
   
   return (
     <Button 
