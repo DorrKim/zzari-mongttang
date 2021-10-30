@@ -36,7 +36,34 @@ export const validateVerifyPassword = (password1, password2) => {
   return false;
 };
 
-export const validateForm = values => Object
+export const validateEditProfile = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name) {
+      case 'fullName':
+        !validateFullName(values[name])
+          ? acc[name] = true
+          : null;
+      
+        return acc;
+      case 'password':
+        !validatePassword(values[name])
+          ? acc[name] = true
+          : null;
+      
+        return acc;
+      case 'verifyPassword':
+        !validateVerifyPassword(values[name], values.password)
+          ? acc[name] = true
+          : null;
+      
+        return acc;
+      default:
+        return acc;
+    }
+  }, {});
+
+export const validateSignUp = values => Object
   .keys(values)
   .reduce((acc, name) => {
     switch (name) {
@@ -63,6 +90,21 @@ export const validateForm = values => Object
           ? acc[name] = true
           : null;
         
+        return acc;
+      default:
+        return acc;
+    }
+  }, {});
+
+export const validateLogin = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name) {
+      case 'email':
+        !validateEmail(values[name])
+          ? acc[name] = true
+          : null;
+      
         return acc;
       default:
         return acc;
