@@ -5,7 +5,7 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
-import { validateForm } from '@library/validate';
+import { validateUploadPost } from '@library/validate';
 import Uploader from '@domains/Uploader';
 import CategoryList from '@domains/Category/CategoryList';
 import CategoryChip from '@domains/Category/CategoryChip';
@@ -23,7 +23,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
     initialValues,
     onSubmit,
-    validate: validateForm
+    validate: validateUploadPost
   });
   const [errorMessage, setErrorMessage] = useState(error);
 

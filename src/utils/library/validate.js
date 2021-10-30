@@ -52,30 +52,12 @@ export const validateImage = imageData => {
   return false;
 };
 
-export const validateEditProfile = values => Object
+export const validateLogin = values => Object
   .keys(values)
   .reduce((acc, name) => {
     switch (name) {
-      case 'image':
-        !validateImage(values[name])
-          ? acc[name] = true
-          : null;
-
-        return acc;
-      case 'fullName':
-        !validateFullName(values[name])
-          ? acc[name] = true
-          : null;
-      
-        return acc;
-      case 'password':
-        !validatePassword(values[name])
-          ? acc[name] = true
-          : null;
-      
-        return acc;
-      case 'verifyPassword':
-        !validateVerifyPassword(values[name], values.password)
+      case 'email':
+        !validateEmail(values[name])
           ? acc[name] = true
           : null;
       
@@ -118,15 +100,54 @@ export const validateSignUp = values => Object
     }
   }, {});
 
-export const validateLogin = values => Object
+export const validateEditProfile = values => Object
   .keys(values)
   .reduce((acc, name) => {
     switch (name) {
-      case 'email':
-        !validateEmail(values[name])
+      case 'image':
+        !validateImage(values[name])
+          ? acc[name] = true
+          : null;
+
+        return acc;
+      case 'fullName':
+        !validateFullName(values[name])
           ? acc[name] = true
           : null;
       
+        return acc;
+      case 'password':
+        !validatePassword(values[name])
+          ? acc[name] = true
+          : null;
+      
+        return acc;
+      case 'verifyPassword':
+        !validateVerifyPassword(values[name], values.password)
+          ? acc[name] = true
+          : null;
+      
+        return acc;
+      default:
+        return acc;
+    }
+  }, {});
+
+export const validateUploadPost = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name) {
+      case 'image':
+        !validateImage(values[name])
+          ? acc[name] = true
+          : null;
+
+        return acc;
+      case 'title':
+        !validateTitle(values[name])
+          ? acc[name] = true
+          : null;
+          
         return acc;
       default:
         return acc;
