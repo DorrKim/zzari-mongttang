@@ -11,7 +11,7 @@ const BackgroundScreen = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1000;
 `;
 
@@ -63,8 +63,9 @@ const Modal = ({
       style={{ display: visible ? 'flex' : 'none' }}
       onClick={onClose}>
       <ModalContainer
+        column
         justifyContent='center' 
-        alignItems='center' 
+        alignItems='center'
         style={{ 
           ...props.style,
           ...containerStyle
@@ -88,7 +89,7 @@ Modal.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]),
-  isShow: PropTypes.bool,
+  visible: PropTypes.bool,
   onClose: PropTypes.func,
   style: PropTypes.object
 };
