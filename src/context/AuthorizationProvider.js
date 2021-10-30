@@ -19,7 +19,7 @@ const AuthorizationProvider = ({ children }) => {
 
       return; 
     }
-
+    
     setAuthState({
       isAuthorized: true,
       authToken,

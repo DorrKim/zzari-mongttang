@@ -50,10 +50,9 @@ const Header = ({ ...props }) => {
           : <HeaderButton 
             backgroundColor={colors.PRIMARY}
             onClick={handleToLoginPage}
-          >
-            <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
-          </HeaderButton>
-          
+            >
+              <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+            </HeaderButton>  
         }
       </Flex>
     </HeaderStyled>

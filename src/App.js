@@ -17,6 +17,7 @@ import SearchPage from '@pages/SearchPage';
 import SignUpPage from '@pages/SignUpPage';
 import UploadPage from '@pages/UploadPage';
 import { useAuthorization } from '@context/AuthorizationProvider';
+import EditProfilePage from '@pages/EditProfilePage';
 
 
 function App() {
@@ -69,7 +70,10 @@ function App() {
           <Route path="/signup">
             <SignUpPage />
           </Route>
-          <Route path="/search">
+          <Route path="/editProfile" >
+            <EditProfilePage />
+          </Route>
+          <Route path="/search=:keyword">
             <SearchPage />
           </Route>
           <Route path="/user/:userId">
