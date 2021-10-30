@@ -36,6 +36,22 @@ export const validateVerifyPassword = (password1, password2) => {
   return false;
 };
 
+export const validateTitle = title => {
+  if (title.length > 0){
+    return true;
+  }
+  
+  return false;
+};
+
+export const validateImage = imageData => {
+  if (imageData.type.includes('image')){
+    return true;
+  }
+
+  return false;
+};
+
 export const validateForm = values => Object
   .keys(values)
   .reduce((acc, name) => {
@@ -63,6 +79,18 @@ export const validateForm = values => Object
           ? acc[name] = true
           : null;
         
+        return acc;
+      case 'title':
+        !validateTitle(values[name])
+          ? acc[name] = true
+          : null;
+
+        return acc;
+      case 'image':
+        !validateImage(values[name])
+          ? acc[name] = true
+          : null;
+
         return acc;
       default:
         return acc;
