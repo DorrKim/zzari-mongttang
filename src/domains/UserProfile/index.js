@@ -6,6 +6,8 @@ import useAxios from '@hooks/useAxios';
 import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
 import Flex from '@components/base/Flex';
+import FollowToggle from './FollowToggle';
+import FollowContainer from './FollowContainer';
 
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzk1YjJhYTFmOTY3M2EyMjkyYTBkOCIsImVtYWlsIjoienphcmkzQGFiYy5jb20ifSwiaWF0IjoxNjM1NDQyNDA3fQ.NMICSNByNDkdbMLiiomT2WDU74yiV7jJAwf6TsktbAI';
 
@@ -22,16 +24,12 @@ const Profile = ({
   src, 
   userId 
 }) => {
-  /**
-   *  1. follower._id === myUserId 인 모든 follower에 대해서 하나만 남기고 모든 팔로우 취소
-   *  2. follow._id를 상태로 저장
-   *  3. 
-   */
+  const [countFollowing, setcountFollowing] = useState(following.length);
   const [currFollowId, setCurrFollowId] = useState(() => {
     return followers.find(follow => follow.follower._id === myUserId)?._id;
   });
 
-  const [, fetchUnFollowData] = useAxios('/follow/delete', {
+  const [unfollowData, fetchUnFollowData] = useAxios('/follow/delete', {
     method: 'delete',
     headers: {
       Authorization: `bearer ${TOKEN}`
@@ -51,8 +49,15 @@ const Profile = ({
   useEffect(() => {
     if (followData.value) {
       setCurrFollowId(followData.value._id);
+      setcountFollowing(prevState => prevState + 1);
     }
   }, [followData.value]);
+
+  useEffect(() => {
+    if (unfollowData.value) {  
+      setcountFollowing(prevState => prevState - 1);
+    }
+  }, [unfollowData.value]);
 
   const handleClickUnFollow = useCallback(async () => { 
     if (!currFollowId) {
@@ -78,6 +83,20 @@ const Profile = ({
     });
   };
 
+  const followToggleButton = (
+    <FollowToggle 
+      isMyProfile={isMyProfile} 
+      followState={followState} 
+      handleClickFollow={handleClickFollow}
+      handleClickUnFollow={handleClickUnFollow}/>
+  );
+
+  const followContainer = (
+    <FollowContainer 
+      countFollower={followers.length} 
+      countFollowing={countFollowing}/>
+  );
+
   return (
     <ProfileWrapper>
       <Avatar 
@@ -86,12 +105,8 @@ const Profile = ({
       />
       <UserInfo 
         fullName={fullName} 
-        followers={followers} 
-        following={following} 
-        isMyProfile={isMyProfile}
-        followState={followState}
-        handleClickUnFollow={handleClickUnFollow} 
-        handleClickFollow={handleClickFollow} 
+        followContainer={followContainer}
+        followToggleButton={followToggleButton} 
       /> 
     </ProfileWrapper>
   );

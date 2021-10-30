@@ -14,15 +14,15 @@ const FollowItem = styled(Flex)`
   margin: 0 12px;
   cursor: pointer;
 `;
-const FollowContainer = ({ followers = [], following = [] }) => {
+const FollowContainer = ({ countFollower, countFollowing }) => {
   return (
     <FollowWrapper justifyContent="center" >
       <FollowItem column alignItems='center' >
-        <Text bold >{`${followers.length}`}</Text>
+        <Text bold >{`${countFollower}`}</Text>
         <Text bold size="sm" >팔로워</Text>
       </FollowItem> 
       <FollowItem column alignItems='center'>
-        <Text bold>{`${following.length}`}</Text>
+        <Text bold>{`${countFollowing}`}</Text>
         <Text bold size="sm">팔로잉</Text>
       </FollowItem>
     </FollowWrapper>
@@ -30,8 +30,8 @@ const FollowContainer = ({ followers = [], following = [] }) => {
 };
 
 FollowContainer.propTypes = {
-  followers: PropTypes.array,
-  following: PropTypes.array
+  countFollower: PropTypes.number,
+  countFollowing: PropTypes.number
 };
 
 export default FollowContainer;
