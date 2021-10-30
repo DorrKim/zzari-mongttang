@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import SignUpForm from '@domains/SignUpForm';
@@ -13,6 +13,7 @@ const SignUpTitle = styled.h1`
 `;
 
 const SignUpPage = () => {
+  const [isSignUped, setIsSignUped] = useState(false);
   const { updateAuthState } = useAuthorization();
   const history = useHistory();
 
@@ -47,9 +48,14 @@ const SignUpPage = () => {
           image
         }});
       alert('회원가입이 완료되었습니다! 해당 계정으로 로그인합니다.');
-      history.push('/');
+
+      setIsSignUped(true);
     } 
   }, [signUpAPIState]);
+
+  useEffect(() => {
+    isSignUped && history.push('/');
+  }, [isSignUped]);
   
   return (
     <>
