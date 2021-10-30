@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
-import { validateForm } from '@library/validate';
+import { validateLogin } from '@library/validate';
 import useForm from '@hooks/useForm';
 
 const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
@@ -15,7 +15,7 @@ const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
       password: ''
     },
     onSubmit: onLogin,
-    validate: validateForm
+    validate: validateLogin
   });
 
   const handleToSubmitPage = useCallback(() => {
