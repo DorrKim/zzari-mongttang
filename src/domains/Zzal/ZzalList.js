@@ -24,6 +24,8 @@ const ZzalList = ({ zzalList }) => {
   const ref = useRef(null);
   const fetchItem = () => setItemCount(prev => prev + 6);
 
+  useEffect(() => console.log(zzalList.value), [zzalList]);
+  
   const handleLoadPost = useCallback(() => {
     fetchItem();
     observer.observe(ref.current);
@@ -71,7 +73,13 @@ const ZzalList = ({ zzalList }) => {
         {(zzalList.value || [])
           .filter((_, idx) => idx < itemCount)
           .map(item => (
-            <ZzalItem key={item._id} id={item._id} imageUrl={item.image} height='100%' number={'3'}/>
+            <ZzalItem 
+              key={item._id} 
+              id={item._id} 
+              imageUrl={item.image} 
+              height='100%' 
+              number={item.likes.length}
+            />
           ))
         }  
         <div ref={ref}></div>
