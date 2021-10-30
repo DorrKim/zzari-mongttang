@@ -1,28 +1,23 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 import Text from '@base/Text';
-import Logo from '@components/Logo';
 import Flex from '@base/Flex';
 import Button from '@base/Button';
+import Logo from '@components/Logo';
 import colors from '@constants/colors';
-import imageSrc from '@assets/test.gif';
-import Avatar from '@components/Avatar';
-import useToggle from '@hooks/useToggle';
-import Modal from '@base/Modal';
 import { useAuthorization } from '@context/AuthorizationProvider';
+import ProfileButton from './ProfileButton';
 
 const HeaderStyled = styled.header`
 padding: 0 16px;
 `;
 
 const Header = ({ ...props }) => {
-  const [showMenuBar, toggleMenuBar] = useToggle(false);
-  const { authState } = useAuthorization();
   const history = useHistory();
-
+  const { authState } = useAuthorization();
   const { isAuthorized } = authState;
   
   const handleToUploadPage = useCallback(() => {
@@ -33,54 +28,43 @@ const Header = ({ ...props }) => {
     }
 
     history.push('/upload');
-
   }, [isAuthorized]);
 
   const handleToLoginPage = useCallback(() => {
     !isAuthorized && history.push('/login');
   }, [isAuthorized]);
 
-  const handleAvatarClick = useCallback(() => {
-    toggleMenuBar();
-  }, [toggleMenuBar]);
 
   return (
     <HeaderStyled {...props}>
       <Flex alignItems='center' justifyContent='flex-end' style={{ gap: 16 }}>
         <Logo link style={{ marginRight: 'auto' }} />
-        <Button 
-          width={70} height={40} 
+        <HeaderButton 
           backgroundColor={colors.PRIMARY_BACKGROUND}
-          borderColor={colors.PRIMARY}
-          borderWidth='0' 
-          borderRadius='4px'
           onClick={handleToUploadPage}
         > 
           <Text bold color={colors.PRIMARY}>글 작성</Text> 
-        </Button>
+        </HeaderButton>
         {isAuthorized
-          ? (
-            <Avatar 
-              src={authState.myUser.image ? authState.myUser.image : imageSrc } 
-              size={45} 
-              onClick={handleAvatarClick} />
-          )
-          : (<Button 
-            width={70} height={40} 
+          ? <ProfileButton userId={authState.myUser?._id} />
+          : <HeaderButton 
             backgroundColor={colors.PRIMARY}
-            borderWidth='0' 
-            borderRadius='4px' 
             onClick={handleToLoginPage}
-          >
-            <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
-          </Button>
-          )
+            >
+              <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+            </HeaderButton>  
         }
       </Flex>
-      <Modal visible={showMenuBar} onClose={handleAvatarClick}>Modal</Modal>
     </HeaderStyled>
   );
 };
+
+const HeaderButton = styled(Button)`
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+`;
 
 // 임시
 Header.propTypes = {

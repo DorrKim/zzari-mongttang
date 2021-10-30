@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
-import Flex from '@/components/base/Flex';
+import Flex from '@base/Flex';
 
 
 const ProfileWrapper = styled(Flex)`

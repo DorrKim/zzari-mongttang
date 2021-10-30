@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 
 import ZzalList from '@domains/Zzal/ZzalList';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
+import useQuery from '@hooks/useQuery';
 
 
 const SearchPage = () => {
-  const { keyword } = useParams();
+  const keyword = useQuery().get('keyword') || '';
   
   const history = useHistory();
   const [zzalList, fetchList] = useAxios();
@@ -19,12 +20,12 @@ const SearchPage = () => {
   }, [keyword]);
 
   const handleToSearchPage = useCallback(value => {
-    value && history.push(`/search=${value}`);
+    value && history.push(`/search?keyword=${value}`);
   }, []);
   
   return (
     <>
-      <SearchBar onToSubmitPage={handleToSearchPage} />
+      <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
       <ZzalList zzalList={zzalList} />
     </>
   );

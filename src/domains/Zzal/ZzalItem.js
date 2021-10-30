@@ -5,7 +5,7 @@ import Image from '@base/Image';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import ReactFreezeframe from 'react-freezeframe';
-import colors from '@utils/constants/colors';
+import colors from '@constants/colors';
 import noImage from '@assets/no_img.png';
 
 

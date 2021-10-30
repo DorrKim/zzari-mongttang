@@ -1,6 +1,6 @@
 import React from 'react';
-import Tab from '@/domains/Tab';
-import Text from '@/components/base/Text';
+import Tab from '@domains/Tab';
+import Text from '@base/Text';
 
 export default {
   title: 'Domain/Tab',
