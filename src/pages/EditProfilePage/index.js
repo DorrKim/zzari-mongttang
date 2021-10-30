@@ -47,8 +47,8 @@ const EditProfilePage = () => {
     const apiList = [];
     // image Changed
     if (imageData && initialImage !== imageUrl) {
-      imageFormData.append('isCover', false);
-      imageFormData.append('image', imageData);
+      imageFormData.set('isCover', false);
+      imageFormData.set('image', imageData);
       apiList.push(updateProfileImage({
         data: imageFormData
       }));

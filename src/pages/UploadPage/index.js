@@ -24,16 +24,17 @@ const UploadPage = () => {
   const handleCreatePost = useCallback(async values => {
 
     const { title, imageData, channelId } = values;
+    console.log(title, imageData, channelId);
     if (!(title && imageData && channelId)){
       alert('짤의 제목, 이미지, 카테고리를 모두 선택해주세요!');
       
       return;
     }
-    imageFormData.append('title', title);
-    imageFormData.append('image', imageData);
-    imageFormData.append('channelId', channelId);
+    imageFormData.set('title', title);
+    imageFormData.set('image', imageData);
+    imageFormData.set('channelId', channelId);
 
-    createPost({
+    await createPost({
       data: imageFormData
     });
     
