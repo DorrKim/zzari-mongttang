@@ -29,7 +29,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     }
     setError(newError);
     setIsLoading(false);
-  }, [validate, onSubmit]);
+  }, [validate, onSubmit, values]);
   
   return {
     values,
