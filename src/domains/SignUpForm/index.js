@@ -5,7 +5,7 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
-import { validateForm } from '@library/validate';
+import { validateSignUp } from '@library/validate';
 
 const SIGN_UP_ERRORS = {
   emailInUse: 'The email address is already being used.'
@@ -28,7 +28,7 @@ const SignUpForm = ({ signupError, onSignUp, onCancel }) => {
       verifyPassword: ''
     },
     onSubmit: onSignUp,
-    validate: validateForm
+    validate: validateSignUp
   });
   const [errorMessage, setErrorMessage] = useState(error);
 
