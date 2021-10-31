@@ -117,12 +117,23 @@ const StyledItem = styled.div`
   justify-content: center;
   box-sizing: border-box;
   border-radius: 4px;
-  object-fit: contain;
   overflow: hidden;
+  position: relative;
   &:hover {
     transition: all 0.2s ease-in;
   }
-  position: relative;
+  @media(max-width: 768px) {
+    width: 210px;
+    height: 210px;
+  }
+  @media(max-width: 680px) {
+    width: 180px;
+    height: 210px;
+  }
+  @media(max-width: 375px) {
+    width: 152px;
+    height: 210px;
+  }
 `;
 
 ZzalItem.propTypes = {
