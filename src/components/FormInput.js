@@ -23,9 +23,6 @@ const FormInput = ({ type = 'text', onChange, value, placeholder, errorMessage, 
         height={48} 
         placeholder={placeholder}
         fontSize={18}
-        style={{ 
-          ...props.style,
-          marginBottom: 3 }}
         {...props}
       />
       <Alert>
@@ -40,8 +37,7 @@ FormInput.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  errorMessage: PropTypes.string,
-  style: PropTypes.object
+  errorMessage: PropTypes.string
 };
 
 export default FormInput;
