@@ -2,30 +2,33 @@ import React from 'react';
 import Input from '@base/Input';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import colors from '@constants/colors';
 
 const Alert = styled.div`
-  font-size: 12px;
-  color: red;
+  font-size: .8rem;
+  color: ${colors.ALERT};
   height: 16px;
   padding: 0 5px;
+`;
+
+const InputStyled = styled(Input)`
+width: 350px;
+height: 48px;
+font-size: 18;
+border-radius: 5px;
+border: 1px solid ${colors.BORDER_SUBTLE};
 `;
 
 const FormInput = ({ type = 'text', onChange, value, placeholder, errorMessage, ...props }) => {
 
   return (
     <>
-      <Input
+      <InputStyled
         type={type}
-        onChange={onChange}
-        value={value} 
         block
-        width={350}
-        height={48} 
+        value={value} 
         placeholder={placeholder}
-        fontSize={18}
-        style={{ 
-          ...props.style,
-          marginBottom: 3 }}
+        onChange={onChange}
         {...props}
       />
       <Alert>
@@ -40,8 +43,7 @@ FormInput.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  errorMessage: PropTypes.string,
-  style: PropTypes.object
+  errorMessage: PropTypes.string
 };
 
 export default FormInput;

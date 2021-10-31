@@ -1,17 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-
-import LoginForm from '@domains/LoginForm';
 import { useHistory } from 'react-router';
-import useAxios from '@hooks/useAxios';
-import { useAuthorization } from '@context/AuthorizationProvider';
 
-// 임시 컴포넌트
-const Logo = styled.div`
-  margin-top: 70px;
-  font-size: 32px;
-  text-align: center;
-`;
+import Flex from '@base/Flex';
+import Logo from '@components/Logo';
+import LoginForm from '@domains/LoginForm';
+import { useAuthorization } from '@context/AuthorizationProvider';
+import useAxios from '@hooks/useAxios';
+import styled from '@emotion/styled';
+import { STYLE_CONSTANTS } from '@constants/margins';
+import Title from '@components/Title';
+
 
 const LoginPage = () => {
   const [isLogined, setIsLogined] = useState(false);
@@ -59,16 +57,22 @@ const LoginPage = () => {
     isLogined && history.push('/');
   }, [isLogined]);
   
-  return <>
-    <Logo> 로고 </Logo>
-    <LoginForm 
-      style={{ 
-        marginTop: 100 }}
-      loginError={loginAPIState.error ? true : false}
-      onLogin={handleLogIn}
-      onToSubmitPage={handleToSubmitPage}
-    />
-  </>;
+  return (
+    <FlexStyled column alignItems='center' style={{ marginTop: 100 }}>
+      <Logo link />
+      <Title>로그인</Title>
+      <LoginForm 
+        style={{ 
+          marginTop: 20 }}
+        loginError={loginAPIState.error ? true : false}
+        onLogin={handleLogIn}
+        onToSubmitPage={handleToSubmitPage}
+      />
+    </FlexStyled>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}
+`;
 
 export default LoginPage;

@@ -1,26 +1,27 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useForm = ({ initialValues, onSubmit, validate }) => {
   const [values, setValues] = useState(initialValues); 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
 
-  const handleChange = target => {
+  const handleChange = useCallback(target => {
     const { name, value } = target;
     const valuesInputed = Object.fromEntries(Object
       .entries(values)
       .filter(([key, value]) => key && value));
+      
     const validateValues = { 
       ...valuesInputed,
       [name]: value 
     };
     validate && setError(validate(validateValues));
-    setValues({ 
+    setValues(values => ({ 
       ...values,
-      [name]: value });
-  };
+      [name]: value }));
+  }, [validate, values]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = useCallback(async e => {
     e.preventDefault();
     setIsLoading(true);
     const newError = validate ? validate(values) : {};
@@ -29,7 +30,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     }
     setError(newError);
     setIsLoading(false);
-  };
+  }, [validate, onSubmit, values]);
   
   return {
     values,
