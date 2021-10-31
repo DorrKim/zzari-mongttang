@@ -31,6 +31,7 @@ const ZzalList = ({ zzalList, loadCount, ...props }) => {
   }
 
   return (
+
     <StyledList {...props}>
       {(zzalList.value || [])
         .filter((_, idx) => idx < itemCount)

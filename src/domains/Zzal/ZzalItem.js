@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Image from '@base/Image';
@@ -8,69 +8,103 @@ import ReactFreezeframe from 'react-freezeframe';
 import colors from '@constants/colors';
 import noImage from '@assets/no_img.png';
 import Favorite from '@components/Favorite';
-import { favoriteAPI } from '@api/favoriteAPI';
 import useToggle from '@hooks/useToggle';
+import { useAuthorization } from '@context/AuthorizationProvider';
+import useAxios from '@hooks/useAxios';
 
 const ZzalItem = ({
-  id,
-  imageUrl = '',
-  number,
+  postId,
+  likes,
+  imageUrl,
   ...props
 }) => {
   const history = useHistory();
   const freeze = useRef();
 
-  const [isToggled, handleToggle] = useToggle();
-  const [likeCount, setLikeCount] = useState(number);
-  const [likesId, setLikesId] = useState('');
-  const [upperLimit, setUpperLimit] = useState('');
-  const [lowerLimit, setLowerLimit] = useState('');
+  const { authState: { isAuthorized, myUser, authToken }} = useAuthorization();
+  const headers = useMemo(() => ({ Authorization: `Bearer ${authToken}` }), [authToken]);
 
-  const onToDetailPage = useCallback(() => {
-    history.push(`/zzal/${id}`);
+  const [isFavoriteToggled, handleToggleFavorite] = useToggle(likes.some(({ user }) => user === myUser._id));
+  const [likeCount, setLikeCount] = useState(likes.length);
+  const [myLikesId, setMyLikesId] = useState(likes.find(({ user }) => user === myUser._id)?._id);
+
+  const [postFavoriteAPIState, postFavorite] = useAxios('/likes/create', {
+    method: 'post'
+  });
+  const [deleteFavoriteAPIState, deleteFavorite] = useAxios('/likes/delete', {
+    method: 'delete'
   });
 
-  const handleClick = async () => { 
-    handleToggle();
-    // Todo : 받아왔을때 좋아요 이미 되어있는지 validation
-    if (!isToggled) {
-      setUpperLimit(upperLimit + 1);
-      const response = await favoriteAPI.postFavorite(id);
-      setLikesId(response._id);
-    } else {
-      setLowerLimit(lowerLimit + 1);
-      await favoriteAPI.deleteFavorite(likesId);
-    }
-    
-    isToggled ? setLikeCount(likeCount - 1) : setLikeCount(likeCount + 1);
-  };
+  const onToDetailPage = useCallback(() => {
+    history.push(`/zzal/${postId}`);
+  }, [postId]);
 
-  const StyledFavorite = styled.div`
-    position: absolute;
-    top: 5%;
-    left: 85%;
-    z-index: 10;
-  `;
-  
+  const handleClickFavorite = useCallback(() => {
+    if (!isAuthorized) {
+      confirm('로그인이 필요한 기능입니다! 로그인 페이지로 이동하시겠습니까?') && history.push('/login');
+
+      return;
+    }
+    isFavoriteToggled
+      ? (
+        deleteFavorite({
+          headers,
+          data: {
+            id: myLikesId
+          }
+        }), 
+        setLikeCount(likeCount => likeCount - 1),
+        setMyLikesId(null)
+      )
+      : (
+        postFavorite({
+          headers,
+          data: {
+            postId
+          }
+        }), 
+        setLikeCount(likeCount => likeCount + 1)
+      );
+    handleToggleFavorite();
+  }, [isAuthorized, isFavoriteToggled, headers, myLikesId, postId, deleteFavorite, postFavorite]);
+
+  useEffect(() => {
+    const { error } = deleteFavoriteAPIState;
+    if (error) {
+      console.error(error);
+
+      return;
+    }
+  }, [deleteFavoriteAPIState]);
+
+  useEffect(() => {
+    const { error, value } = postFavoriteAPIState;
+    if (error) {
+      console.error(error);
+
+      return;
+    }
+
+    value && setMyLikesId(value._id);
+  }, [postFavoriteAPIState]);
+
   return (
     <ReactFreezeframe 
       ref={freeze} 
       options={{ trigger: 'hover' }}>
       <StyledItem>
-        <Image 
+        <Image
           src={imageUrl || noImage} 
           onClick={onToDetailPage}
           style={{ border: `2px solid ${colors.PRIMARY_LIGHT}`,
             'zIndex': 1 }}
           {...props}>
         </Image>
-        <StyledFavorite>
-          <Favorite
-            onClick={handleClick} 
-            number={likeCount}
-            isToggled={isToggled}
-          />
-        </StyledFavorite>
+        <Favorite
+          onClick={handleClickFavorite} 
+          number={likeCount}
+          isToggled={isAuthorized ? isFavoriteToggled : false}
+        />
       </StyledItem>
     </ReactFreezeframe>
   );
@@ -92,12 +126,9 @@ const StyledItem = styled.div`
 `;
 
 ZzalItem.propTypes = {
-  id: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired,
   imageUrl: PropTypes.string,
-  number: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ])
+  likes: PropTypes.array
 };
 
 export default ZzalItem;
