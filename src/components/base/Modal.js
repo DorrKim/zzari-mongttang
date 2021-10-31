@@ -6,6 +6,8 @@ import reactDom from 'react-dom';
 
 
 const BackgroundScreen = styled.div`
+  display: flex;
+  visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
   position: fixed;
   top: 0;
   left: 0;
@@ -18,14 +20,23 @@ const BackgroundScreen = styled.div`
 
 const ModalContainer = styled(Flex)`
   position: fixed;
+  visibility: hidden; 
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(.6);
   padding: 8px;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+  
+  transition: .1s ease-in;
+
+  &.active {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    transition: .2s cubic-bezier(.5,1.75,.5,1.75);
+  }
 `;
 
 
@@ -59,13 +70,15 @@ const Modal = ({
   return reactDom.createPortal(
     <BackgroundScreen 
       justifyContent='center' 
-      alignItems='center' 
-      style={{ display: visible ? 'flex' : 'none' }}
+      alignItems='center'
+      visible={visible}
+      // style={{ display: visible ? 'flex' : 'none' }}
       onClick={onClose}>
       <ModalContainer
         column
         justifyContent='center' 
         alignItems='center'
+        className={visible ? 'active' : ''} 
         style={{ 
           ...props.style,
           ...containerStyle

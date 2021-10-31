@@ -11,6 +11,7 @@ const StyledButton = styled(Button)`
   margin-bottom: 20px;
   border-radius: 4px;
   outline: 4px solid #fcc881;
+ 
 `;
 
 const Title = styled(Text)`
