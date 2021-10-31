@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import Text from '@components/base/Text';
 
-const Number = ({ favoriteCount }) => {
+const Number = ({ value }) => {
   return (
-    <Text>{favoriteCount}</Text>      
+    <Text>{value}</Text>      
   );
 };
 
 Number.propTypes = {
-  favoriteCount: PropTypes.oneOfType([
+  value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
   ])
