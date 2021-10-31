@@ -22,7 +22,7 @@ const Favorite = ({ number, onClick, isToggled }) => {
           style={{ color: isToggled ? 'red' : 'black' }}
         >
         </Icon>
-        <Number favoriteCount={number}></Number>
+        <Number value={number}></Number>
       </FavoriteContainer>
     </>
   );

@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 
 import Text from '@components/base/Text';
 
-const Number = ({ favoriteCount }) => {
+const Number = ({ value = 0 }) => {
+  let formattedNumber = value;
+  
+  if (formattedNumber >= 10) {
+    formattedNumber = (formattedNumber % 1) > 10
+      ? `${(formattedNumber / 10).toFixed(1)}천`
+      : `${(formattedNumber / 10)}천`;
+  }
+  
   return (
-    <Text>{favoriteCount}</Text>      
+    <Text>{formattedNumber}</Text>      
   );
 };
 
 Number.propTypes = {
-  favoriteCount: PropTypes.oneOfType([
+  value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
   ])

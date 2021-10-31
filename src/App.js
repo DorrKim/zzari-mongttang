@@ -74,7 +74,7 @@ function App() {
           <Route path="/editProfile" >
             <EditProfilePage />
           </Route>
-          <Route path="/search=:keyword">
+          <Route path="/search">
             <SearchPage />
           </Route>
           <Route path="/user/:userId">
