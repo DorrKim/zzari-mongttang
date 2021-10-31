@@ -12,9 +12,9 @@ import { favoriteAPI } from '@api/favoriteAPI';
 import useToggle from '@hooks/useToggle';
 
 const ZzalItem = ({
-  id,
-  imageUrl = '',
-  number,
+  postId,
+  likes,
+  imageUrl,
   ...props
 }) => {
   const history = useHistory();

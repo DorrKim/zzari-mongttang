@@ -73,10 +73,10 @@ const ZzalList = ({ zzalList }) => {
           .map(item => (
             <ZzalItem 
               key={item._id} 
-              id={item._id} 
+              postId={item._id} 
+              likes={item.likes}
               imageUrl={item.image} 
               height='100%' 
-              number={item.likes.length}
             />
           ))
         }  
