@@ -102,8 +102,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
           type='square'
           alt='profileImage'
           src={imageUrl ? imageUrl : ''}
-          onChange={handleFileChanged} 
-          onDrop={handleFileChanged}
+          onChange={handleFileChanged}
         />
         <FormInput
           onChange={value => handleChange({ name: 'title',

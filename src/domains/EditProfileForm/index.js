@@ -100,7 +100,6 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
           alt='profileImage'
           src={imageUrl || ''}
           onChange={handleFileChanged} 
-          onDrop={handleFileChanged}
         />
         <FormInput
           onChange={value => handleChange({ name: 'fullName',
