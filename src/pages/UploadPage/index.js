@@ -24,7 +24,6 @@ const UploadPage = () => {
   const handleCreatePost = useCallback(async values => {
 
     const { title, imageData, channelId } = values;
-    console.log(title, imageData, channelId);
     if (!(title && imageData && channelId)){
       alert('짤의 제목, 이미지, 카테고리를 모두 선택해주세요!');
       
@@ -43,10 +42,8 @@ const UploadPage = () => {
 
   const handleCancel = useCallback(() => {
     history.push('/');
-  });
+  }, []);
 
-
-  // 
   useEffect(async () => {
     const { value, error } = createPostAPIState;
     if (error) {
