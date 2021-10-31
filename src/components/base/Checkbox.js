@@ -18,13 +18,14 @@ const CheckboxInput = styled.input`
 const CheckboxSwitch = styled.div`
   ${({ checkStyle }) => checkStyle};
   display: inline-block;
-  padding: 3px 4px;
+  padding: 6px 10px;
   border-radius: 20px;
   user-select: none;
 `;
 
 const Checkbox = ({ 
   name,
+  size = 'md',
   checked = false, 
   unCheckedStyle = { backgroundColor: colors.ACCENT_BACKGROUND },
   checkedStyle = { backgroundColor: colors.ACCENT }, 
@@ -40,7 +41,7 @@ const Checkbox = ({
     <Label {...props}>
       <CheckboxInput type="checkbox" onChange={handleChange} checked={checked}/>
       <CheckboxSwitch checkStyle={checked ? checkedStyle : unCheckedStyle }>
-        <Text size='sm'>{name}</Text>
+        <Text style={{ whiteSpace: 'nowrap' }} size={size}>{name}</Text>
       </CheckboxSwitch>
     </Label>
   );
@@ -48,6 +49,7 @@ const Checkbox = ({
 
 Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
+  size: PropTypes.string,
   checked: PropTypes.bool,
   unCheckedStyle: PropTypes.object,
   checkedStyle: PropTypes.object,
