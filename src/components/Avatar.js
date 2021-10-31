@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 const DEFAULT_PROFILE_URL = 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927'; 
 
 const StyledImage = styled(Image)`
-  outline: 2px solid;
+  outline: 1.5px solid;
   overflow: hidden;
   object-fit: cover;
 `;
