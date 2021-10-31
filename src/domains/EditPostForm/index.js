@@ -104,7 +104,6 @@ const EditPostForm = ({ initialValues, onSubmit, onCancel }) => {
           alt='profileImage'
           src={imageUrl ? imageUrl : ''}
           onChange={handleFileChanged} 
-          onDrop={handleFileChanged}
         />
         <FormInput
           onChange={value => handleChange({ name: 'title',
