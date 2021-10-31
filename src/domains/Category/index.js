@@ -11,19 +11,23 @@ import CategoryList from './CategoryList';
 const MainCategory = ({ channelId, onChange }) => {
   const [categoryList, fetchList] = useAxios('/channels');
   const { isLoading, value } = categoryList;
-
   const [offsetX, setOffsetX] = useState(0);
+  const [categoryListWidth, setCategoryListWidth] = useState(0);
+  const [viewerWidth, setViewerWidth] = useState(0);
 
   const [ref, innerRef] = [useRef(null), useRef(null)];
-  const categoryListWidth = ref.current?.offsetWidth;
-  const viewerWidth = innerRef.current?.offsetWidth;
 
   useEffect(() => {
     fetchList();
   }, []);
 
+  useEffect(() => {
+    value && ref.current && setCategoryListWidth(ref.current.offsetWidth);
+    value && innerRef.current && setViewerWidth(innerRef.current.offsetWidth);
+  }, [value && ref.current, innerRef.current]);
+
   const selectedChip = useMemo(() => value 
-    && Object.values(categoryList.value)
+    && Object.values(value)
       .findIndex(({ _id }) => _id === channelId), [value, channelId]
   );
  
@@ -62,7 +66,7 @@ const MainCategory = ({ channelId, onChange }) => {
         <LeftButton offsetX={offsetX} onClick={handlePrev}>Prev</LeftButton>
         <Inner ref={innerRef}>
           <RefWrapper ref={ref}>
-            <StyledCategoryList selectedIndex={selectedChip} onChange={handleChangeChip}>
+            <StyledCategoryList selectedIndex={selectedChip >= 0 ? selectedChip : 0} onChange={handleChangeChip}>
               {!isLoading && (value?.map(({ _id, name }) => (
                 <CategoryChip style={{ margin: '0 5px' }} size='lg' key={_id} name={name} id={_id} />
               ))
