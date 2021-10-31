@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 import Text from '@base/Text';
 import colors from '@constants/colors';
 import Flex from '@base/Flex';
+import Divider from '@base/Divider';
+import Icon from '@base/Icon';
 
 
 const parseCommentCreateDate = createDate => {
@@ -36,11 +38,6 @@ const parseCommentCreateDate = createDate => {
 const CommentItemWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 320px;
- 
-  margin-top: 16px;
-  background-color: #FBF7F2;
-  border-radius: .5rem;
 `;
 
 const CommentInfo = styled.div`
@@ -51,25 +48,41 @@ const CommentInfo = styled.div`
   box-sizing: border-box;
 `;
 
-const CommentItem = ({ comment }) => {
-  
+const CommentItem = ({ isMyComment, author, createdAt, comment }) => {
+
   return (
-    <CommentItemWrapper>
-      <Avatar src={comment.author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
-      <CommentInfo>
-        <Flex alignItems='center'>
-          <Text bold>{comment.author.fullName}</Text>
-          <Text block size="sm" bold color={colors.TEXT_SUBTLE} style={{ marginLeft: '8px',
-            maxWidth: '200px' }}>{parseCommentCreateDate(comment.createdAt)}</Text>
-        </Flex>
-        <Text style={{ marginTop: '8px' }}>{comment.comment}</Text>
-      </CommentInfo>
-    </CommentItemWrapper>
+    <>
+      <CommentItemWrapper>
+        <Avatar src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
+        <CommentInfo>
+          <Flex alignItems='center' justifiContent='flex-start'>
+            <Text bold>{author.fullName}</Text>
+            <Text 
+              block 
+              size="sm" 
+              bold 
+              color={colors.TEXT_SUBTLE} 
+              style={{ 
+                marginLeft: '8px',
+                maxWidth: '200px' }}>
+              {parseCommentCreateDate(createdAt)}
+            </Text>
+            {isMyComment && <Icon name='remove' style={{ marginLeft: 'auto',
+              marginRight: '8px' }}></Icon>}
+          </Flex>
+          <Text style={{ marginTop: '8px' }}>{comment}</Text>
+        </CommentInfo>
+      </CommentItemWrapper>
+      <Divider color="lightgray"/>
+    </>
   );
 };
 
 CommentItem.propTypes = {
-  comment: PropTypes.object
+  author: PropTypes.object,
+  isMyComment: PropTypes.bool,
+  createdAt: PropTypes.string,
+  comment: PropTypes.string
 };
 
 export default CommentItem;
