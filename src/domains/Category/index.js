@@ -11,19 +11,23 @@ import CategoryList from './CategoryList';
 const MainCategory = ({ channelId, onChange }) => {
   const [categoryList, fetchList] = useAxios('/channels');
   const { isLoading, value } = categoryList;
-
   const [offsetX, setOffsetX] = useState(0);
+  const [categoryListWidth, setCategoryListWidth] = useState(0);
+  const [viewerWidth, setViewerWidth] = useState(0);
 
   const [ref, innerRef] = [useRef(null), useRef(null)];
-  const categoryListWidth = ref.current?.offsetWidth;
-  const viewerWidth = innerRef.current?.offsetWidth;
 
   useEffect(() => {
     fetchList();
   }, []);
 
+  useEffect(() => {
+    value && ref.current && setCategoryListWidth(ref.current.offsetWidth);
+    value && innerRef.current && setViewerWidth(innerRef.current.offsetWidth);
+  }, [value && ref.current, innerRef.current]);
+
   const selectedChip = useMemo(() => value 
-    && Object.values(categoryList.value)
+    && Object.values(value)
       .findIndex(({ _id }) => _id === channelId), [value, channelId]
   );
  
@@ -55,6 +59,15 @@ const MainCategory = ({ channelId, onChange }) => {
   const handleChangeChip = useCallback(e => {
     onChange(e.id);
   }, [onChange]);
+
+  // selectedChip 없을시 0 Index 값 Select
+  useEffect(() => {
+    if (value && selectedChip === - 1) {
+      const [{ _id: defaultChannelId }] = Object.values(value);
+      onChange && onChange(defaultChannelId);
+    } 
+  }, [selectedChip, value]);
+
 
   return (
     <>

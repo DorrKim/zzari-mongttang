@@ -5,24 +5,25 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
-import { validateUploadPost } from '@library/validate';
+import { validateEditPost } from '@library/validate';
 import Uploader from '@domains/Uploader';
-import MainCategory from '@domains/Category';
+import CategoryList from '@domains/Category/CategoryList';
+import CategoryChip from '@domains/Category/CategoryChip';
 
 
 const UPLOAD_POST_ERROR_MESSAGES = {
   image: '이미지 형식만을 선택해주세요!',
   title: '제목을 입력해 주세요!',
-  category: '카테고리를 반드시 하나 선택하세요'
+  channelId: '카테고리를 선택해주세요!'
 };
 
 let reader = null;
 
-const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
+const EditPostForm = ({ initialValues, onSubmit, onCancel }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
     initialValues,
     onSubmit,
-    validate: validateUploadPost
+    validate: validateEditPost
   });
   const [errorMessage, setErrorMessage] = useState(error);
 
@@ -62,9 +63,9 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     }
   }, [makeImageDataToUrl, handleChange]);
 
-  const handleCategoryChange = useCallback(value => {
+  const handleCategoryChange = useCallback(e => {
     handleChange({ name: 'channelId',
-      value });
+      value: e.id });
   }, [handleChange]);
 
   useEffect(() => {
@@ -90,7 +91,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     setErrorMessage(newErrorMessage);
   }, [error]);
   
-  const { title, imageUrl, channelId } = values;
+  const { title, imageUrl } = values;
     
   return (
     <form onSubmit={handleSubmit}>
@@ -113,7 +114,12 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
           errorMessage={errorMessage.title
           }
         />
-        <MainCategory channelId={channelId} onChange={handleCategoryChange} />
+        <CategoryList selectedIndex={0} onChange={handleCategoryChange}>
+          <CategoryChip id='617442532f037c2ea0595a96' name='행복'/>
+          <CategoryChip id='61755fa5359c4371f68ac695' name='홍중'/>
+          <CategoryChip id='617aea895bdac52c86785f2f' name='멘붕'/>
+          <CategoryChip id='617aea975bdac52c86785f34' name='화남'/>
+        </CategoryList>
         <Flex justifyContent='space-between'>
           <Button 
             type='submit' 
@@ -138,10 +144,10 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
   );
 };
 
-UploadPostForm.propTypes = {
+EditPostForm.propTypes = {
   initialValues: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
-export default UploadPostForm;
+export default EditPostForm;

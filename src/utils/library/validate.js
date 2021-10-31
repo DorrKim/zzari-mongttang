@@ -122,3 +122,19 @@ export const validateUploadPost = values => Object
         return acc;
     }
   }, {});
+
+export const validateEditPost = values => Object
+  .keys(values)
+  .reduce((acc, name) => {
+    switch (name) {
+      case 'title':
+        !validateTitle(values[name])
+          ? acc[name] = true
+          : null;
+
+        return acc;
+      default:
+        return acc;
+    }
+  }, {});
+
