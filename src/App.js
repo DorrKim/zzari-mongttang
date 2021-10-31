@@ -31,7 +31,6 @@ function App() {
             <SignUpPage />
           </Route>
           <Route path="/editProfile" >
-            <Header />
             <EditProfilePage />
           </Route>
           <Route path="/search">
