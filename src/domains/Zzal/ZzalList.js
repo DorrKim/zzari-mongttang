@@ -38,10 +38,10 @@ const ZzalList = ({ zzalList, loadCount, ...props }) => {
         .map(item => (
           <ZzalItem 
             key={item._id} 
-            id={item._id} 
             imageUrl={item.image} 
             height='100%' 
-            number={item.likes.length}
+            postId={item._id} 
+            likes={item.likes}
           />
         ))
       }  
