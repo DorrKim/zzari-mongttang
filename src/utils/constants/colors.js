@@ -8,5 +8,6 @@ export default {
   TEXT_NORMAL: '#333333',
   TEXT_SUBTLE: '#767676',
   BORDER_NORMAL: '#111111',
-  BORDER_SUBTLE: '#AAAAAA'
+  BORDER_SUBTLE: '#AAAAAA',
+  ALERT: '#eb2f06'
 };

@@ -6,11 +6,9 @@ import Flex from '@base/Flex';
 import { useHistory } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
-
-const SignUpTitle = styled.h1`
-  font-size: 32px;
-  margin-bottom: 50px;
-`;
+import { STYLE_CONSTANTS } from '@constants/margins';
+import Logo from '@components/Logo';
+import Title from '@components/Title';
 
 const SignUpPage = () => {
   const [isSignUped, setIsSignUped] = useState(false);
@@ -41,7 +39,8 @@ const SignUpPage = () => {
           user: { _id, fullName, image }
         }
       } = signUpAPIState;
-      updateAuthState({ authToken: token,
+      updateAuthState({ 
+        authToken: token,
         myUser: {
           _id,
           fullName,
@@ -59,15 +58,20 @@ const SignUpPage = () => {
   
   return (
     <>
-      <Flex column alignItems='center'>
-        <SignUpTitle>회원가입</SignUpTitle>
-        {/* <p>저희 페이지에서 회원가입을 하시면...</p> */}
+      <FlexStyled column alignItems='center'>
+        <Logo link />
+        <Title>회원가입</Title>
         <SignUpForm
           signupError={signUpAPIState.error}
           onSignUp={handleSignUp} 
           onCancel={handleCancel} />
-      </Flex>
+      </FlexStyled>
     </>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}px;
+`;
+
 
 export default SignUpPage;
