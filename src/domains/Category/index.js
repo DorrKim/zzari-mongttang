@@ -60,13 +60,22 @@ const MainCategory = ({ channelId, onChange }) => {
     onChange(e.id);
   }, [onChange]);
 
+  // selectedChip 없을시 0 Index 값 Select
+  useEffect(() => {
+    if (value && selectedChip === - 1) {
+      const [{ _id: defaultChannelId }] = Object.values(value);
+      onChange && onChange(defaultChannelId);
+    } 
+  }, [selectedChip, value]);
+
+
   return (
     <>
       <Wrapper>
         <LeftButton offsetX={offsetX} onClick={handlePrev}>Prev</LeftButton>
         <Inner ref={innerRef}>
           <RefWrapper ref={ref}>
-            <StyledCategoryList selectedIndex={selectedChip >= 0 ? selectedChip : 0} onChange={handleChangeChip}>
+            <StyledCategoryList selectedIndex={selectedChip} onChange={handleChangeChip}>
               {!isLoading && (value?.map(({ _id, name }) => (
                 <CategoryChip style={{ margin: '0 5px' }} size='lg' key={_id} name={name} id={_id} />
               ))
