@@ -29,6 +29,8 @@ const ZzalList = ({ zzalList }) => {
     observer.observe(ref.current);
   }, [zzalList, observer]);
 
+  useEffect(() => console.log(zzalList.value), []);
+
   useEffect(() => {
     const { isLoading, value } = zzalList; 
 
@@ -70,13 +72,14 @@ const ZzalList = ({ zzalList }) => {
       <Grid gridProps={gridProps}>
         {(zzalList.value || [])
           .filter((_, idx) => idx < itemCount)
-          .map(item => (
+          .map(({ _id, image, likes, author }) => (
             <ZzalItem 
-              key={item._id} 
-              id={item._id} 
-              imageUrl={item.image} 
+              key={_id} 
+              id={_id} 
+              imageUrl={image} 
               height='100%' 
-              number={item.likes.length}
+              number={likes.length}
+              authorId={author._id}
             />
           ))
         }  
