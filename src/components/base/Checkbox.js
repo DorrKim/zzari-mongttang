@@ -41,7 +41,7 @@ const Checkbox = ({
     <Label {...props}>
       <CheckboxInput type="checkbox" onChange={handleChange} checked={checked}/>
       <CheckboxSwitch checkStyle={checked ? checkedStyle : unCheckedStyle }>
-        <Text size={size}>{name}</Text>
+        <Text style={{ whiteSpace: 'nowrap' }} size={size}>{name}</Text>
       </CheckboxSwitch>
     </Label>
   );
