@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@components/Avatar';
 import styled from '@emotion/styled';
@@ -48,7 +48,10 @@ const CommentInfo = styled.div`
   box-sizing: border-box;
 `;
 
-const CommentItem = ({ isMyComment, author, createdAt, comment }) => {
+const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickDelete }) => {
+  const onClickDelte = useCallback(() => {
+    handleClickDelete && handleClickDelete(id);
+  }, [id, handleClickDelete]);
 
   return (
     <>
@@ -67,8 +70,13 @@ const CommentItem = ({ isMyComment, author, createdAt, comment }) => {
                 maxWidth: '200px' }}>
               {parseCommentCreateDate(createdAt)}
             </Text>
-            {isMyComment && <Icon name='remove' style={{ marginLeft: 'auto',
-              marginRight: '8px' }}></Icon>}
+            {isMyComment 
+            && <Icon 
+              name='remove' 
+              style={{ 
+                marginLeft: 'auto',
+                marginRight: '8px' }}
+              onClick={onClickDelte}/>}
           </Flex>
           <Text style={{ marginTop: '8px' }}>{comment}</Text>
         </CommentInfo>
@@ -79,10 +87,12 @@ const CommentItem = ({ isMyComment, author, createdAt, comment }) => {
 };
 
 CommentItem.propTypes = {
+  id: PropTypes.string,
   author: PropTypes.object,
   isMyComment: PropTypes.bool,
   createdAt: PropTypes.string,
-  comment: PropTypes.string
+  comment: PropTypes.string,
+  handleClickDelete: PropTypes.func
 };
 
 export default CommentItem;

@@ -21,6 +21,11 @@ export const Default = () => {
   const { comments } = value;
   
   return (
-    <Comment comments={comments}></Comment>
+    <Comment 
+      comments={comments} 
+      myName='DOrrDorr123' 
+      handleClickDelete={id => alert(id)}
+      handleSubmit={value => alert(value) } 
+    ></Comment>
   );
 };
