@@ -1,23 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
-import styled from '@emotion/styled';
+import useAxios from '@hooks/useAxios';
+import { useMemo } from 'react';
 
 import Button from '@components/base/Button';
 import Icon from '@components/base/Icon';
 import Image from '@base/Image';
 import Text from '@base/Text';
-import Number from '@components/Number';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import Avatar from '@components/Avatar';
-import useAxios from '@hooks/useAxios';
-import { useMemo } from 'react';
-
-const Icons = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import Flex from '@base/Flex';
 
 const DetailPage = () => {
   const { zzalId } = useParams();
@@ -30,7 +23,7 @@ const DetailPage = () => {
     method: 'delete'
   });
 
-  const [deletedComment, deleteComment] = useAxios('/comments/delete', {
+  const [deleteComment] = useAxios('/comments/delete', {
     method: 'delete'
   });
 
@@ -39,6 +32,7 @@ const DetailPage = () => {
   });
 
   const { myUser } = authState;
+
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
   }, []);
@@ -65,31 +59,77 @@ const DetailPage = () => {
       headers,
       data: { id: '아이디' }
     });
-    console.log(deletedComment);
+  };
+  
+  const handleClickCopy = () => {
+    navigator.clipboard.writeText(details.value?.image);
   };
   
   return (
-    <>
-      <h1>짤 아이디 {zzalId}</h1>
-      <Text>{details?.title}</Text>
-      <Image src={details.value?.image ? details?.value?.image : ''}></Image>
-      <Button>복사</Button>
-      <Icons>
+    <div style={{ 
+      margin: '0 auto',
+      width: '40%'
+    }}>
+      <Flex
+        style={{}}
+      >
+        <div
+          style={{ 
+            width: '10%'
+          }}
+        >
+          <Icon 
+            name={'arrowBack'}
+          >
+          </Icon>
+        </div>
+        <div
+          style={{ 
+            width: '90%'
+          }}
+        >
+          <Text>{details?.value?.title}</Text>
+        </div>
+      </Flex>
+      <div
+        style={{ 
+          width: '100%'
+        }}
+      >
+        <Image 
+          src={details.value?.image 
+            ? details?.value?.image 
+            : ''}
+          width='100%'
+          height='content-fit'
+        >
+        </Image>
+        <Button 
+          onClick={handleClickCopy}
+          width='100%'
+          height='40px'
+        >
+          <Text 
+            bold
+          >복사</Text>
+        </Button>
+      </div>
+      <Flex>
         <Icon
           name={'heart'}
         ></Icon>
-        <Number 
-          number={details?.value?.likes?.length}
-        ></Number>
+        <h1>
+          {details?.value?.likes?.length}
+        </h1>
         <Icon
           name={'comment'}
         ></Icon>
-        <Number 
-          number={details?.value?.comments?.length}
-        ></Number>
+        <h1>
+          {details?.value?.comments?.length}
+        </h1>
         {
           myUser?._id === details?.value?.author?._id
-            ? <>
+            ? <div style={{ marginLeft: 'auto' }}>
               <Icon
                 name={'edit'}
               ></Icon>
@@ -97,13 +137,18 @@ const DetailPage = () => {
                 name={'remove'}
                 onClick={handleClickRemovePosting}
               ></Icon>
-            </>
+            </div>
             : <div></div>
         }
+        
+      </Flex>
+      <span style={{ display: 'flex',
+        justifyContent: 'center', 
+        alignItems: 'center' }}>
         <Icon
           name={'arrowDown'}
         ></Icon>
-      </Icons>
+      </span>
       <div>
         <Avatar></Avatar>
         <Text>승희</Text>
@@ -134,7 +179,7 @@ const DetailPage = () => {
           </div>
           ) : <div></div>
       }
-    </>
+    </div>
   );
 };
 
