@@ -6,16 +6,15 @@ import ZzalItem from '@domains/Zzal/ZzalItem';
 import useInfinteScroll from '@hooks/useInfinteScroll';
 
 
-const ZzalList = ({ zzalList, loadCount, ...props }) => {
+const ZzalList = ({ zzalList, loadCount = 6, ...props }) => {
   const [target, setTarget] = useState(null);
-  const [itemCount, setItemCount] = useState(loadCount);
+  const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
 
   useInfinteScroll({
     target,
     onIntersect: ([{ isIntersecting }]) => {
       if (itemCount < value?.length && isIntersecting) {
-        console.log('loading');
         setItemCount(prevCount => prevCount + loadCount);
       }
     },
@@ -31,10 +30,9 @@ const ZzalList = ({ zzalList, loadCount, ...props }) => {
   }
 
   return (
-
     <StyledList {...props}>
       {(zzalList.value || [])
-        .filter((_, idx) => idx < itemCount)
+        .filter((_, idx) => idx < loadCount)
         .map(item => (
           <ZzalItem 
             key={item._id} 
@@ -49,7 +47,6 @@ const ZzalList = ({ zzalList, loadCount, ...props }) => {
     </StyledList>
   );
 };
-
 
 const StyledList = styled.div`
   display: flex;
