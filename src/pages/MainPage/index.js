@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import ZzalList from '@domains/Zzal/ZzalList';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
-import Category from '@domains/Category';
+import CategoryCrousel from '@domains/Category';
 import useQuery from '@hooks/useQuery';
 
 
@@ -21,7 +21,7 @@ const MainPage = () => {
     });
   }, [channelId]);
 
-  const handleLoadData = useCallback(id => {
+  const handleChangeCategory = useCallback(id => {
     id && history.push(`/?channelId=${id}`);
   }, []);
 
@@ -32,7 +32,7 @@ const MainPage = () => {
   return (
     <>
       <SearchBar onToSubmitPage={handleToSearchPage} />
-      <Category.MainCategory channelId={channelId} onClickChip={handleLoadData} />
+      <CategoryCrousel channelId={channelId} onChange={handleChangeCategory} />
       <ZzalList zzalList={zzalList} />
     </>
   );
