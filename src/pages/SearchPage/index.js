@@ -7,10 +7,11 @@ import useAxios from '@hooks/useAxios';
 import useQuery from '@hooks/useQuery';
 
 
+const ZZAL_ITEM_LOAD_COUNT = 6;
+
 const SearchPage = () => {
-  const keyword = useQuery().get('keyword') || '';
-  
   const history = useHistory();
+  const keyword = useQuery().get('keyword') || '';
   const [zzalList, fetchList] = useAxios();
   
   useEffect(() => {
@@ -19,6 +20,8 @@ const SearchPage = () => {
     });
   }, [keyword]);
 
+  console.log(zzalList);
+
   const handleToSearchPage = useCallback(value => {
     value && history.push(`/search?keyword=${value}`);
   }, []);
@@ -26,10 +29,9 @@ const SearchPage = () => {
   return (
     <>
       <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
-      <ZzalList zzalList={zzalList} />
+      <ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
     </>
   );
 };
-
 
 export default SearchPage;
