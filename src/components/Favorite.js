@@ -13,6 +13,7 @@ const FavoriteContainer = styled.div`
   position: absolute;
   top: 5%;
   left: 85%;
+  gap: 4px;
   z-index: 10;
 `;
 
