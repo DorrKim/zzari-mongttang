@@ -7,8 +7,7 @@ import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
 import { validateUploadPost } from '@library/validate';
 import Uploader from '@domains/Uploader';
-import CategoryList from '@domains/Category/CategoryList';
-import CategoryChip from '@domains/Category/CategoryChip';
+import MainCategory from '@domains/Category';
 
 
 const UPLOAD_POST_ERROR_MESSAGES = {
@@ -63,9 +62,9 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     }
   }, [makeImageDataToUrl, handleChange]);
 
-  const handleCategoryChange = useCallback(e => {
+  const handleCategoryChange = useCallback(value => {
     handleChange({ name: 'channelId',
-      value: e.id });
+      value });
   }, [handleChange]);
 
   useEffect(() => {
@@ -91,7 +90,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     setErrorMessage(newErrorMessage);
   }, [error]);
   
-  const { title, imageUrl } = values;
+  const { title, imageUrl, channelId } = values;
     
   return (
     <form onSubmit={handleSubmit}>
@@ -114,12 +113,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
           errorMessage={errorMessage.title
           }
         />
-        <CategoryList selectedIndex={- 1} onChange={handleCategoryChange}>
-          <CategoryChip id='617442532f037c2ea0595a96' name='행복'/>
-          <CategoryChip id='61755fa5359c4371f68ac695' name='홍중'/>
-          <CategoryChip id='617aea895bdac52c86785f2f' name='멘붕'/>
-          <CategoryChip id='617aea975bdac52c86785f34' name='화남'/>
-        </CategoryList>
+        <MainCategory channelId={channelId} onChange={handleCategoryChange} />
         <Flex justifyContent='space-between'>
           <Button 
             type='submit' 
