@@ -58,7 +58,7 @@ const LoginPage = () => {
   }, [isLogined]);
   
   return (
-    <FlexStyled column alignItems='center' style={{ marginTop: 100 }}>
+    <FlexStyled column alignItems='center'>
       <Logo link />
       <Title>로그인</Title>
       <LoginForm 
@@ -72,7 +72,7 @@ const LoginPage = () => {
 };
 
 const FlexStyled = styled(Flex)`
-  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}px;
 `;
 
 export default LoginPage;

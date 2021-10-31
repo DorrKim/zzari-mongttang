@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import Button from '@base/Button';
 import FormInput from '@components/FormInput';
-import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
 import { validateSignUp } from '@library/validate';
 import Uploader from '@domains/Uploader';
+import Divider from '@base/Divider';
+import colors from '@constants/colors';
+import styled from '@emotion/styled';
 
 
 const EDIT_PROFILE_ERROR_MESSAGES = {
@@ -90,66 +92,78 @@ const EditProfileForm = ({ initialValues, onEditProfile, onCancel }) => {
   const { fullName, password, verifyPassword, imageUrl } = values;
     
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex column alignItems='center'>
-        <Uploader 
-          droppable
-          width={150}
-          height={150}
-          type='circle'
-          alt='profileImage'
-          src={imageUrl || ''}
-          onChange={handleFileChanged} 
-        />
-        <FormInput
-          onChange={value => handleChange({ name: 'fullName',
-            value })}
-          value={fullName}
-          placeholder='닉네임 (2자이상 10자이하)'
-          errorMessage={errorMessage.fullName
-          }
-        />
-        <FormInput
-          type='password'
-          onChange={value => handleChange({ name: 'password',
-            value })}
-          value={password}
-          placeholder='변경할 비밀번호 (6자이상 18자이하)'
-          errorMessage={errorMessage.password
-          }
-        />
-        <FormInput
-          type='password'
-          onChange={value => handleChange({ name: 'verifyPassword',
-            value })}
-          value={verifyPassword}
-          placeholder='변경할 비밀번호 확인'
-          errorMessage={errorMessage.verifyPassword
-          }
-        />
-        <Flex justifyContent='space-between'>
-          <Button 
-            type='submit' 
-            disabled={isLoading} 
-            style={{ border: 'none' }} 
-            borderRadius={'4px'}
-            backgroundColor={'#FD9F28'} 
-            width={164} 
-            height={60}
-          >수정</Button>
-          <Button 
-            style={{ border: 'none' }}
-            borderRadius={'4px'} 
-            backgroundColor={'#dddd'} 
-            width={164} 
-            height={60}
-            onClick={handleCancelClick} 
-          >취소</Button>
-        </Flex>
-      </Flex>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Uploader 
+        droppable
+        width={150}
+        height={150}
+        type='circle'
+        alt='profileImage'
+        src={imageUrl || ''}
+        onChange={handleFileChanged} 
+      />
+      <Divider size={30} color={colors.PRIMARY_BACKGROUND}/>
+      <FormInput
+        onChange={value => handleChange({ name: 'fullName',
+          value })}
+        value={fullName}
+        placeholder='닉네임 (2자이상 10자이하)'
+        errorMessage={errorMessage.fullName
+        }
+      />
+      <FormInput
+        type='password'
+        onChange={value => handleChange({ name: 'password',
+          value })}
+        value={password}
+        placeholder='변경할 비밀번호 (6자이상 18자이하)'
+        errorMessage={errorMessage.password
+        }
+      />
+      <FormInput
+        type='password'
+        onChange={value => handleChange({ name: 'verifyPassword',
+          value })}
+        value={verifyPassword}
+        placeholder='변경할 비밀번호 확인'
+        errorMessage={errorMessage.verifyPassword
+        }
+      />
+      <ButtonContainer>
+        <Button 
+          type='submit' 
+          disabled={isLoading} 
+          style={{ border: 'none' }} 
+          borderRadius={'4px'}
+          backgroundColor={'#FD9F28'} 
+          width={164}
+          height={60}
+        >수정</Button>
+        <Button 
+          style={{ border: 'none' }}
+          borderRadius={'4px'} 
+          backgroundColor={'#dddd'} 
+          width={164} 
+          height={60}
+          onClick={handleCancelClick} 
+        >취소</Button>
+      </ButtonContainer>
+    </Form>
   );
 };
+
+const Form = styled.form`
+display:flex;
+flex-direction: column;
+align-items: center;
+gap: 5px;
+`;
+
+const ButtonContainer = styled.div`
+display: flex;
+width: 100%;
+justify-content: space-between;
+`;
 
 EditProfileForm.propTypes = {
   initialValues: PropTypes.object,
