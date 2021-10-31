@@ -9,8 +9,9 @@ import Icon from '@components/base/Icon';
 import Image from '@base/Image';
 import Text from '@base/Text';
 import { useAuthorization } from '@context/AuthorizationProvider';
-import Avatar from '@components/Avatar';
+// import Avatar from '@components/Avatar';
 import Flex from '@base/Flex';
+import Comment from '@domains/Comment';
 
 const DetailPage = () => {
   const { zzalId } = useParams();
@@ -19,15 +20,15 @@ const DetailPage = () => {
 
   const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
   const [details, getDetails] = useAxios();
-  const [deletePost] = useAxios('/posts/delete', {
+  const [, deletePost] = useAxios('/posts/delete', {
     method: 'delete'
   });
 
-  const [deleteComment] = useAxios('/comments/delete', {
+  const [, deleteComment] = useAxios('/comments/delete', {
     method: 'delete'
   });
 
-  const [postComment] = useAxios('/comments/create', {
+  const [, postComment] = useAxios('/comments/create', {
     method: 'post'
   });
 
@@ -44,26 +45,27 @@ const DetailPage = () => {
     });
   };
 
-  const handleClickSubmitComment = async () => {
+  const handleClickSubmitComment = async comment => {
     await postComment({ 
       headers,
       data: { 
-        comment: '댓글 내용',
+        comment,
         postId: zzalId
       }
     });
   };
 
-  const handleClickRemoveComment = async () => {
+  const handleClickRemoveComment = async id => {
     await deleteComment({ 
       headers,
-      data: { id: '아이디' }
+      data: { id }
     });
   };
   
   const handleClickCopy = () => {
     navigator.clipboard.writeText(details.value?.image);
   };
+  console.log(details?.value);
   
   return (
     <div style={{ 
@@ -149,35 +151,16 @@ const DetailPage = () => {
           name={'arrowDown'}
         ></Icon>
       </span>
-      <div>
-        <Avatar></Avatar>
-        <Text>승희</Text>
-        <Button
-          onClick={handleClickSubmitComment}
-        >제출</Button>
-      </div>
-      {
-        details?.value?.comments 
-          ? details?.value?.comments.map(commentInfo => <div key={commentInfo?._id}>
-            <Avatar></Avatar>
-            <Text>{commentInfo?.author?.fullName}</Text>
-            <Text>{commentInfo?.createdAt}</Text>
-            <Text>{commentInfo?.comment}</Text>
-            {
-              myUser?._id === commentInfo?.author?._id 
-                ? <>
-                  <Icon
-                    name={'edit'}
-                  ></Icon>
-                  <Icon
-                    name={'remove'}
-                    onClick={handleClickRemoveComment}
-                  ></Icon>
-                </>
-                : <></>
-            } 
-          </div>
-          ) : <div></div>
+
+      {details?.value?.comments
+        ? <Comment
+          comments={details?.value?.comments}
+          myUserId={myUser?._id}
+          myName={myUser?.fullName}
+          handleSubmit={handleClickSubmitComment}
+          handleClickDelete={handleClickRemoveComment}
+        />
+        : <></>
       }
     </div>
   );
