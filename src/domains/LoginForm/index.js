@@ -6,7 +6,6 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import { validateLogin } from '@library/validate';
 import useForm from '@hooks/useForm';
-import colors from '@constants/colors';
 
 const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
@@ -49,40 +48,21 @@ const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
           ? '로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인해주세요'
           : ''}
       />
-      <Button 
+      <ButtonStyled 
         type='submit'
         disabled={isLoading}
-        style={{ 
-          border: 'none',
-          display: 'block',
-          marginTop: 60,
-          marginBottom: 16 }}
         backgroundColor={'#FD9F28'} 
         borderRadius={'4px'} 
-        width='100%'
-        height={60}
-        hover={{ filter: 'brightness(90%)' }}
-        focus={null}
-        active={{ filter: 'brightness(80%)' }}
       > 
           로그인 
-      </Button>
-      <Button 
-        style={{ 
-          border: 'none',
-          display: 'block' 
-        }}
+      </ButtonStyled>
+      <ButtonStyled 
         backgroundColor={'#ffffff'}
         borderRadius={'4px'}
-        width='100%'
-        height={60}
-        hover={{ filter: 'brightness(90%)' }}
-        focus={null}
-        active={{ filter: 'brightness(80%)' }}
         onClick={handleToSubmitPage} 
       >
             회원가입
-      </Button>
+      </ButtonStyled>
     </Form>
   );
 };
@@ -94,13 +74,23 @@ const Form = styled.form`
 `;
 
 const FormInputStyled = styled(FormInput)`
-border-radius: 5px;
-height: 60px;
-border: 1px solid ${colors.BORDER_SUBTLE};
+
 margin-bottom: 5px;
 
 &:nth-of-type(2) {
   margin-top: 20px;
+}
+`;
+
+const ButtonStyled = styled(Button)`
+border: none;
+display: block;
+width: 100%;
+height: 60px;
+
+&:nth-of-type(1) {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 `;
 

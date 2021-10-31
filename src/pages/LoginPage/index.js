@@ -6,6 +6,9 @@ import Logo from '@components/Logo';
 import LoginForm from '@domains/LoginForm';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import useAxios from '@hooks/useAxios';
+import styled from '@emotion/styled';
+import { STYLE_CONSTANTS } from '@constants/margins';
+import Title from '@components/Title';
 
 
 const LoginPage = () => {
@@ -55,16 +58,21 @@ const LoginPage = () => {
   }, [isLogined]);
   
   return (
-    <Flex column alignItems='center' style={{ marginTop: 100 }}>
+    <FlexStyled column alignItems='center' style={{ marginTop: 100 }}>
       <Logo link />
+      <Title>로그인</Title>
       <LoginForm 
         style={{ 
-          marginTop: 100 }}
+          marginTop: 20 }}
         loginError={loginAPIState.error ? true : false}
         onLogin={handleLogIn}
         onToSubmitPage={handleToSubmitPage}
       />
-    </Flex>);
+    </FlexStyled>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}
+`;
 
 export default LoginPage;
