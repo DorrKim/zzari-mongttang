@@ -10,6 +10,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     const valuesInputed = Object.fromEntries(Object
       .entries(values)
       .filter(([key, value]) => key && value));
+      
     const validateValues = { 
       ...valuesInputed,
       [name]: value 
@@ -18,7 +19,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     setValues(values => ({ 
       ...values,
       [name]: value }));
-  }, [validate]);
+  }, [validate, values]);
 
   const handleSubmit = useCallback(async e => {
     e.preventDefault();
