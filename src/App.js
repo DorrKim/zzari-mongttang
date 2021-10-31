@@ -4,8 +4,7 @@ import { Global, css } from '@emotion/react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 
 import Header from '@domains/Header';
@@ -16,54 +15,14 @@ import PersonalPage from '@pages/PersonalPage';
 import SearchPage from '@pages/SearchPage';
 import SignUpPage from '@pages/SignUpPage';
 import UploadPage from '@pages/UploadPage';
-import { useAuthorization } from '@context/AuthorizationProvider';
 import EditProfilePage from '@pages/EditProfilePage';
 import EditPostPage from '@pages/EditPostPage';
 
-
 function App() {
-  const { authState, updateAuthState, clearAuthState } = useAuthorization();
-  const { isAuthorized } = authState;
 
-  // test Code
-  const handleAuthorized = () => {
-    !isAuthorized
-      ? updateAuthState({ authToken: 'testToken',
-        myUserId: 'testId' })
-      : clearAuthState();
-  };
-  
   return (
     <>
       <Router>
-        <Header />
-        <input type='checkbox' checked={isAuthorized} onChange={handleAuthorized} />
-        {isAuthorized ? '로그인 됨' : '로그인 안됨'}
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">메인페이지</Link>
-            </li>
-            <li>
-              <Link to="/login">로그인</Link>
-            </li>
-            <li>
-              <Link to="/signup">회원가입</Link>
-            </li>
-            <li>
-              <Link to="/search/hongjung">검색결과</Link>
-            </li>
-            <li>
-              <Link to="/user/1">유저1</Link>
-            </li>
-            <li>
-              <Link to="/zzal/1">짤1</Link>
-            </li>
-            <li>
-              <Link to="/upload">업로드</Link>
-            </li>
-          </ul>
-        </nav>
         <Switch>
           <Route path="/login">
             <LoginPage />
@@ -72,15 +31,19 @@ function App() {
             <SignUpPage />
           </Route>
           <Route path="/editProfile" >
+            <Header />
             <EditProfilePage />
           </Route>
           <Route path="/search">
+            <Header />
             <SearchPage />
           </Route>
           <Route path="/user/:userId">
+            <Header />
             <PersonalPage />
           </Route>
           <Route path="/zzal/:zzalId">
+            <Header />
             <DetailPage />
           </Route>
           <Route path="/editZzal/:zzalId">
@@ -90,6 +53,7 @@ function App() {
             <UploadPage />
           </Route>
           <Route path="/">
+            <Header />
             <MainPage />
           </Route>
         </Switch>
