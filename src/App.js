@@ -18,6 +18,7 @@ import SignUpPage from '@pages/SignUpPage';
 import UploadPage from '@pages/UploadPage';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import EditProfilePage from '@pages/EditProfilePage';
+import EditPostPage from '@pages/EditPostPage';
 
 
 function App() {
@@ -81,6 +82,9 @@ function App() {
           </Route>
           <Route path="/zzal/:zzalId">
             <DetailPage />
+          </Route>
+          <Route path="/editZzal/:zzalId">
+            <EditPostPage />
           </Route>
           <Route path="/upload">
             <UploadPage />
