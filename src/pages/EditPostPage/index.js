@@ -32,7 +32,8 @@ const EditPostPage = () => {
 
   const handleUpdatePost = useCallback(async ({ title, imageUrl, imageData = null, channelId }) => {
     const { title: initialTitle, imageUrl: initialImageUrl, channelId: initialChannelId } = initialFormState;
-    if (initialTitle === title, initialImageUrl === imageUrl, initialChannelId === channelId) {
+    if (initialTitle === title && initialImageUrl === imageUrl && initialChannelId === channelId) {
+      console.log('not changed at all');
       setIsPostUpdated(true);
       
       return;
@@ -52,7 +53,7 @@ const EditPostPage = () => {
       data: updatePostFormData
     });
     
-  }, [updatePostFormData, updatePost, initialFormState, params]);
+  }, [updatePostFormData, initialFormState, updatePost, params]);
 
   const handleCancel = useCallback(() => {
     history.push('/');
@@ -80,7 +81,6 @@ const EditPostPage = () => {
 
   useEffect(() => {
     if (getPostAPIState.value){
-      console.log(getPostAPIState);
       const { value: { author: { _id: authorId }, channel: { _id: channelId }, title, image: imageUrl }} = getPostAPIState;
       if (authorId !== authState.myUser._id) {
         console.error('본인의 짤이 아닙니다! 메인페이지로 이동합니다.');
