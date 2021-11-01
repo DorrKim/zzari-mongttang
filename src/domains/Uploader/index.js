@@ -78,6 +78,7 @@ const Uploader = ({
         type={type}
         onClick={handleFileSelect}
         style={{ 
+          mixBlendMode: 'multiply',
           ...style 
         }}
       />

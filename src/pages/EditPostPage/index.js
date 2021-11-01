@@ -5,6 +5,10 @@ import Flex from '@base/Flex';
 import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import EditPostForm from '@domains/EditPostForm';
+import Logo from '@components/Logo';
+import Title from '@components/Title';
+import { STYLE_CONSTANTS } from '@constants/margins';
+import styled from '@emotion/styled';
 
 const updatePostFormData = new FormData();
 
@@ -38,6 +42,8 @@ const EditPostPage = () => {
       
       return;
     }
+
+    console.log(title, channelId);
     if (!(title && channelId)){
       alert('짤의 제목, 이미지, 카테고리를 모두 선택해주세요!');
       
@@ -56,7 +62,7 @@ const EditPostPage = () => {
   }, [updatePostFormData, initialFormState, updatePost, params]);
 
   const handleCancel = useCallback(() => {
-    history.push('/');
+    history.goBack();
   }, []);
 
 
@@ -84,7 +90,7 @@ const EditPostPage = () => {
       const { value: { author: { _id: authorId }, channel: { _id: channelId }, title, image: imageUrl }} = getPostAPIState;
       if (authorId !== authState.myUser._id) {
         console.error('본인의 짤이 아닙니다! 메인페이지로 이동합니다.');
-        history.push('/');
+        history.goBack();
       }
 
       setInitialFormState({ isLoaded: true,
@@ -95,32 +101,36 @@ const EditPostPage = () => {
   }, [getPostAPIState, authState]);
 
   useEffect(() => {
-    isPostUpdated && history.push('/');
+    isPostUpdated && history.goBack();
   }, [isPostUpdated]);
 
   const { title, imageUrl, channelId } = initialFormState;
 
   return (
     <>
-      <Flex column alignItems='center'>
+      <FlexStyled column alignItems='center'>
+        <Logo link />
+        <Title>짤 수정</Title>
         {initialFormState.isLoaded 
           ? (
-            <>
-              <EditPostForm
-                initialValues={{ 
-                  imageUrl,
-                  title,
-                  channelId
-                }}
-                onSubmit={handleUpdatePost} 
-                onCancel={handleCancel}
-              />
-            </>
+            <EditPostForm
+              initialValues={{ 
+                imageUrl,
+                title,
+                channelId
+              }}
+              onSubmit={handleUpdatePost} 
+              onCancel={handleCancel}
+            />
           )
           : null
         }
-      </Flex>
+      </FlexStyled>
     </>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADeR_MAIN_MARGIN_TOP_S}px;
+`;
 
 export default EditPostPage;

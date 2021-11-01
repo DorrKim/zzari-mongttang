@@ -6,12 +6,18 @@ import PropTypes from 'prop-types';
 const TEXT_SIZES = {
   sm: css`
     font-size: 12px;
-  `,
+    height: 12px;
+    line-height: 14px;
+    `,
   md: css`
     font-size: 16px;
-  `,
+    height: 16px;
+    line-height: 18px;
+    `,
   lg: css`
     font-size: 24px;
+    height: 24px;
+    line-height: 26px;
   `
 };
 
@@ -41,6 +47,11 @@ const Text = ({
 
 const StyledText = styled.div`
     ${props => props.fontSize};
+    /* font-family: 'netmarbleM'; */
+    /* font-family: 'KoPubDotumMedium'; */
+    /* font-family: 'GmarketSansMedium'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    /* font-family: 'ChosunGu'; */
 `;
 
 Text.propTypes = {

@@ -8,8 +8,7 @@ import colors from '@constants/colors';
 
 const Label = styled.label`
   cursor: pointer;
-  font-size: 12px;
-  `;
+`;
 
 const CheckboxInput = styled.input`
   display: none;

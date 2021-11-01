@@ -9,6 +9,7 @@ const InputStyled = styled.input`
   &:focus {
     outline-color: ${colors.ACCENT};
   }
+  padding: 0 10px;
 `;
 
 const Input = ({ 

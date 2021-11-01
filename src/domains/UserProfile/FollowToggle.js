@@ -4,31 +4,55 @@ import PropTypes from 'prop-types';
 import colors from '@constants/colors';
 import Button from '@base/Button';
 import Text from '@base/Text';
-import useToggle from '@hooks/useToggle';
+import { useHistory } from 'react-router';
 
 
-const FollowToggle = () => {
-  const [state, handleToggle] = useToggle(false);
-  const handleClick = useCallback(() => {
-    handleToggle();
-  }, []);
+const FollowToggle = ({ 
+  isMyProfile, 
+  handleClickFollow, 
+  handleClickUnFollow, 
+  followState }) => {
+  const history = useHistory();
+  
+  const onToEditProfilePage = useCallback(() => {
+    history.push('/editProfile');
+  });
 
+  const handleToggleFollow = useCallback(() => {
+    if (followState) {
+      handleClickUnFollow && handleClickUnFollow();
+    } else {
+      handleClickFollow && handleClickFollow();
+    }
+
+  }, [followState, handleClickUnFollow, handleClickFollow]);
+  
   return (
     <Button 
-      backgroundColor={state ? colors.ACCENT : colors.PRIMARY} 
+      backgroundColor={isMyProfile 
+        ? colors.BORDER_SUBTLE 
+        : followState ? colors.PRIMARY : colors.ACCENT} 
       width='80%' 
       height={32} 
       borderRadius='.25rem' 
       borderWidth={0} 
       style={{ padding: 0 }}
-      onClick={handleClick}>
-      <Text bold color="white"> {state ? '팔로우' : '언팔로우'}</Text>
+      onClick={isMyProfile 
+        ? onToEditProfilePage 
+        : handleToggleFollow}>
+      <Text bold color="white"> 
+        {isMyProfile 
+          ? '내 정보 수정' 
+          : followState ? '언팔로우' : '팔로우'}</Text>
     </Button>
   );
 };
 
 FollowToggle.propTypes = {
-  onClick: PropTypes.func.isRequired
+  handleClickFollow: PropTypes.func,
+  handleClickUnFollow: PropTypes.func,
+  isMyProfile: PropTypes.bool,
+  followState: PropTypes.bool
 };
 
 export default FollowToggle;

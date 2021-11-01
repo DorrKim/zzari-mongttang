@@ -13,6 +13,7 @@ const TabItemWrapper = styled.div`
   height: 50px;
   border-bottom: ${({ active }) => active ? `3px solid ${colors.BORDER_NORMAL}` : `.5px solid ${colors.BORDER_SUBTLE}`};
   color: ${({ active }) => active ? `${colors.TEXT_NORMAL}` : `${colors.TEXT_SUBTLE}`};
+  cursor: pointer;
 `;
 
 const TabItem = ({ 
@@ -35,7 +36,6 @@ TabItem.propTypes = {
   children: PropTypes.node,
   active: PropTypes.bool,
   index: PropTypes.number
-
 };
 
 export default TabItem;

@@ -9,6 +9,7 @@ import useQuery from '@hooks/useQuery';
 
 
 const DEFAULT_CATEGORY = '61755fa5359c4371f68ac695';
+const ZZAL_ITEM_LOAD_COUNT = 6;
 
 const MainPage = () => {
   const history = useHistory();
@@ -33,7 +34,7 @@ const MainPage = () => {
     <>
       <SearchBar onToSubmitPage={handleToSearchPage} />
       <CategoryCrousel channelId={channelId} onChange={handleChangeCategory} />
-      <ZzalList zzalList={zzalList} />
+      <ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
     </>
   );
 };

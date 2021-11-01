@@ -5,6 +5,10 @@ import Flex from '@base/Flex';
 import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import UploadPostForm from '@domains/UploadPostForm';
+import Logo from '@components/Logo';
+import Title from '@components/Title';
+import { STYLE_CONSTANTS } from '@constants/margins';
+import styled from '@emotion/styled';
 
 const imageFormData = new FormData();
 
@@ -64,7 +68,9 @@ const UploadPage = () => {
 
   return (
     <>
-      <Flex column alignItems='center'>
+      <FlexStyled column alignItems='center'>
+        <Logo link />
+        <Title>짤 올리기</Title>
         <UploadPostForm
           initialValues={{ 
             imageUrl: '',
@@ -74,8 +80,12 @@ const UploadPage = () => {
           onSubmit={handleCreatePost} 
           onCancel={handleCancel}
         />
-      </Flex>
+      </FlexStyled>
     </>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADeR_MAIN_MARGIN_TOP_S}px;
+`;
 
 export default UploadPage;
