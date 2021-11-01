@@ -5,16 +5,16 @@ import useAxios from '@hooks/useAxios';
 
 import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
-import Flex from '@components/base/Flex';
 import FollowToggle from './FollowToggle';
 import FollowContainer from './FollowContainer';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import { useHistory } from 'react-router';
 
 
-const ProfileWrapper = styled(Flex)`
-  width: 328px;
-  height: 120px;
+const ProfileWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 `;
 
 const Profile = ({   

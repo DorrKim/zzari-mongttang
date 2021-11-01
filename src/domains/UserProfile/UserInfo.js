@@ -17,7 +17,6 @@ const UserName = styled(Text)`
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 160px;
-  margin: 8px 16px;
 `;
 
 const UserInfo = ({ 
@@ -28,7 +27,7 @@ const UserInfo = ({
   
   return (
     <>
-      <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
+      <UserInfoWrapper column justifyContent='space-between'>
         <UserName bold size='lg' >
           {fullName}
         </UserName>

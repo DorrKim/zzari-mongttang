@@ -8,11 +8,11 @@ import FollowModal from './FollowModal';
 
 const FollowWrapper = styled(Flex)`
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: .5rem;
 `; 
 
 const FollowItem = styled(Flex)`
-  margin: 0 12px;
+  margin-right: 1rem;
   cursor: pointer;
 `;
 const FollowContainer = ({
@@ -39,14 +39,14 @@ const FollowContainer = ({
 
   return (
     <>
-      <FollowWrapper justifyContent="center" >
-        <FollowItem column alignItems='center' index={0} onClick={handleClickFollower}>
-          <Text bold >{`${countFollower}`}</Text>
-          <Text bold size="sm" >팔로워</Text>
+      <FollowWrapper>
+        <FollowItem alignItems='center' index={0} onClick={handleClickFollower}>
+          <Text bold style={{ marginRight: '.25rem' }}>{`${countFollower}`}</Text>
+          <Text>팔로워</Text>
         </FollowItem> 
-        <FollowItem column alignItems='center' index={1} onClick={handleClickFollowing}>
-          <Text bold>{`${countFollowing}`}</Text>
-          <Text bold size="sm">팔로잉</Text>
+        <FollowItem alignItems='center' index={1} onClick={handleClickFollowing}>
+          <Text bold style={{ marginRight: '.25rem' }}>{`${countFollowing}`}</Text>
+          <Text>팔로잉</Text>
         </FollowItem>
       </FollowWrapper>
       <FollowModal
