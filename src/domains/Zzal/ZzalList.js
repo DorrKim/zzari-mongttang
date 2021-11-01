@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
 import useInfinteScroll from '@hooks/useInfinteScroll';
+import Spinner from '@base/Spinner';
 
 
 const ZzalList = ({ zzalList, noFavorite, loadCount = 6, ...props }) => {
@@ -21,17 +22,13 @@ const ZzalList = ({ zzalList, noFavorite, loadCount = 6, ...props }) => {
     threshold: 0.5
   });
 
-  if (isLoading) {
-    return <div>loading page...</div>;
-  }
-
   if (error) {
     return <div>error page...</div>;
   }
 
   return (
     <StyledList {...props}>
-      {(zzalList.value || [])
+      {isLoading ? (<Spinner />) : (zzalList.value || [])
         .filter((_, idx) => idx < itemCount)
         .map(item => (
           <ZzalItem 
