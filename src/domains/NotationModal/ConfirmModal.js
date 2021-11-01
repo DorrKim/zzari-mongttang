@@ -19,14 +19,17 @@ const CancelButton = styled(Button)`
   border-radius: 4px;
 `;
 
-const Title = styled(Text)`
+const Title = styled.div`
+  font-weight: 700;
+  font-size: 1.5rem;
   word-break: keep-all;
   text-align: center;
   line-height: 40px;
   margin: 10px;
 `;
 
-const Description = styled(Text)`
+const Description = styled.div`
+  font-weight: 500;
   word-break: keep-all;
   text-align: center;
   line-height: 40px;

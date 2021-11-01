@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import useAxios from '@hooks/useAxios';
 
+import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
 import FollowToggle from './FollowToggle';
@@ -57,7 +58,9 @@ const Profile = ({
   const [currFollowId, setCurrFollowId] = useState(() => {
     return followers.find(follow => follow.follower._id === myUserId)?._id;
   });
-
+  const [visible, setVisible] = useState(false);
+  //const [isConfirmed, setIsConfirmed] = useState(false);
+  
   const [unfollowData, fetchUnFollowData] = useAxios('/follow/delete', {
     method: 'delete',
     headers     
@@ -91,6 +94,15 @@ const Profile = ({
     }
   }, [unfollowData.value]);
 
+  const handleClickConfirm = useCallback(() => { 
+    history.push('/login');
+    setVisible(false);
+  }, [setVisible]);
+
+  const handleClickCancel = useCallback(() => {
+    setVisible(false);
+  }, [setVisible]);
+
   const handleClickUnFollow = useCallback(async () => { 
     if (currFollowId && isAuthorized) {
 
@@ -105,7 +117,10 @@ const Profile = ({
 
   const handleClickFollow = useCallback(async () => {
     if (!isAuthorized) {
-      confirm('해당 기능을 이용하기 위해서 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?') && history.push('/login');
+      setVisible(true);
+      // console.log(isConfirmed);
+      // isConfirmed && history.push('/login');
+      // console.log(isConfirmed);
       
       return;
     }
@@ -141,17 +156,26 @@ const Profile = ({
   );
 
   return (
-    <ProfileWrapper>
-      <StyledAvatar 
-        src={src} 
-        size={120}
-      />
-      <UserInfo 
-        fullName={fullName} 
-        followContainer={followContainer}
-        followToggleButton={followToggleButton} 
-      /> 
-    </ProfileWrapper>
+    <>
+      <ProfileWrapper>
+        <StyledAvatar 
+          src={src} 
+          size={120}
+        />
+        <UserInfo 
+          fullName={fullName} 
+          followContainer={followContainer}
+          followToggleButton={followToggleButton} 
+        /> 
+      </ProfileWrapper>
+      <ConfirmModal
+        title='로그인이 필요해요!'
+        description='이 서비스는 로그인이 필요한 서비스입니다. 로그인하시겠습니까?'
+        visible={visible}
+        handleClickConfirm={handleClickConfirm}
+        handleClickCancel={handleClickCancel} >
+      </ConfirmModal>
+    </>
   );
 };
 

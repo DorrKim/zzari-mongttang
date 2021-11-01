@@ -14,19 +14,23 @@ const StyledButton = styled(Button)`
  
 `;
 
-const Title = styled(Text)`
+const Title = styled.div`
+ font-weight: 700;
+  font-size: 1.5rem;
   word-break: keep-all;
   text-align: center;
   line-height: 40px;
   margin: 10px;
 `;
 
-const Description = styled(Text)`
+const Description = styled.div`
+  font-weight: 500;
   word-break: keep-all;
   text-align: center;
   line-height: 40px;
   margin: 0px 10px 10px 10px;
 `;
+
 
 const AlertModal = ({ title, description, visible, handleClose, ...props }) => {
   
