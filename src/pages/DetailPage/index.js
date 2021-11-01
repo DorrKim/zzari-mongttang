@@ -8,24 +8,47 @@ import styled from '@emotion/styled';
 
 import Icon from '@components/base/Icon';
 import { useAuthorization } from '@context/AuthorizationProvider';
-import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
 import Favorite from '@components/Favorite';
 import AlertModal from '@domains/NotationModal/AlertModal';
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 import Text from '@base/Text';
 import Posting from './Posting';
+import colors from '@constants/colors';
+import Number from '@components/Number';
 
-const StyledButton = styled.button`
+const CopyButton = styled.button`
   border: 1px solid #FD9F28;
   width: 100%;
   height: 30px;
   cursor: pointer;
   border-radius: 4px;
   background-color:transparent;
+
+  &:hover {
+  filter: brightness(110%);
+}
+  &:active {
+    filter: brightness(110%);
+    animation: squash .3s forwards ease-in;
+    @keyframes squash {
+      0% {
+
+      }
+      40% {
+        transform: scale(.95);
+      }
+      60% {
+        transform: scale(1.05);
+      }
+      100% {
+      transform: scale(1); 
+      }
+    }
+}
 `;
 
-const SytledIcon = styled(Icon)`
+const StyledIcon = styled(Icon)`
   cursor: pointer;
 `;
 
@@ -37,12 +60,13 @@ const StyledText = styled.span`
 const DetailPage = () => {
   const history = useHistory();
   const { zzalId } = useParams();
-  const { authState } = useAuthorization();
-  const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
+  const { authState: { isAuthorized, authToken, myUser }} = useAuthorization();
+  const headers = useMemo(() => ({ Authorization: `bearer ${authToken}` }), [authToken]);
 
   const [postingDetails, getDetails] = useAxios();
   const [comments, setComments] = useState([]);
   const [isNewComment, setIsNewComment] = useState(false);
+  const [isShowComments, setIsShowComments] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [, setIsConfirmed] = useState();
@@ -79,8 +103,6 @@ const DetailPage = () => {
     method: 'delete'
   });
 
-  const { myUser } = authState;
-
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
   }, []);
@@ -92,15 +114,17 @@ const DetailPage = () => {
   
   useEffect(() => {
     const { value: comment } = createdComment;
-    if (isNewComment) {
+    const { image: myImage, fullName: myFullName, _id: myId } = myUser;
+    if (isNewComment && isAuthorized) {
       setComments([
         ...comments,
         {
           _id: comment._id,
           comment: comment.comment,
           author: { 
-            _id: myUser._id,
-            fullName: comment.fullName 
+            _id: myId,
+            fullName: myFullName,
+            image: myImage
           },
           createdAt: comment.createdAt
         }
@@ -108,7 +132,7 @@ const DetailPage = () => {
     }
 
     setIsNewComment(false);
-  }, [isNewComment]);
+  }, [isNewComment, myUser]);
 
   const handleClickRemovePosting = () => {
     setConfirmVisible(true);
@@ -150,26 +174,23 @@ const DetailPage = () => {
   const handleClickEditPost = () => {
     setConfirmVisible(true);
   };
+
+  const handleShowComment = () => {
+    setIsShowComments(true);
+  };
   
   const { value: postingInfos } = postingDetails;
   
   return (
     <>
-      {
-        postingInfos
-      && <>
-   
-        <div 
+      { postingInfos 
+        && <div 
           style={{ 
             margin: '0 auto',
             width: '40%'
-          }}
-        >
-          { postingInfos 
-          && <Posting 
-            postingInfos={postingInfos}
-          />}
-          <StyledButton 
+          }} >
+          <Posting postingInfos={postingInfos} />
+          <CopyButton 
             onClick={handleClickCopy}
             width='100%'
             height='40px'
@@ -177,7 +198,7 @@ const DetailPage = () => {
             <StyledText 
               bold
             >복사</StyledText>
-          </StyledButton>
+          </CopyButton>
           <AlertModal
             title='Copied'
             description='이미지 URL이 복사되었습니다'
@@ -186,75 +207,105 @@ const DetailPage = () => {
           />
           <div
             style={{ 
-              margin: '10px 0' }}
-          >
-            <Text
-
-            >{postingInfos.title}</Text>
+              margin: '10px 0' }} >
+            <Text> {postingInfos.title} </Text>
           </div>
-          <Flex>
-            <Favorite
-              likes={postingInfos.likes}
-              postId={postingInfos._id}
+          <IconsContainer>
+            <IconsWrapper>
+              <Favorite
+                likes={postingInfos.likes}
+                postId={postingInfos._id}
+              />
+              <CommentIcon>
+                <Icon
+                  name='comment'
+                ></Icon>
+                <Number value={postingInfos.comments.length} />
+              </CommentIcon>
+            </IconsWrapper>
+            <IconsWrapper inVisible={myUser._id === postingInfos.author._id}>
+              <StyledIcon
+                name={'edit'}
+                onClick={handleClickEditPost}
+              ></StyledIcon>
+              <ConfirmModal
+                title='Go'
+                description='포스트 수정 페이지로 이동하시겠습니까?'
+                visible={confirmVisible}
+                handleClickConfirm={handleClickConfirm}
+                handleClickCancel={handleClickCancel} 
+              >
+              </ConfirmModal>
+              <StyledIcon
+                name={'remove'}
+                onClick={handleClickRemovePosting}
+              ></StyledIcon>
+              <ConfirmModal
+                title='Remove'
+                description='포스트를 삭제하시겠습니까??'
+                visible={confirmVisible}
+                handleClickConfirm={handleClickRemoveConfirm}
+                handleClickCancel={handleClickCancel} 
+              >
+              </ConfirmModal>
+            </IconsWrapper> 
+          </IconsContainer>
+          <ShowCommentButton
+            onClick={handleShowComment}
+            style={{ display: isShowComments ? 'none' : 'flex' }}
+          >
+            <Icon name='comment' />
+          </ShowCommentButton>
+          {isShowComments && (
+            <Comment
+              comments={comments}
+              myUserId={myUser._id}
+              myName={myUser.fullName}
+              handleSubmit={handleClickSubmitComment}
+              handleClickDelete={handleClickRemoveComment}
             />
-            <Icon
-              name={'comment'}
-            ></Icon>
-            <h1>
-              {postingInfos.comments.length}
-            </h1>
-            {
-              myUser._id === postingInfos.author._id
-                ? <div style={{ marginLeft: 'auto' }}>
-                  <SytledIcon
-                    name={'edit'}
-                    onClick={handleClickEditPost}
-                  ></SytledIcon>
-                  <ConfirmModal
-                    title='Go'
-                    description='포스트 수정 페이지로 이동하시겠습니까?'
-                    visible={confirmVisible}
-                    handleClickConfirm={handleClickConfirm}
-                    handleClickCancel={handleClickCancel} 
-                  >
-                  </ConfirmModal>
-                  <SytledIcon
-                    name={'remove'}
-                    onClick={handleClickRemovePosting}
-                  ></SytledIcon>
-                  <ConfirmModal
-                    title='Remove'
-                    description='포스트를 삭제하시겠습니까??'
-                    visible={confirmVisible}
-                    handleClickConfirm={handleClickRemoveConfirm}
-                    handleClickCancel={handleClickCancel} 
-                  >
-                  </ConfirmModal>
-                </div>
-                : <div></div>
-            }
-          
-          </Flex>
-          <span style={{ display: 'flex',
-            justifyContent: 'center', 
-            alignItems: 'center' }}>
-            <Icon
-              name={'arrowDown'}
-            ></Icon>
-          </span>
-          <Comment
-            comments={comments}
-            myUserId={myUser._id}
-            myName={myUser.fullName}
-            handleSubmit={handleClickSubmitComment}
-            handleClickDelete={handleClickRemoveComment}
-          />
+          )}
         </div>
-      </>
       }
     </>
   );
 };
+
+const IconsContainer = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 5px 0;
+`;
+
+const IconsWrapper = styled.div`
+display: ${({ inVisible }) => inVisible ? 'none' : 'flex'};
+gap: 5px;
+`;
+
+const ShowCommentButton = styled.div`
+width: 100%;
+height: 30px;
+padding: 5px;
+font-size: 24px;
+justify-content: center;
+cursor: pointer;
+color: ${colors.PRIMARY_LIGHT};
+background-color: ${colors.PRIMARY_BACKGROUND};
+transition: .1s all ease-in;
+&:hover {
+  filter: brightness(98%);
+  color: ${colors.ACCENT}
+}
+&::after {
+  content:'+';
+  display: inline-block;
+}
+`;
+
+const CommentIcon = styled.div`
+display:flex;
+`;
 
 DetailPage.propTypes = {
   params: PropTypes.string

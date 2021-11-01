@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Text from '@components/base/Text';
 
-const Number = ({ value = 0 }) => {
+const Number = ({ value = 0, ...props }) => {
   let formattedNumber = value;
   
   if (formattedNumber >= 1000) {
@@ -13,7 +13,7 @@ const Number = ({ value = 0 }) => {
   }
   
   return (
-    <Text>{formattedNumber}</Text>      
+    <Text {...props}>{formattedNumber}</Text>      
   );
 };
 
