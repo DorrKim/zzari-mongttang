@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import Button from '@base/Button';
 import FormInput from '@components/FormInput';
-import Flex from '@base/Flex';
 import useForm from '@hooks/useForm';
 import { validateUploadPost } from '@library/validate';
 import Uploader from '@domains/Uploader';
 import MainCategory from '@domains/Category';
+import styled from '@emotion/styled';
 
 
 const UPLOAD_POST_ERROR_MESSAGES = {
@@ -93,50 +93,58 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
   const { title, imageUrl, channelId } = values;
     
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex column alignItems='center'>
-        <Uploader 
-          droppable
-          width={328}
-          height={248}
-          type='square'
-          alt='profileImage'
-          src={imageUrl ? imageUrl : ''}
-          onChange={handleFileChanged} 
-          onDrop={handleFileChanged}
-        />
-        <FormInput
-          onChange={value => handleChange({ name: 'title',
-            value })}
-          value={title}
-          placeholder='제목'
-          errorMessage={errorMessage.title
-          }
-        />
-        <MainCategory channelId={channelId} onChange={handleCategoryChange} />
-        <Flex justifyContent='space-between'>
-          <Button 
-            type='submit' 
-            disabled={isLoading} 
-            style={{ border: 'none' }} 
-            borderRadius={'4px'}
-            backgroundColor={'#FD9F28'} 
-            width={164} 
-            height={60}
-          >짤 올리기</Button>
-          <Button 
-            style={{ border: 'none' }}
-            borderRadius={'4px'} 
-            backgroundColor={'#dddd'} 
-            width={164} 
-            height={60}
-            onClick={handleCancelClick} 
-          >취소</Button>
-        </Flex>
-      </Flex>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Uploader 
+        droppable
+        width={350}
+        height={350}
+        type='square'
+        alt='zzal'
+        src={imageUrl ? imageUrl : ''}
+        onChange={handleFileChanged}
+      />
+      <FormInput
+        onChange={value => handleChange({ name: 'title',
+          value })}
+        value={title}
+        placeholder='제목'
+        errorMessage={errorMessage.title
+        }
+      />
+      <MainCategory channelId={channelId} onChange={handleCategoryChange} />
+      <ButtonContainer>
+        <ButtonStyled 
+          type='submit' 
+          disabled={isLoading} 
+          backgroundColor={'#FD9F28'} 
+        >짤 올리기</ButtonStyled>
+        <ButtonStyled 
+          backgroundColor={'#dddd'} 
+          onClick={handleCancelClick} 
+        >취소</ButtonStyled>
+      </ButtonContainer>
+    </Form>
   );
 };
+
+const Form = styled.form`
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+`;
+
+const ButtonStyled = styled(Button)`
+border-radius: 4px;
+border: none;
+width: 164px;
+height: 60px;
+`;
+
+const ButtonContainer = styled.div`
+display: flex;
+gap: 30px;
+`;
 
 UploadPostForm.propTypes = {
   initialValues: PropTypes.object,

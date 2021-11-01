@@ -33,7 +33,7 @@ function App() {
           <Route path="/editProfile" >
             <EditProfilePage />
           </Route>
-          <Route path="/search=:keyword">
+          <Route path="/search">
             <Header />
             <SearchPage />
           </Route>

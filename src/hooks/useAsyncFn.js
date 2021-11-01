@@ -35,7 +35,6 @@ const useAsyncFn = (fn, deps = []) => {
 
   const callback = useCallback((...args) => {
     const callId = ++lastCallId.current;
-
     dispatch({ type: 'LOADING' });
 
     return fn(...args).then(

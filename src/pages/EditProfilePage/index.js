@@ -5,6 +5,10 @@ import Flex from '@base/Flex';
 import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import EditProfileForm from '@domains/EditProfileForm';
+import styled from '@emotion/styled';
+import { STYLE_CONSTANTS } from '@constants/margins';
+import Logo from '@components/Logo';
+import Title from '@components/Title';
 
 const imageFormData = new FormData();
 
@@ -163,7 +167,9 @@ const EditProfilePage = () => {
   
   return (
     <>
-      <Flex column alignItems='center'>
+      <FlexStyled column alignItems='center'>
+        <Logo link />
+        <Title>회원 정보 수정</Title>
         {initialFormState.isLoaded 
           ? (
             <>
@@ -181,8 +187,12 @@ const EditProfilePage = () => {
           : null
         }
         
-      </Flex>
+      </FlexStyled>
     </>);
 };
+
+const FlexStyled = styled(Flex)`
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}px;
+`;
 
 export default EditProfilePage;
