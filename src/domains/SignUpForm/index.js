@@ -119,6 +119,7 @@ border: none;
 width: 164px;
 height: 60px;
 `;
+
 SignUpForm.propTypes = {
   signupError: PropTypes.object,
   onSignUp: PropTypes.func.isRequired,
