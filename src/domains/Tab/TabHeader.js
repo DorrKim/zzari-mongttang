@@ -4,7 +4,9 @@ import styled from '@emotion/styled';
 
 const TabHeaderWrapper = styled.div`
   display: flex;
-  justify-content: stretch;
+  width: 90%;
+  margin-bottom: .5rem;
+  justify-content: center;
   align-items: stretch;
   height: 50px;
 `;

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router';
 
-import ZzalList from '@domains/Zzal/ZzalList';
+import Zzal from '@domains/Zzal';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
 import CategoryCrousel from '@domains/Category';
@@ -34,7 +34,7 @@ const MainPage = () => {
     <>
       <SearchBar onToSubmitPage={handleToSearchPage} />
       <CategoryCrousel channelId={channelId} onChange={handleChangeCategory} />
-      <ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      <Zzal.ZzalList style={{ marginTop: '50px' }} zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
     </>
   );
 };

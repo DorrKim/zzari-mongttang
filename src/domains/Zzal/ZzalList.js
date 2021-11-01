@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
 import useInfinteScroll from '@hooks/useInfinteScroll';
+import Spinner from '@base/Spinner';
 
 
-const ZzalList = ({ zzalList, noFavorite, loadCount = 6, ...props }) => {
+const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props }) => {
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
@@ -30,8 +31,8 @@ const ZzalList = ({ zzalList, noFavorite, loadCount = 6, ...props }) => {
   }
 
   return (
-    <StyledList {...props}>
-      {(zzalList.value || [])
+    <StyledList style={{ ...style }} {...props}>
+      {isLoading ? (<Spinner />) : (zzalList.value || [])
         .filter((_, idx) => idx < itemCount)
         .map(item => (
           <ZzalItem 
@@ -54,8 +55,8 @@ const StyledList = styled.div`
   justify-items: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 100px auto;
-  width: 994px;
+  margin: 0 auto;
+  width: 984px;
   gap: 8px;
   font-family: 'netmarbleM';
   @media(max-width: 1176px) {
@@ -78,7 +79,8 @@ ZzalList.propTypes = {
   loadCount: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
-  ])
+  ]),
+  style: PropTypes.object
 };
 
 export default ZzalList;

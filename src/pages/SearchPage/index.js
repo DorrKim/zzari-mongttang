@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import ZzalList from '@domains/Zzal/ZzalList';
+import Zzal from '@domains/Zzal';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
 import useQuery from '@hooks/useQuery';
@@ -20,8 +20,6 @@ const SearchPage = () => {
     });
   }, [keyword]);
 
-  console.log(zzalList);
-
   const handleToSearchPage = useCallback(value => {
     value && history.push(`/search?keyword=${value}`);
   }, []);
@@ -29,7 +27,7 @@ const SearchPage = () => {
   return (
     <>
       <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
-      <ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      <Zzal.ZzalList style={{ marginTop: '50px' }} zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
     </>
   );
 };

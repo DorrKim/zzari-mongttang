@@ -7,6 +7,8 @@ import Text from '@base/Text';
 const FollowItemWrapper = styled.div`
   display: flex;
   align-items: center; 
+  padding : .25rem 1rem .25rem 3rem;
+  width: 250px;
 `;
 
 const FollowingList = ({ following }) => {
@@ -16,7 +18,7 @@ const FollowingList = ({ following }) => {
       {following.map(({ _id, user: { fullName, image, _id: userId }}) => (
         <li key={_id} >
           <FollowItemWrapper userId={userId}> 
-            <Avatar src={image} size='40px' style={{ margin: '.5rem 1rem .5rem 4rem' }}></Avatar>
+            <Avatar src={image} size='40px' style={{ margin: '.5rem 1rem .5rem 0rem' }}></Avatar>
             <Text bold>{fullName}</Text>
           </FollowItemWrapper>
         </li>  

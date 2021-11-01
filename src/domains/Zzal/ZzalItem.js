@@ -25,15 +25,12 @@ const ZzalItem = ({
   }, [postId]);
 
   return (
-    <ReactFreezeframe 
-      ref={freeze} 
-      options={{ trigger: 'hover' }}>
+    <ReactFreezeframe ref={freeze}>
       <StyledItem>
         <Image
           src={imageUrl || noImage} 
           onClick={onToDetailPage}
-          style={{ border: `2px solid ${colors.PRIMARY_LIGHT}`,
-            zIndex: 1 }}
+          style={{ zIndex: 1 }}
           {...props}>
         </Image>
         {!noFavorite
@@ -63,9 +60,12 @@ const StyledItem = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  &:hover {
-    transition: all 0.2s ease-in;
+  box-shadow: 0 3px 3px ${colors.PRIMARY_BACKGROUND};
+
+  &:hover img {
+    border: 4px solid ${colors.PRIMARY_BRIGHT};
   }
+  
   @media(max-width: 768px) {
     width: 210px;
     height: 210px;

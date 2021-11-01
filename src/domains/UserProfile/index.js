@@ -5,16 +5,33 @@ import useAxios from '@hooks/useAxios';
 
 import Avatar from '@components/Avatar';
 import UserInfo from './UserInfo';
-import Flex from '@components/base/Flex';
 import FollowToggle from './FollowToggle';
 import FollowContainer from './FollowContainer';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import { useHistory } from 'react-router';
 
 
-const ProfileWrapper = styled(Flex)`
-  width: 328px;
-  height: 120px;
+const ProfileWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+
+  @media(min-width: 1176px) {
+    width: 994px;
+    margin: 2rem auto;
+  }
+  @media(min-width: 680px) {
+    justify-content:flex-start;
+    margin: 2rem auto;
+  }
+  
+`;
+
+const StyledAvatar = styled(Avatar)`
+  @media(min-width: 680px) {
+    width: 240px;
+    height: 240px;
+  }
 `;
 
 const Profile = ({   
@@ -125,7 +142,7 @@ const Profile = ({
 
   return (
     <ProfileWrapper>
-      <Avatar 
+      <StyledAvatar 
         src={src} 
         size={120}
       />

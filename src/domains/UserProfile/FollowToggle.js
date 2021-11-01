@@ -1,11 +1,20 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 
 import colors from '@constants/colors';
 import Button from '@base/Button';
 import Text from '@base/Text';
 import { useHistory } from 'react-router';
 
+
+const StyledFollowButton = styled(Button)`
+  @media(min-width: 680px) {
+    width: 20rem;
+    height: 2.5rem;
+}
+  
+`;
 
 const FollowToggle = ({ 
   isMyProfile, 
@@ -28,23 +37,29 @@ const FollowToggle = ({
   }, [followState, handleClickUnFollow, handleClickFollow]);
   
   return (
-    <Button 
-      backgroundColor={isMyProfile 
-        ? colors.BORDER_SUBTLE 
-        : followState ? colors.PRIMARY : colors.ACCENT} 
-      width='80%' 
+    <StyledFollowButton 
+      backgroundColor={
+        isMyProfile || followState 
+          ? 'white' 
+          : colors.ACCENT} 
+      width='9rem' 
       height={32} 
-      borderRadius='.25rem' 
-      borderWidth={0} 
-      style={{ padding: 0 }}
+      borderRadius='.375rem' 
+      borderWidth={0}
       onClick={isMyProfile 
         ? onToEditProfilePage 
-        : handleToggleFollow}>
-      <Text bold color="white"> 
+        : handleToggleFollow}
+      style={{ outline: isMyProfile || followState ? '1.25px solid lightgray' : 0 }}  
+    >
+      <Text 
+        bold 
+        color={isMyProfile || followState 
+          ? 'black' 
+          : 'white'}> 
         {isMyProfile 
           ? '내 정보 수정' 
-          : followState ? '언팔로우' : '팔로우'}</Text>
-    </Button>
+          : followState ? '팔로잉' : '팔로우'}</Text>
+    </StyledFollowButton>
   );
 };
 
