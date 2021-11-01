@@ -4,9 +4,9 @@ import Loader from 'react-loader-spinner';
 import colors from '@constants/colors';
 import styled from '@emotion/styled';
 
-const Spinner = () => {
+const Spinner = props => {
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Loader
         type='Plane'
         color={colors.ACCENT}
@@ -19,11 +19,11 @@ const Spinner = () => {
 };
 
 const Wrapper = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 
 export default Spinner;
