@@ -12,12 +12,12 @@ const TEXT_SIZES = {
   md: css`
     font-size: 16px;
     height: 16px;
-    line-height: 20px;
+    line-height: 18px;
     `,
   lg: css`
     font-size: 24px;
     height: 24px;
-    line-height: 30px;
+    line-height: 26px;
   `
 };
 
@@ -46,7 +46,12 @@ const Text = ({
 };
 
 const StyledText = styled.div`
-    ${props => props.fontSize}
+    ${props => props.fontSize};
+    /* font-family: 'netmarbleM'; */
+    /* font-family: 'KoPubDotumMedium'; */
+    /* font-family: 'GmarketSansMedium'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    /* font-family: 'ChosunGu'; */
 `;
 
 Text.propTypes = {

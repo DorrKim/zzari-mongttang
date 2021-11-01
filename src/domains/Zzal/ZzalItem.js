@@ -97,13 +97,19 @@ const ZzalItem = ({
           src={imageUrl || noImage} 
           onClick={onToDetailPage}
           style={{ border: `2px solid ${colors.PRIMARY_LIGHT}`,
-            'zIndex': 1 }}
+            zIndex: 1 }}
           {...props}>
         </Image>
         <Favorite
           onClick={handleClickFavorite} 
           number={likeCount}
           isToggled={isAuthorized ? isFavoriteToggled : false}
+          style={{ gap: '4px',
+            position: 'absolute',
+            top: '5%',
+            right: '5%',
+            zIndex: 3,
+            margin: 5 }}
         />
       </StyledItem>
     </ReactFreezeframe>
@@ -127,12 +133,12 @@ const StyledItem = styled.div`
     height: 210px;
   }
   @media(max-width: 680px) {
-    width: 180px;
-    height: 210px;
+    width: 152px;
+    height: 152px;
   }
   @media(max-width: 375px) {
-    width: 152px;
-    height: 210px;
+    width: 130px;
+    height: 130px;
   }
 `;
 
