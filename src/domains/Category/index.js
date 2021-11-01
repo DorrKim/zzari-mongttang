@@ -11,7 +11,7 @@ import { ICON_TYPES } from '@constants/icons';
 // import colors from '@constants/colors';
 
 
-const MainCategory = ({ channelId, onChange }) => {
+const MainCategory = ({ channelId, onChange, style, ...props }) => {
   const [categoryList, fetchList] = useAxios('/channels');
   const { isLoading, value } = categoryList;
   const [offsetX, setOffsetX] = useState(0);
@@ -74,7 +74,7 @@ const MainCategory = ({ channelId, onChange }) => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper style={{ ...style }} {...props}>
         <LeftButton offsetX={offsetX} onClick={handlePrev}>
           <ICON_TYPES.moveLeft style={{ height: '16px',
             lineHeight: '18px' }} />
@@ -105,7 +105,7 @@ const Wrapper = styled.div`
   display: flex;
   position: relative;
   width: 600px;
-  height: 100%;
+  height: 30px;
   overflow: hidden;
   margin: 20px auto;
 
@@ -186,7 +186,8 @@ const RightButton = styled(Button)`
 
 MainCategory.propTypes = {
   channelId: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  style: PropTypes.object
 };
 
 export default MainCategory;

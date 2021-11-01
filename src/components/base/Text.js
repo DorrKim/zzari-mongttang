@@ -28,16 +28,19 @@ const Text = ({
   color, 
   bold,
   style,
+  selectable = false,
   ...props
 }) => {
   const tag = block ? 'div' : 'span';
   const { [size]: fontSize } = TEXT_SIZES;
   const fontWeight = bold ? 'bold' : 'normal';
-
+  const userSelect = selectable ? 'auto' : 'none';
+  
   return (
     <StyledText as={tag} fontSize={fontSize} style={{
       color,
       fontWeight,
+      userSelect,
       ...style
     }} {...props}>
       { children }
@@ -63,7 +66,8 @@ Text.propTypes = {
   size: PropTypes.string,
   color: PropTypes.string,
   bold: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
+  selectable: PropTypes.bool
 };
 
 export default Text;
