@@ -7,7 +7,7 @@ import useInfinteScroll from '@hooks/useInfinteScroll';
 import Spinner from '@base/Spinner';
 
 
-const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, ...props }) => {
+const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props }) => {
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
@@ -27,7 +27,7 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, ...props }) => {
   }
 
   return (
-    <StyledList {...props}>
+    <StyledList style={{ ...style }} {...props}>
       {isLoading ? (<Spinner />) : (zzalList.value || [])
         .filter((_, idx) => idx < itemCount)
         .map(item => (
@@ -53,7 +53,20 @@ const StyledList = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   font-family: 'netmarbleM';
-  width: 100%;
+  margin: 0 auto;
+  width: 994px;
+  @media(max-width: 1176px) {
+    width: 746px;
+  }
+  @media(max-width: 768px) {
+    width: 648px;
+  }
+  @media(max-width: 680px) {
+    width: 312px;
+  }
+  @media(max-width: 375px) {
+    width: 268px;
+  }
 `;
 
 ZzalList.propTypes = {
@@ -62,7 +75,8 @@ ZzalList.propTypes = {
   loadCount: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
-  ])
+  ]),
+  style: PropTypes.object
 };
 
 export default ZzalList;

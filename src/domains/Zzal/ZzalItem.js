@@ -127,11 +127,10 @@ const StyledItem = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-
-    box-shadow: 0 3px 3px ${colors.PRIMARY_BACKGROUND};
+  box-shadow: 0 3px 3px ${colors.PRIMARY_BACKGROUND};
 
   &:hover img {
-    border: 4px solid #d0eac7;
+    border: 4px solid ${colors.PRIMARY_BRIGHT};
   }
   
   @media(max-width: 768px) {
