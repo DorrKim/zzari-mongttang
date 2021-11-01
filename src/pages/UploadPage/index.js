@@ -85,7 +85,7 @@ const UploadPage = () => {
 };
 
 const FlexStyled = styled(Flex)`
-  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADER_MAIN_MARGIN_TOP}px;
+  margin-top: ${STYLE_CONSTANTS.margin.NO_HEADeR_MAIN_MARGIN_TOP_S}px;
 `;
 
 export default UploadPage;
