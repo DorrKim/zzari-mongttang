@@ -17,7 +17,8 @@ import SignUpPage from '@pages/SignUpPage';
 import UploadPage from '@pages/UploadPage';
 import EditProfilePage from '@pages/EditProfilePage';
 import EditPostPage from '@pages/EditPostPage';
-import NotFoundPage from '@pages/Error/NotFound';
+import NotFoundPage from '@pages/Error/NotFoundPage';
+import ApiErrorPage from '@pages/Error/ApiErrorPage';
 
 
 function App() {
@@ -56,6 +57,9 @@ function App() {
           <Route exact path="/">
             <Header />
             <MainPage />
+          </Route>
+          <Route exact path="/error">
+            <ApiErrorPage />
           </Route>
           <Route>
             <NotFoundPage />
