@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router';
 
 import Zzal from '@domains/Zzal';
@@ -15,6 +15,15 @@ const MainPage = () => {
   const history = useHistory();
   const channelId = useQuery().get('channelId') || DEFAULT_CATEGORY;
   const [zzalList, fetchList] = useAxios();
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    zzalList.error && setError(true);
+  }, [zzalList.error]);
+
+  useEffect(() => {
+    error && history.push('/error');
+  }, [error]);
 
   useEffect(() => {
     fetchList({

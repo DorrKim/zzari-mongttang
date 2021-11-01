@@ -12,4 +12,20 @@ const useAxios = (url, initialOptions = {}, deps = []) => useAsyncFn(
     ...options
   }).then(res => res.data), [...deps, initialOptions]);
 
+axios.interceptors.request.use(
+  config => {
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  });
+
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  });
+
 export default useAxios;

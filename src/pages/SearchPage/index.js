@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import Zzal from '@domains/Zzal';
@@ -13,6 +13,15 @@ const SearchPage = () => {
   const history = useHistory();
   const keyword = useQuery().get('keyword') || '';
   const [zzalList, fetchList] = useAxios();
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    zzalList.error && setError(true);
+  }, [zzalList.error]);
+
+  useEffect(() => {
+    error && history.push('/error');
+  }, [error]);
   
   useEffect(() => {
     fetchList({
