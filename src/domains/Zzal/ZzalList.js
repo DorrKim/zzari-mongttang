@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
@@ -11,6 +11,16 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props })
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    error && setIsError(true);
+  }, [error]);
+
+  useEffect(() => {
+    isError && history.push('/error');
+  }, [isError]);
+
 
   useInfinteScroll({
     target,
@@ -23,11 +33,7 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props })
   });
 
   if (isLoading) {
-    return <div>loading page...</div>;
-  }
-
-  if (error) {
-    return <div>error page...</div>;
+    return <Spinner style={{ height: '80vh' }} />;
   }
 
   return (
