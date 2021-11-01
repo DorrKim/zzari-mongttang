@@ -11,19 +11,6 @@ const MainInner = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 1rem;
-
-  ${'' /* @media(max-width: 1176px) {
-    width: 746px;
-  }
-  @media(max-width: 768px) {
-    width: 648px;
-  }
-  @media(max-width: 680px) {
-    width: 312px;
-  }
-  @media(max-width: 375px) {
-    width: 268px;
-  } */}
 `;
 
 const PersonalPage = () => {
@@ -37,7 +24,7 @@ const PersonalPage = () => {
   const { isLoading, value, error } = userAPIState;
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <div></div>;
   }
   if (error) {
     return <div>에러발생</div>;
