@@ -13,7 +13,6 @@ import { useAuthorization } from '@context/AuthorizationProvider';
 import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
 
-
 const DetailPage = () => {
   const history = useHistory();
   const { zzalId } = useParams();
@@ -36,7 +35,6 @@ const DetailPage = () => {
   });
 
   const { myUser } = authState;
-
 
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
@@ -64,8 +62,8 @@ const DetailPage = () => {
       }
     });
 
-    const { value: { initialComments, author }} = postingDetails;
-    
+    const { value: { comments, author }} = postingDetails;
+    const initialComments = comments;
     setComments([
       ...initialComments,
       {
@@ -81,7 +79,7 @@ const DetailPage = () => {
   const handleClickRemoveComment = async id => {
     await deleteComment({ 
       headers,
-      data: { id: createdComment.value._id }
+      data: { id: createdComment.value?._id }
     });
 
     const filteredComments = comments.filter(({ _id }) => _id !== id);
