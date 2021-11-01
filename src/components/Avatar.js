@@ -2,12 +2,13 @@ import React from 'react';
 import Image from '@base/Image';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import colors from '@constants/colors';
 
 
 const DEFAULT_PROFILE_URL = 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927'; 
 
 const StyledImage = styled(Image)`
-  outline: 1.5px solid;
+  outline: 1.5px solid ${colors.PRIMARY_BACKGROUND};
   overflow: hidden;
   object-fit: cover;
 `;
