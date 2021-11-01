@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+//import styled from '@emotion/styled';
 
 import ZzalList from './ZzalList';
 import Tab from '@domains/Tab';
@@ -29,12 +30,12 @@ const ZzalFeed = ({ userId, likeZzals }) => {
           <Tab.Item index={1}><Text bold>업로드</Text></Tab.Item>
         </Tab.Header>
         <Tab.Panel>
-          <ZzalList index={0} zzalList={likeZzalPostState} ></ZzalList>
+          <ZzalList noFavorite index={0} zzalList={likeZzalPostState} ></ZzalList>
           <div index={1}>
             {isLoading && <div>Loading...</div>}
             {!isLoading && error && <div>Loading...</div>}
             {!isLoading && !error && !value && <div>Loading...</div>}
-            <ZzalList zzalList={userPostData} ></ZzalList>
+            <ZzalList noFavorite zzalList={userPostData} ></ZzalList>
           </div>
         </Tab.Panel>
       </Tab>

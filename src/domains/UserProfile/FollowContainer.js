@@ -8,13 +8,37 @@ import FollowModal from './FollowModal';
 
 const FollowWrapper = styled(Flex)`
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: .5rem;
+
+  @media(min-width: 680px) {
+
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
 `; 
 
-const FollowItem = styled(Flex)`
-  margin: 0 12px;
-  cursor: pointer;
+const StyledFollowText = styled(Text)`
+  margin-right: .25rem;
+
+  @media(min-width: 680px) {
+    margin-right: .5rem;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    height: 1.5rem;
+  }
 `;
+
+const FollowItem = styled(Flex)`
+  margin-right: 1rem;
+  align-items: center;
+  cursor: pointer;
+
+  @media (min-width: 680px) {
+  }
+`;
+
 const FollowContainer = ({
   followers,
   following,
@@ -39,14 +63,14 @@ const FollowContainer = ({
 
   return (
     <>
-      <FollowWrapper justifyContent="center" >
-        <FollowItem column alignItems='center' index={0} onClick={handleClickFollower}>
-          <Text bold >{`${countFollower}`}</Text>
-          <Text bold size="sm" >팔로워</Text>
+      <FollowWrapper>
+        <FollowItem index={0} onClick={handleClickFollower}>
+          <StyledFollowText bold>{`${countFollower}`}</StyledFollowText>
+          <Text>팔로워</Text>
         </FollowItem> 
-        <FollowItem column alignItems='center' index={1} onClick={handleClickFollowing}>
-          <Text bold>{`${countFollowing}`}</Text>
-          <Text bold size="sm">팔로잉</Text>
+        <FollowItem index={1} onClick={handleClickFollowing}>
+          <StyledFollowText bold>{`${countFollowing}`}</StyledFollowText>
+          <Text>팔로잉</Text>
         </FollowItem>
       </FollowWrapper>
       <FollowModal
