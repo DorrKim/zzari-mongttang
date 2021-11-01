@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
@@ -21,6 +21,7 @@ const DetailPage = () => {
 
   const [postingDetails, getDetails] = useAxios();
   const [comments, setComments] = useState([]);
+  const [isNewComment, setIsNewComment] = useState(false);
 
   const [createdComment, createComment] = useAxios('/comments/create', {
     method: 'post'
@@ -45,6 +46,26 @@ const DetailPage = () => {
     postingInfos && setComments(postingInfos.comments);
   }, [postingDetails]);
   
+  useEffect(() => {
+    const { value: comment } = createdComment;
+    if (isNewComment) {
+      setComments([
+        ...comments,
+        {
+          _id: comment._id,
+          comment: comment.comment,
+          author: { 
+            _id: myUser._id,
+            fullName: comment.fullName 
+          },
+          createdAt: comment.createdAt
+        }
+      ]);
+    }
+
+    setIsNewComment(false);
+  }, [isNewComment]);
+
   const handleClickRemovePosting = async () => {
     await deletePost({ 
       headers,
@@ -52,8 +73,7 @@ const DetailPage = () => {
     });
   };
 
-  const handleClickSubmitComment = useCallback(async comment => {
-    const newDate = new Date();
+  const handleClickSubmitComment = async comment => {
     await createComment({ 
       headers,
       data: { 
@@ -62,24 +82,16 @@ const DetailPage = () => {
       }
     });
 
-    const { value: { comments, author }} = postingDetails;
-    const initialComments = comments;
-    setComments([
-      ...initialComments,
-      {
-        _id: comments.length + newDate.toISOString(),
-        comment,
-        author: { _id: myUser._id,
-          fullName: author.fullName },
-        createdAt: newDate.toISOString()
-      }
-    ]);
-  });
+    setIsNewComment(true);
+  };
 
   const handleClickRemoveComment = async id => {
+
     await deleteComment({ 
       headers,
-      data: { id: createdComment.value?._id }
+      data: { 
+        id
+      }
     });
 
     const filteredComments = comments.filter(({ _id }) => _id !== id);
@@ -98,9 +110,8 @@ const DetailPage = () => {
   };
 
   const handleClickEditPost = () => {
-    history.push('/editProfile');
+    history.push(`/editZzal/${zzalId}`);
   };
-  console.log(postingDetails);
   
   const { value: postingInfos } = postingDetails;
   
