@@ -6,12 +6,11 @@ import Flex from '@base/Flex';
 import Text from '@base/Text';
 
 const UserInfoWrapper = styled(Flex)`
-  ${'' /* position: relative; */}
   margin-left: 1rem;
-  ${'' /* @media(min-width: 680px) {
+  @media(min-width: 680px) {
     justify-content: center;
     margin-left: 2.5rem;
-  } */}
+  }
 `;
 
 const UserName = styled(Text)`

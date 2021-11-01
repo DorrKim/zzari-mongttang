@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const TabPanelWrapper = styled.div`
+  width: 100%;
 `;
 
 const TabPanel = ({ children, currIndex }) => {

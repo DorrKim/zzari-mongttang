@@ -10,11 +10,23 @@ const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 1111px;
+  width: 1093px;
   height: 100%;
   overflow: auto;
   margin: 0 auto;
+
+  @media(max-width: 1176px) {
+    width: 830px;
+  }
+  @media(max-width: 768px) {
+    width: 720px;
+  }
+  @media(max-width: 680px) {
+    width: 346px;
+  }
+  @media(max-width: 375px) {
+    width: 300px;
+  }
 `;
 
 const Tab = ({ children, activeIndex = 0, ...props }) => {

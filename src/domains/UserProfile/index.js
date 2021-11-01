@@ -22,6 +22,7 @@ const ProfileWrapper = styled.div`
   }
   @media(min-width: 680px) {
     justify-content:flex-start;
+    margin: 2rem auto;
   }
   
 `;
