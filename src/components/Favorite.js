@@ -4,27 +4,42 @@ import PropTypes from 'prop-types';
 
 import Icon from '@components/base/Icon';
 import Number from '@components/Number';
+import colors from '@constants/colors';
 
 const FavoriteContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  vertical-align: center;
-  position: absolute;
-  top: 5%;
-  left: 85%;
-  gap: 4px;
-  z-index: 10;
+  width: 40px;
+  justify-content: flex-end;
+  opacity: 1;
+  &:hover :nth-of-type(svg){
+    color: ${colors.ACCENT};
+}
 `;
 
 const Favorite = ({ number, onClick, isToggled, ...props }) => {
+  const toggledStyle = {
+    color: colors.ACCENT,
+    opacity: 1,
+    flexShrink: 0,
+    marginRight: 6,
+    cursor: 'pointer'
+  };
+
+  const unToggledStyle = {
+    color: colors.TEXT_NORMAL,
+    opacity: 0.5,
+    flexShrink: 0,
+    marginRight: 6,
+    cursor: 'pointer'
+  };
+
   return (
     <>
       <FavoriteContainer {...props}>
         <Icon 
           name={isToggled ? 'filledHeart' : 'heart'} 
           onClick={onClick} 
-          style={{ color: isToggled ? 'red' : 'black' }}
+          style={isToggled ? { ...toggledStyle } : { ...unToggledStyle }}
         >
         </Icon>
         <Number value={number}></Number>

@@ -99,7 +99,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
         width={350}
         height={350}
         type='square'
-        alt='profileImage'
+        alt='zzal'
         src={imageUrl ? imageUrl : ''}
         onChange={handleFileChanged}
       />
@@ -113,23 +113,15 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
       />
       <MainCategory channelId={channelId} onChange={handleCategoryChange} />
       <ButtonContainer>
-        <Button 
+        <ButtonStyled 
           type='submit' 
           disabled={isLoading} 
-          style={{ border: 'none' }} 
-          borderRadius={'4px'}
           backgroundColor={'#FD9F28'} 
-          width={164} 
-          height={60}
-        >짤 올리기</Button>
-        <Button 
-          style={{ border: 'none' }}
-          borderRadius={'4px'} 
+        >짤 올리기</ButtonStyled>
+        <ButtonStyled 
           backgroundColor={'#dddd'} 
-          width={164} 
-          height={60}
           onClick={handleCancelClick} 
-        >취소</Button>
+        >취소</ButtonStyled>
       </ButtonContainer>
     </Form>
   );
@@ -140,6 +132,13 @@ display: flex;
 flex-direction: column;
 align-items: center;
 gap: 10px;
+`;
+
+const ButtonStyled = styled(Button)`
+border-radius: 4px;
+border: none;
+width: 164px;
+height: 60px;
 `;
 
 const ButtonContainer = styled.div`
