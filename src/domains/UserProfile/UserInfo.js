@@ -23,17 +23,19 @@ const UserName = styled(Text)`
 const UserInfo = ({ 
   fullName, 
   followContainer,
-  followToggleButton 
+  followToggleButton
 }) => {
   
   return (
-    <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
-      <UserName bold size='lg' >
-        {fullName}
-      </UserName>
-      {followContainer}
-      {followToggleButton}
-    </UserInfoWrapper>
+    <>
+      <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
+        <UserName bold size='lg' >
+          {fullName}
+        </UserName>
+        {followContainer}
+        {followToggleButton}
+      </UserInfoWrapper>
+    </>
   );
 };
 

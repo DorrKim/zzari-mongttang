@@ -22,13 +22,13 @@ const Profile = ({
   followers,
   following, 
   src, 
-  userId 
+  userId
 }) => {
   const history = useHistory();
   const { authState } = useAuthorization();
   const { isAuthorized, authToken, myUser } = authState;
-  const { _id: myUserId } = myUser;
-
+  const { _id: myUserId, image: myUserImage, fullName: myUserName } = myUser;
+  
   const headers = useMemo(() => {
     
     return {
@@ -112,9 +112,15 @@ const Profile = ({
   );
 
   const followContainer = (
-    <FollowContainer 
+    <FollowContainer
+      followers={followers} 
+      following={following} 
+      followState={followState} 
+      myUserImage={myUserImage} 
+      myUserName={myUserName}
       countFollower={countFollower} 
-      countFollowing={following.length}/>
+      countFollowing={following.length}  
+    />
   );
 
   return (

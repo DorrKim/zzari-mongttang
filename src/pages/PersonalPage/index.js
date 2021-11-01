@@ -8,13 +8,13 @@ import ZzalFeed from '@domains/Zzal/ZzalFeed';
 
 const PersonalPage = () => {
   const { userId } = useParams();
-  const [userData, fetchUserData] = useAxios(`/users/${userId}`);
+  const [userAPIState, fetchUserAPIState] = useAxios(`/users/${userId}`);
   
   useEffect(() => {
-    fetchUserData();
+    fetchUserAPIState();
   }, []);
 
-  const { isLoading, value, error } = userData;
+  const { isLoading, value, error } = userAPIState;
 
   if (isLoading) {
     return <div>로딩중</div>;
@@ -23,22 +23,23 @@ const PersonalPage = () => {
     return <div>에러발생</div>;
   }
   if (!value) {
-    return <button onClick={fetchUserData}>불러오기</button>;
+    return <button onClick={fetchUserAPIState}>불러오기</button>;
   }
 
   return (
     <>
       <Profile 
-        fullName={userData.value.fullName} 
-        followers={userData.value.followers}
-        following={userData.value.following}
-        src={userData.value.image}
+        fullName={userAPIState.value.fullName} 
+        followers={userAPIState.value.followers}
+        following={userAPIState.value.following}
+        src={userAPIState.value.image}
         userId={userId}
+        fetchUserAPIState={fetchUserAPIState}
       >
       </Profile>
       <ZzalFeed 
         userId={userId}
-        likeZzals={userData.value.likes} 
+        likeZzals={userAPIState.value.likes} 
       ></ZzalFeed>
     </>
   );
