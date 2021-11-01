@@ -1,11 +1,20 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 
 import colors from '@constants/colors';
 import Button from '@base/Button';
 import Text from '@base/Text';
 import { useHistory } from 'react-router';
 
+
+const StyledFollowButton = styled(Button)`
+  @media(min-width: 680px) {
+    width: 20rem;
+    height: 2.5rem;
+}
+  
+`;
 
 const FollowToggle = ({ 
   isMyProfile, 
@@ -28,7 +37,7 @@ const FollowToggle = ({
   }, [followState, handleClickUnFollow, handleClickFollow]);
   
   return (
-    <Button 
+    <StyledFollowButton 
       backgroundColor={
         isMyProfile || followState 
           ? 'white' 
@@ -50,7 +59,7 @@ const FollowToggle = ({
         {isMyProfile 
           ? '내 정보 수정' 
           : followState ? '팔로잉' : '팔로우'}</Text>
-    </Button>
+    </StyledFollowButton>
   );
 };
 

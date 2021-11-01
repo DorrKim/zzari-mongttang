@@ -10,6 +10,20 @@ import ZzalFeed from '@domains/Zzal/ZzalFeed';
 const MainInner = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 1rem;
+
+  ${'' /* @media(max-width: 1176px) {
+    width: 746px;
+  }
+  @media(max-width: 768px) {
+    width: 648px;
+  }
+  @media(max-width: 680px) {
+    width: 312px;
+  }
+  @media(max-width: 375px) {
+    width: 268px;
+  } */}
 `;
 
 const PersonalPage = () => {
@@ -31,7 +45,7 @@ const PersonalPage = () => {
   if (!value) {
     return <button onClick={fetchUserAPIState}>불러오기</button>;
   }
-  console.log(value);
+
   
   return (
     <main>

@@ -15,18 +15,6 @@ const TabWrapper = styled.div`
   height: 100%;
   overflow: auto;
   margin: 0 auto;
-  @media(max-width: 1176px) {
-    width: 830px;
-  }
-  @media(max-width: 768px) {
-    width: 720px;
-  }
-  @media(max-width: 680px) {
-    width: 350px;
-  }
-  @media(max-width: 375px) {
-    width: 300px;
-  }
 `;
 
 const Tab = ({ children, activeIndex = 0, ...props }) => {
