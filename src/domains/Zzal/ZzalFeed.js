@@ -8,22 +8,6 @@ import Text from '@base/Text';
 import useAxios from '@hooks/useAxios';
 
 
-// const StyledTab = styled(Tab)`
-//   @media(max-width: 1176px) {
-//     width: 830px;
-//   }
-//   @media(max-width: 768px) {
-//     width: 720px;
-//   }
-//   @media(max-width: 680px) {
-//     width: 480px;
-//   }
-//   @media(max-width: 375px) {
-//     width: 300px;
-//   }
-// `;
-
-
 const ZzalFeed = ({ userId, likeZzals }) => {
   const [userPostData, fetchUserPostData] = useAxios(`/posts/author/${userId}`);
   const likeZzalPosts = likeZzals.map(zzal => zzal.post);
