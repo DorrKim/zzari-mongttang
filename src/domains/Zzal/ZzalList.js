@@ -32,7 +32,7 @@ const ZzalList = ({ zzalList, loadCount = 6, ...props }) => {
   return (
     <StyledList {...props}>
       {(zzalList.value || [])
-        .filter((_, idx) => idx < loadCount)
+        .filter((_, idx) => idx < itemCount)
         .map(item => (
           <ZzalItem 
             key={item._id} 
@@ -56,6 +56,7 @@ const StyledList = styled.div`
   margin: 100px auto;
   width: 994px;
   gap: 8px;
+  font-family: 'netmarbleM';
   @media(max-width: 1176px) {
     width: 746px;
   }
@@ -63,7 +64,7 @@ const StyledList = styled.div`
     width: 648px;
   }
   @media(max-width: 680px) {
-    width: 368px;
+    width: 312px;
   }
   @media(max-width: 375px) {
     width: 268px;

@@ -4,7 +4,7 @@ import Checkbox from '@base/Checkbox';
 
 const CategoryChip = ({ name, selected, ...props }) => {
 
-  return <Checkbox size='lg' checked={selected} name={name} {...props}/>;
+  return <Checkbox checked={selected} name={name} {...props}/>;
 };
 
 CategoryChip.propTypes = {
