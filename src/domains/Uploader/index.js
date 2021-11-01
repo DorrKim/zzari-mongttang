@@ -62,6 +62,7 @@ const Uploader = ({
       onDrop={handleFileChange}
       dragging={dragging}
       type={type}
+      hasImage={!!src}
       {...props}
     >
       <Input
@@ -77,6 +78,7 @@ const Uploader = ({
         type={type}
         onClick={handleFileSelect}
         style={{ 
+          mixBlendMode: 'multiply',
           ...style 
         }}
       />
@@ -88,6 +90,22 @@ const InputContainer = styled.div`
 display: inline-block;
 border-radius: ${({ type }) => type === 'circle' ? '50%' : '3px'};
 border: ${({ dragging }) => dragging ? ` 3px solid ${colors.ACCENT}` : `2px solid ${colors.PRIMARY_BACKGROUND}`};
+position: relative;
+&:hover {
+  background-color: rgba(0,0,0,.1);
+  ::after{
+  display: ${({ hasImage }) => hasImage ? 'block' : 'none'};
+  cursor: pointer;
+    content: '수정';
+    position: absolute;
+    color: ${colors.ACCENT_BACKGROUND};
+    font-size: 1.5rem;
+    font-weight: 800;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+  }
+}
 `;
 
 const ImagePreview = styled(Image)`

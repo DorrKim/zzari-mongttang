@@ -16,6 +16,7 @@ const ZzalItem = ({
   postId,
   likes,
   imageUrl,
+  noFavorite,
   ...props
 }) => {
   const history = useHistory();
@@ -100,17 +101,21 @@ const ZzalItem = ({
             zIndex: 1 }}
           {...props}>
         </Image>
-        <Favorite
-          onClick={handleClickFavorite} 
-          number={likeCount}
-          isToggled={isAuthorized ? isFavoriteToggled : false}
-          style={{ gap: '4px',
-            position: 'absolute',
-            top: '5%',
-            right: '5%',
-            zIndex: 3,
-            margin: 5 }}
-        />
+        {!noFavorite
+          ? <Favorite
+            onClick={handleClickFavorite} 
+            number={likeCount}
+            isToggled={isAuthorized ? isFavoriteToggled : false}
+            style={{ gap: '4px',
+              position: 'absolute',
+              top: '5%',
+              right: '5%',
+              zIndex: 3,
+              margin: 5 }}
+          />
+          : null
+        }
+        
       </StyledItem>
     </ReactFreezeframe>
   );
@@ -145,7 +150,8 @@ const StyledItem = styled.div`
 ZzalItem.propTypes = {
   postId: PropTypes.string.isRequired,
   imageUrl: PropTypes.string,
-  likes: PropTypes.array
+  likes: PropTypes.array,
+  noFavorite: PropTypes.bool
 };
 
 export default ZzalItem;

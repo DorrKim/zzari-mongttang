@@ -6,7 +6,7 @@ import ZzalItem from '@domains/Zzal/ZzalItem';
 import useInfinteScroll from '@hooks/useInfinteScroll';
 
 
-const ZzalList = ({ zzalList, loadCount = 6, ...props }) => {
+const ZzalList = ({ zzalList, noFavorite, loadCount = 6, ...props }) => {
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
@@ -40,6 +40,7 @@ const ZzalList = ({ zzalList, loadCount = 6, ...props }) => {
             height='100%' 
             postId={item._id} 
             likes={item.likes}
+            noFavorite={noFavorite}
           />
         ))
       }  
@@ -73,6 +74,7 @@ const StyledList = styled.div`
 
 ZzalList.propTypes = {
   zzalList: PropTypes.object,
+  noFavorite: PropTypes.bool,
   loadCount: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
