@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import ZzalList from '@domains/Zzal/ZzalList';
+import Wrapper from '@base/Wrapper';
+import Zzal from '@domains/Zzal';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
 import useQuery from '@hooks/useQuery';
@@ -28,8 +29,10 @@ const SearchPage = () => {
   
   return (
     <>
-      <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
-      <ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      <Wrapper>
+        <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
+        <Zzal.ZzalList zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      </Wrapper>
     </>
   );
 };
