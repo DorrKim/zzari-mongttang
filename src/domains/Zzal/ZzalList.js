@@ -22,6 +22,10 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props })
     threshold: 0.5
   });
 
+  if (isLoading) {
+    return <div>loading page...</div>;
+  }
+
   if (error) {
     return <div>error page...</div>;
   }
@@ -51,10 +55,10 @@ const StyledList = styled.div`
   justify-items: center;
   align-items: center;
   flex-wrap: wrap;
+  margin: 0 auto;
+  width: 984px;
   gap: 8px;
   font-family: 'netmarbleM';
-  margin: 0 auto;
-  width: 994px;
   @media(max-width: 1176px) {
     width: 746px;
   }
