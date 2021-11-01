@@ -97,7 +97,7 @@ const Image = ({
   return (
     <ImageStyled 
       ref={imgRef}
-      src={state.isdetected ? src : placeholder} 
+      src={src ? src : placeholder} 
       width={width} 
       height={height} 
       type={IMAGE_TYPES[type]} 

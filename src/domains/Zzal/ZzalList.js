@@ -1,128 +1,81 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
-import Grid from '@base/Grid';
+import useInfinteScroll from '@hooks/useInfinteScroll';
 
-let observer = null;
-const LOAD_POST_EVENT_TYPE = 'fetch';
 
-const checkIntersect = (entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
-      entry.target.dispatchEvent(new CustomEvent(LOAD_POST_EVENT_TYPE));
-    } 
+const ZzalList = ({ zzalList, loadCount = 6, ...props }) => {
+  const [target, setTarget] = useState(null);
+  const [itemCount, setItemCount] = useState(0);
+  const { isLoading, value, error } = zzalList;
+
+  useInfinteScroll({
+    target,
+    onIntersect: ([{ isIntersecting }]) => {
+      if (itemCount < value?.length && isIntersecting) {
+        setItemCount(prevCount => prevCount + loadCount);
+      }
+    },
+    threshold: 0.5
   });
-};
 
-const ZzalList = ({ zzalList }) => {
-  const [itemCount, setItemCount] = useState(6);
-  const [isFetchable, setIsFetchable] = useState(false);
-  const init = useRef(false);
-  const ref = useRef(null);
-  const fetchItem = () => setItemCount(prev => prev + 6);
+  if (isLoading) {
+    return <div>loading page...</div>;
+  }
 
-  const handleLoadPost = useCallback(() => {
-    fetchItem();
-    observer.observe(ref.current);
-  }, [zzalList, observer]);
+  if (error) {
+    return <div>error page...</div>;
+  }
 
-  useEffect(() => {
-    const { isLoading, value } = zzalList; 
-
-    setIsFetchable(ref.current && !isLoading && value && itemCount < value.length);
-
-    value?.length < itemCount && ref.current?.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
-  }, [zzalList, ref, itemCount]);
-
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    ref.current.addEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
-
-    return () => {
-      ref.current?.removeEventListener(LOAD_POST_EVENT_TYPE, handleLoadPost);
-    };
-  }, [ref, handleLoadPost]);
-
-  useEffect(() => {      
-    if (!observer) {
-      observer = new IntersectionObserver(checkIntersect, { threshold: 0.5 });
-    }
-    
-    if (!init.current) {
-      init.current = true;
-      
-      return;
-    }
-    
-    if (isFetchable) {
-      observer.observe(ref.current);
-    }
-  }, [observer, isFetchable]);
-  
   return (
-    <StyledList>
-      <Grid gridProps={gridProps}>
-        {(zzalList.value || [])
-          .filter((_, idx) => idx < itemCount)
-          .map(item => (
-            <ZzalItem 
-              key={item._id} 
-              id={item._id} 
-              imageUrl={item.image} 
-              height='100%' 
-              number={item.likes.length}
-            />
-          ))
-        }  
-        <div ref={ref}></div>
-      </Grid>
+    <StyledList {...props}>
+      {(zzalList.value || [])
+        .filter((_, idx) => idx < loadCount)
+        .map(item => (
+          <ZzalItem 
+            key={item._id} 
+            imageUrl={item.image} 
+            height='100%' 
+            postId={item._id} 
+            likes={item.likes}
+          />
+        ))
+      }  
+      <div ref={setTarget}></div>
     </StyledList>
   );
 };
 
-const gridProps = {
-  xs: {
-    gap: 8,
-    position: ['center', 'center']
-  },
-  sm: {
-    gap: 8,
-    position: ['center', 'center']
-  },
-  md: {
-    gap: 8,
-    position: ['center', 'center']
-  },
-  lg: {
-    gap: 8,
-    position: ['center', 'center']
-  },
-  xl: {
-    gap: 8,
-    position: ['center', 'center']
-  }
-};
-
 const StyledList = styled.div`
-  width: 994px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-wrap: wrap;
   margin: 100px auto;
-  box-sizing: border-box;
+  width: 994px;
+  gap: 8px;
   @media(max-width: 1176px) {
     width: 746px;
   }
   @media(max-width: 768px) {
-    width: 490px;
+    width: 648px;
+  }
+  @media(max-width: 680px) {
+    width: 368px;
+  }
+  @media(max-width: 375px) {
+    width: 268px;
   }
 `;
 
 ZzalList.propTypes = {
-  zzalList: PropTypes.object
+  zzalList: PropTypes.object,
+  loadCount: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
 };
 
 export default ZzalList;

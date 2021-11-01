@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 import Image from '@base/Image';
+import defaultImageSrc from '@assets/select_image.png';
+import colors from '@constants/colors';
 
 const FILE_TYPE = 'image/*';
-
-const resizedStyle = { objectFit: 'cover' };
 
 const Input = styled.input({
   display: 'none'
@@ -26,34 +26,42 @@ const Uploader = ({
   const [dragging, setDragging] = useState(false);
 
   const inputRef = useRef(null);
-  
-  const handleFileChosen = () => {
-    inputRef.current.click();
-  };
-  
-  const handleDragOver = event => {
+
+  const handleFileSelect = useCallback(() => {
+    inputRef.current?.click();
+  }, [inputRef.current]);
+
+  const handleFileChange = useCallback(event => {
+    setDragging(false);
+    onChange && onChange(event);
+  }, [onChange]);
+
+  const handleDragOver = useCallback(event => {
     if (!droppable) {
       return;
     }
     event.preventDefault();
     event.stopPropagation();
     setDragging(true);
-  };
-
-  const handleDragLeave = event => {
+  }, [droppable]);
+  
+  const handleDragLeave = useCallback(event => {
     handleDragOver(event);
     setDragging(false);
-  };
-  
+  }, [handleDragOver]); 
+
   return (
-    <div 
+    <InputContainer 
       style={{ 
-        display: 'inline-block',
+        width,
+        height,
         ...style 
       }}
-      onDrop={handleFileChosen}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
+      onDrop={handleFileChange}
+      dragging={dragging}
+      type={type}
       {...props}
     >
       <Input
@@ -61,38 +69,31 @@ const Uploader = ({
         ref={inputRef}
         name={droppable ? 'post' : 'profile'}
         accept={accept}
-        onChange={onChange}
+        onChange={handleFileChange}
       />
-      {src
-        ? <div>
-          <Image
-            src={src}
-            alt={alt}
-            width={width} 
-            height={height}
-            type={type}
-            onClick={handleFileChosen}
-            style={{ ...resizedStyle,
-              ...style }}
-          >
-          </Image>
-        </div>
-        : (
-          <div 
-            onClick={handleFileChosen}
-            style={{
-              width,
-              height,
-              border: '4px dashed #aaa',
-              borderColor: dragging ? '#FD9F28' : '#aaa'
-            }}
-          >
-            {'image upload!'}
-          </div>)
-      }
-    </div>
+      <ImagePreview
+        src={src || defaultImageSrc }
+        alt={alt}
+        type={type}
+        onClick={handleFileSelect}
+        style={{ 
+          ...style 
+        }}
+      />
+    </InputContainer>
   );
 };
+
+const InputContainer = styled.div`
+display: inline-block;
+border-radius: ${({ type }) => type === 'circle' ? '50%' : '3px'};
+border: ${({ dragging }) => dragging ? ` 3px solid ${colors.ACCENT}` : `2px solid ${colors.PRIMARY_BACKGROUND}`};
+`;
+
+const ImagePreview = styled(Image)`
+  width: 100%;
+  height: 100%;
+`;
 
 Uploader.propTypes = {
   name: PropTypes.string,
