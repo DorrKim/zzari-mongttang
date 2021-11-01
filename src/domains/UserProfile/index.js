@@ -59,7 +59,7 @@ const Profile = ({
     return followers.find(follow => follow.follower._id === myUserId)?._id;
   });
   const [visible, setVisible] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState();
+  //const [isConfirmed, setIsConfirmed] = useState(false);
   
   const [unfollowData, fetchUnFollowData] = useAxios('/follow/delete', {
     method: 'delete',
@@ -94,13 +94,12 @@ const Profile = ({
     }
   }, [unfollowData.value]);
 
-  const handleClickConfirm = useCallback(() => {
-    setIsConfirmed(true);  
+  const handleClickConfirm = useCallback(() => { 
+    history.push('/login');
     setVisible(false);
   }, [setVisible]);
 
   const handleClickCancel = useCallback(() => {
-    setIsConfirmed(false);  
     setVisible(false);
   }, [setVisible]);
 
@@ -119,7 +118,9 @@ const Profile = ({
   const handleClickFollow = useCallback(async () => {
     if (!isAuthorized) {
       setVisible(true);
-      isConfirmed && history.push('/login');
+      // console.log(isConfirmed);
+      // isConfirmed && history.push('/login');
+      // console.log(isConfirmed);
       
       return;
     }
