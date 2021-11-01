@@ -12,6 +12,7 @@ import Text from '@base/Text';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
+import Favorite from '@components/Favorite';
 
 const DetailPage = () => {
   const history = useHistory();
@@ -156,12 +157,10 @@ const DetailPage = () => {
           </Button>
         </div>
         <Flex>
-          <Icon
-            name={'heart'}
-          ></Icon>
-          <h1>
-            {postingInfos.likes.length}
-          </h1>
+          <Favorite
+            likes={postingInfos.likes}
+            postId={postingInfos._id}
+          />
           <Icon
             name={'comment'}
           ></Icon>
