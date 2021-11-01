@@ -13,16 +13,19 @@ import { useAuthorization } from '@context/AuthorizationProvider';
 import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
 import Favorite from '@components/Favorite';
+import styled from '@emotion/styled';
+import colors from '@constants/colors';
 
 const DetailPage = () => {
   const history = useHistory();
   const { zzalId } = useParams();
-  const { authState } = useAuthorization();
-  const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
+  const { authState: { isAuthorized, authToken, myUser }} = useAuthorization();
+  const headers = useMemo(() => ({ Authorization: `bearer ${authToken}` }), [authToken]);
 
   const [postingDetails, getDetails] = useAxios();
   const [comments, setComments] = useState([]);
   const [isNewComment, setIsNewComment] = useState(false);
+  const [isShowComments, setIsShowComments] = useState(false);
 
   const [createdComment, createComment] = useAxios('/comments/create', {
     method: 'post'
@@ -36,8 +39,6 @@ const DetailPage = () => {
     method: 'delete'
   });
 
-  const { myUser } = authState;
-
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
   }, []);
@@ -49,15 +50,17 @@ const DetailPage = () => {
   
   useEffect(() => {
     const { value: comment } = createdComment;
-    if (isNewComment) {
+    const { image: myImage, fullName: myFullName, _id: myId } = myUser;
+    if (isNewComment && isAuthorized) {
       setComments([
         ...comments,
         {
           _id: comment._id,
           comment: comment.comment,
           author: { 
-            _id: myUser._id,
-            fullName: comment.fullName 
+            _id: myId,
+            fullName: myFullName,
+            image: myImage
           },
           createdAt: comment.createdAt
         }
@@ -65,7 +68,7 @@ const DetailPage = () => {
     }
 
     setIsNewComment(false);
-  }, [isNewComment]);
+  }, [isNewComment, myUser]);
 
   const handleClickRemovePosting = async () => {
     await deletePost({ 
@@ -112,6 +115,10 @@ const DetailPage = () => {
 
   const handleClickEditPost = () => {
     history.push(`/editZzal/${zzalId}`);
+  };
+
+  const handleShowComment = () => {
+    setIsShowComments(true);
   };
   
   const { value: postingInfos } = postingDetails;
@@ -194,26 +201,41 @@ const DetailPage = () => {
           }
           
         </Flex>
-        <span style={{ display: 'flex',
-          justifyContent: 'center', 
-          alignItems: 'center' }}>
-          <Icon
-            name={'arrowDown'}
-          ></Icon>
-        </span>
-        <Comment
-          comments={comments}
-          myUserId={myUser._id}
-          myName={myUser.fullName}
-          handleSubmit={handleClickSubmitComment}
-          handleClickDelete={handleClickRemoveComment}
-        />
-  
+        <ShowCommentButton
+          name={'arrowDown'}
+          onClick={handleShowComment}
+          style={{ display: isShowComments ? 'none' : 'block' }}
+        >
+        </ShowCommentButton>
+        {isShowComments && (
+          <Comment
+            comments={comments}
+            myUserId={myUser._id}
+            myName={myUser.fullName}
+            handleSubmit={handleClickSubmitComment}
+            handleClickDelete={handleClickRemoveComment}
+          />
+        )}
       </div>
       }
     </>
   );
 };
+
+const ShowCommentButton = styled(Icon)`
+width: 100%;
+padding: 5px;
+box-sizing: content-box;
+font-size: 24px;
+cursor: pointer;
+color: ${colors.PRIMARY_LIGHT};
+background-color: ${colors.PRIMARY_BACKGROUND};
+transition: .1s all ease-in;
+&:hover {
+  filter: brightness(98%);
+  color: ${colors.ACCENT}
+}
+`;
 
 DetailPage.propTypes = {
   params: PropTypes.string
