@@ -5,13 +5,11 @@ import { ICON_TYPES } from '@constants/icons';
 const Icon = ({ 
   name, 
   fontSize, 
-  color,
   ...props 
 }) => {
   const { [name]: IconTag } = ICON_TYPES;
 
   const iconStyle = {
-    color,
     fontSize,
     ...props.style
   };

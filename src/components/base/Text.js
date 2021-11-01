@@ -12,12 +12,12 @@ const TEXT_SIZES = {
   md: css`
     font-size: 16px;
     height: 16px;
-    line-height: 20px;
+    line-height: 18px;
     `,
   lg: css`
     font-size: 24px;
     height: 24px;
-    line-height: 30px;
+    line-height: 26px;
   `
 };
 
@@ -28,16 +28,19 @@ const Text = ({
   color, 
   bold,
   style,
+  selectable = false,
   ...props
 }) => {
   const tag = block ? 'div' : 'span';
   const { [size]: fontSize } = TEXT_SIZES;
   const fontWeight = bold ? 'bold' : 'normal';
-
+  const userSelect = selectable ? 'auto' : 'none';
+  
   return (
     <StyledText as={tag} fontSize={fontSize} style={{
       color,
       fontWeight,
+      userSelect,
       ...style
     }} {...props}>
       { children }
@@ -46,7 +49,12 @@ const Text = ({
 };
 
 const StyledText = styled.div`
-    ${props => props.fontSize}
+    ${props => props.fontSize};
+    /* font-family: 'netmarbleM'; */
+    /* font-family: 'KoPubDotumMedium'; */
+    /* font-family: 'GmarketSansMedium'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    /* font-family: 'ChosunGu'; */
 `;
 
 Text.propTypes = {
@@ -58,7 +66,8 @@ Text.propTypes = {
   size: PropTypes.string,
   color: PropTypes.string,
   bold: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
+  selectable: PropTypes.bool
 };
 
 export default Text;

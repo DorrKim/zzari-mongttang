@@ -2,10 +2,13 @@ import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import Button from '@base/Button';
 import useAxios from '@hooks/useAxios';
 import CategoryChip from './CategoryChip';
 import CategoryList from './CategoryList';
+import { ICON_TYPES } from '@constants/icons';
+// import colors from '@constants/colors';
 
 
 const MainCategory = ({ channelId, onChange }) => {
@@ -14,6 +17,7 @@ const MainCategory = ({ channelId, onChange }) => {
   const [offsetX, setOffsetX] = useState(0);
   const [categoryListWidth, setCategoryListWidth] = useState(0);
   const [viewerWidth, setViewerWidth] = useState(0);
+  const distance = useMemo(() => viewerWidth / 3, [viewerWidth]);
 
   const [ref, innerRef] = [useRef(null), useRef(null)];
 
@@ -39,10 +43,10 @@ const MainCategory = ({ channelId, onChange }) => {
   const handlePrev = useCallback(() => {
     const MAX_OFFSET_X = 0;
 
-    offsetX + viewerWidth > MAX_OFFSET_X 
+    offsetX + distance > MAX_OFFSET_X 
       ? handleOffsetX(MAX_OFFSET_X) 
-      : handleOffsetX(offsetX + viewerWidth);
-  }, [offsetX, viewerWidth, handleOffsetX]);
+      : handleOffsetX(offsetX + distance);
+  }, [offsetX, distance, handleOffsetX]);
 
   const handleNext = useCallback(() => {
     if (!categoryListWidth) {
@@ -51,10 +55,10 @@ const MainCategory = ({ channelId, onChange }) => {
 
     const MIN_OFFSET_X = - categoryListWidth + viewerWidth;
 
-    offsetX - viewerWidth < MIN_OFFSET_X 
+    offsetX - distance < MIN_OFFSET_X 
       ? handleOffsetX(MIN_OFFSET_X) 
-      : handleOffsetX(offsetX - viewerWidth);
-  }, [offsetX, viewerWidth, handleOffsetX, categoryListWidth]);
+      : handleOffsetX(offsetX - distance);
+  }, [offsetX, viewerWidth, distance, handleOffsetX, categoryListWidth]);
 
   const handleChangeChip = useCallback(e => {
     onChange(e.id);
@@ -68,16 +72,18 @@ const MainCategory = ({ channelId, onChange }) => {
     } 
   }, [selectedChip, value]);
 
-
   return (
     <>
       <Wrapper>
-        <LeftButton offsetX={offsetX} onClick={handlePrev}>Prev</LeftButton>
+        <LeftButton offsetX={offsetX} onClick={handlePrev}>
+          <ICON_TYPES.moveLeft style={{ height: '16px',
+            lineHeight: '18px' }} />
+        </LeftButton>
         <Inner ref={innerRef}>
           <RefWrapper ref={ref}>
             <StyledCategoryList selectedIndex={selectedChip} onChange={handleChangeChip}>
               {!isLoading && (value?.map(({ _id, name }) => (
-                <CategoryChip style={{ margin: '0 5px' }} size='lg' key={_id} name={name} id={_id} />
+                <CategoryChip style={{ margin: '0 5px' }} key={_id} name={name} id={_id} />
               ))
               )}
             </StyledCategoryList>
@@ -86,7 +92,10 @@ const MainCategory = ({ channelId, onChange }) => {
         <RightButton offset={{ offsetX,
           categoryListWidth,
           viewerWidth
-        }} onClick={handleNext}>Next</RightButton>
+        }} onClick={handleNext}>
+          <ICON_TYPES.moveRight style={{ height: '16px',
+            lineHeight: '18px' }} />
+        </RightButton>
       </Wrapper>
     </>
   );
@@ -94,27 +103,37 @@ const MainCategory = ({ channelId, onChange }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  overflow-x: hidden;
   position: relative;
   width: 600px;
-  overflow-x: hidden;
-  margin: 10px auto;
+  height: 30px;
+  overflow: hidden;
+  margin: 20px auto;
+
+  &::after, &::before {
+    display: block;
+    content: '';
+    width: 50px;
+  }
+
   @media(max-width: 630px) {
     width: 90vw;
   }
-  padding: 0 30px;
 `;
 
 const RefWrapper = styled.div`
   transition: 0.5s ease-in;
+  &::after, &::before {
+    display: block;
+    content: '';
+    width: 50px;
+  }
 `;
 
 const Inner = styled.div`
   width: 100%;
   display: flex;  
   transition: transform 0.5s;
-  overflow-x: hidden;
-  height: 50px;
+  overflow: hidden;
 `;
 
 const StyledCategoryList = styled(CategoryList)`
@@ -122,23 +141,40 @@ const StyledCategoryList = styled(CategoryList)`
   flex-wrap: nowrap;
 `;
 
+const buttonStyle = css `
+  transition: 0.2s ease-in-out;
+  position:absolute;
+  top:0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    border-color: #ddd;
+    border-radius: 50px;
+  }
+`;
+
 const LeftButton = styled(Button)`
+  ${buttonStyle}
+  left: 0;
   ${props => props.offsetX === 0 
     ? `
-      pointer-events: none;
-      opacity: 0.1;
+    pointer-events: none;
+    opacity: 0.1;
     ` 
     : ''
 }
-  transition: 1s ease-in-out;
-  position:absolute;
-  top:0;
-  left:0;
-  width: 30px;
-  height: 30px;
 `;
 
 const RightButton = styled(Button)`
+  ${buttonStyle}
+  right: 0;
   ${({ offset: { offsetX, categoryListWidth, viewerWidth }}) => viewerWidth - offsetX === categoryListWidth
     ? `
       pointer-events: none;
@@ -146,12 +182,6 @@ const RightButton = styled(Button)`
     ` 
     : ''
 } 
-  transition: 1s ease-in-out;
-  position:absolute;
-  top:0;
-  right:0;
-  width: 30px;
-  height: 30px;
 `;
 
 MainCategory.propTypes = {
