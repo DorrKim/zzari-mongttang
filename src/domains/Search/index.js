@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
 import Input from '@base/Input';
-// import colors from '@constants/colors';
 
 
 const SearchBar = ({ initialKeyword = '', onToSubmitPage }) => {

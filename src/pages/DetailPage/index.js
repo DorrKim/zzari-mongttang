@@ -1,20 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import { useMemo } from 'react';
 import { useHistory } from 'react-router';
+import styled from '@emotion/styled';
 
-import Button from '@components/base/Button';
 import Icon from '@components/base/Icon';
-import Image from '@base/Image';
-import Text from '@base/Text';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
 import Favorite from '@components/Favorite';
-import styled from '@emotion/styled';
+import AlertModal from '@domains/NotationModal/AlertModal';
+import ConfirmModal from '@domains/NotationModal/ConfirmModal';
+import Text from '@base/Text';
+import Posting from './Posting';
 import colors from '@constants/colors';
+
+const StyledButton = styled.button`
+  border: 1px solid #FD9F28;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color:transparent;
+`;
+
+const SytledIcon = styled(Icon)`
+  cursor: pointer;
+`;
+
+const StyledText = styled.span`
+  color: #FD9F28;
+  white-space: nowrap;
+`;
 
 const DetailPage = () => {
   const history = useHistory();
@@ -26,6 +45,29 @@ const DetailPage = () => {
   const [comments, setComments] = useState([]);
   const [isNewComment, setIsNewComment] = useState(false);
   const [isShowComments, setIsShowComments] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [, setIsConfirmed] = useState();
+
+  const handleClickConfirm = useCallback(() => {
+    setIsConfirmed(true);  
+    setConfirmVisible(false);
+    history.push(`/editZzal/${zzalId}`);
+  }, [setConfirmVisible]);
+
+  const handleClickRemoveConfirm = async () => {
+    setIsConfirmed(true);  
+    setConfirmVisible(false);
+    await deletePost({ 
+      headers,
+      data: { id: zzalId }
+    });
+  };
+
+  const handleClickCancel = useCallback(() => {
+    setIsConfirmed(false);  
+    setConfirmVisible(false);
+  }, [setConfirmVisible]);
 
   const [createdComment, createComment] = useAxios('/comments/create', {
     method: 'post'
@@ -70,11 +112,8 @@ const DetailPage = () => {
     setIsNewComment(false);
   }, [isNewComment, myUser]);
 
-  const handleClickRemovePosting = async () => {
-    await deletePost({ 
-      headers,
-      data: { id: zzalId }
-    });
+  const handleClickRemovePosting = () => {
+    setConfirmVisible(true);
   };
 
   const handleClickSubmitComment = async comment => {
@@ -107,14 +146,11 @@ const DetailPage = () => {
   
   const handleClickCopy = () => {
     navigator.clipboard.writeText(postingDetails.value.image);
-  };
-  
-  const handleClickBack = () => {
-    history.goBack();
+    setVisible(true);
   };
 
   const handleClickEditPost = () => {
-    history.push(`/editZzal/${zzalId}`);
+    setConfirmVisible(true);
   };
 
   const handleShowComment = () => {
@@ -125,98 +161,91 @@ const DetailPage = () => {
   
   return (
     <>
-      {
-        postingInfos
-      && <div style={{ 
-        margin: '0 auto',
-        width: '40%'
-      }}>
-        <Flex>
-          <div
-            style={{ 
-              width: '10%'
-            }}
-          >
-            <Icon 
-              name={'arrowBack'}
-              onClick={handleClickBack}
-            >
-            </Icon>
-          </div>
-          <div
-            style={{ 
-              width: '90%'
-            }}
-          >
-            <Text>{postingInfos.title}</Text>
-          </div>
-        </Flex>
-        <div
+      { postingInfos 
+        && <div 
           style={{ 
-            width: '100%'
-          }}
-        >
-          <Image 
-            src={postingInfos.image 
-              ? postingInfos.image 
-              : ''}
-            width='100%'
-            height='content-fit'
-          >
-          </Image>
-          <Button 
+            margin: '0 auto',
+            width: '40%'
+          }} >
+          <Posting postingInfos={postingInfos} />
+          <StyledButton 
             onClick={handleClickCopy}
             width='100%'
             height='40px'
           >
-            <Text 
+            <StyledText 
               bold
-            >복사</Text>
-          </Button>
+            >복사</StyledText>
+          </StyledButton>
+          <AlertModal
+            title='Copied'
+            description='이미지 URL이 복사되었습니다'
+            visible={visible}
+            handleClose={() => setVisible(false)}
+          />
+          <div
+            style={{ 
+              margin: '10px 0' }} >
+            <Text> {postingInfos.title} </Text>
+          </div>
+          <Flex>
+            <Favorite
+              likes={postingInfos.likes}
+              postId={postingInfos._id}
+            />
+            <Icon
+              name={'comment'}
+            ></Icon>
+            <h1>
+              {postingInfos.comments.length}
+            </h1>
+            {
+              myUser._id === postingInfos.author._id
+                ? <div style={{ marginLeft: 'auto' }}>
+                  <SytledIcon
+                    name={'edit'}
+                    onClick={handleClickEditPost}
+                  ></SytledIcon>
+                  <ConfirmModal
+                    title='Go'
+                    description='포스트 수정 페이지로 이동하시겠습니까?'
+                    visible={confirmVisible}
+                    handleClickConfirm={handleClickConfirm}
+                    handleClickCancel={handleClickCancel} 
+                  >
+                  </ConfirmModal>
+                  <SytledIcon
+                    name={'remove'}
+                    onClick={handleClickRemovePosting}
+                  ></SytledIcon>
+                  <ConfirmModal
+                    title='Remove'
+                    description='포스트를 삭제하시겠습니까??'
+                    visible={confirmVisible}
+                    handleClickConfirm={handleClickRemoveConfirm}
+                    handleClickCancel={handleClickCancel} 
+                  >
+                  </ConfirmModal>
+                </div>
+                : null
+            }  
+          </Flex>
+          <ShowCommentButton
+            name={'arrowDown'}
+            onClick={handleShowComment}
+            style={{ display: isShowComments ? 'none' : 'block' }}
+          >
+          </ShowCommentButton>
+          {isShowComments && (
+            <Comment
+              comments={comments}
+              myUserId={myUser._id}
+              myName={myUser.fullName}
+              handleSubmit={handleClickSubmitComment}
+              handleClickDelete={handleClickRemoveComment}
+            />
+          )}
         </div>
-        <Flex>
-          <Favorite
-            likes={postingInfos.likes}
-            postId={postingInfos._id}
-          />
-          <Icon
-            name={'comment'}
-          ></Icon>
-          <h1>
-            {postingInfos.comments.length}
-          </h1>
-          {
-            myUser._id === postingInfos.author._id
-              ? <div style={{ marginLeft: 'auto' }}>
-                <Icon
-                  name={'edit'}
-                  onClick={handleClickEditPost}
-                ></Icon>
-                <Icon
-                  name={'remove'}
-                  onClick={handleClickRemovePosting}
-                ></Icon>
-              </div>
-              : <div></div>
-          }
-          
-        </Flex>
-        <ShowCommentButton
-          name={'arrowDown'}
-          onClick={handleShowComment}
-          style={{ display: isShowComments ? 'none' : 'block' }}
-        >
-        </ShowCommentButton>
-        {isShowComments && (
-          <Comment
-            comments={comments}
-            myUserId={myUser._id}
-            myName={myUser.fullName}
-            handleSubmit={handleClickSubmitComment}
-            handleClickDelete={handleClickRemoveComment}
-          />
-        )}
-      </div>
       }
     </>
   );

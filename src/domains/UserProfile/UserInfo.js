@@ -6,8 +6,11 @@ import Flex from '@base/Flex';
 import Text from '@base/Text';
 
 const UserInfoWrapper = styled(Flex)`
-  width: 160px;
-  margin-left: 16px;
+  margin-left: 1rem;
+  @media(min-width: 680px) {
+    justify-content: center;
+    margin-left: 2.5rem;
+  }
 `;
 
 const UserName = styled(Text)`
@@ -16,8 +19,13 @@ const UserName = styled(Text)`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 160px;
-  margin: 8px 16px;
+
+  @media(min-width: 680px) {
+    margin: 1.5rem 0;
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+  }
 `;
 
 const UserInfo = ({ 
@@ -28,7 +36,7 @@ const UserInfo = ({
   
   return (
     <>
-      <UserInfoWrapper column alignItems='center' justifyContent='space-between'>
+      <UserInfoWrapper column justifyContent='space-between'>
         <UserName bold size='lg' >
           {fullName}
         </UserName>
