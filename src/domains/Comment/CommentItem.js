@@ -7,6 +7,7 @@ import colors from '@constants/colors';
 import Flex from '@base/Flex';
 import Divider from '@base/Divider';
 import Icon from '@base/Icon';
+import { useHistory } from 'react-router';
 
 
 const parseCommentCreateDate = createDate => {
@@ -49,14 +50,19 @@ const CommentInfo = styled.div`
 `;
 
 const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickDelete }) => {
-  const onClickDelte = useCallback(() => {
+  const history = useHistory();
+  const onClickDelete = useCallback(() => {
     handleClickDelete && handleClickDelete(id);
   }, [id, handleClickDelete]);
+
+  const handleToPersonalPage = useCallback(() => {
+    history.push(`/user/${author._id}`);
+  }, [author]);
 
   return (
     <>
       <CommentItemWrapper>
-        <Avatar src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
+        <Avatar onClick={handleToPersonalPage} src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
         <CommentInfo>
           <Flex alignItems='center' justifiContent='flex-start'>
             <Text bold>{author.fullName}</Text>
@@ -76,7 +82,7 @@ const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickD
               style={{ 
                 marginLeft: 'auto',
                 marginRight: '8px' }}
-              onClick={onClickDelte}/>}
+              onClick={onClickDelete}/>}
           </Flex>
           <Text style={{ marginTop: '8px' }}>{comment}</Text>
         </CommentInfo>

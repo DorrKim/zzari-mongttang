@@ -10,10 +10,10 @@ const CommentList = styled.li`
   background-color: #FfFBF6;
 `;
 
-const Comment = ({ comments, myUserId = '61795b2aa1f9673a2292a0d8', myName, handleSubmit, handleClickDelete }) => {
+const Comment = ({ comments, myUserId, handleSubmit, handleClickDelete }) => {
   return (
     <Flex column>
-      <CommentForm handleSubmit={handleSubmit} myName={myName}>
+      <CommentForm handleSubmit={handleSubmit}>
 
       </CommentForm>
       <CommentList>
@@ -27,7 +27,7 @@ const Comment = ({ comments, myUserId = '61795b2aa1f9673a2292a0d8', myName, hand
             createdAt={createdAt}
             handleClickDelete={handleClickDelete}
           />
-        ))}
+        )).reverse()}
       </CommentList>
     </Flex>
   );
