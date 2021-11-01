@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types';
 
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import Button from '@base/Button';
 import useAxios from '@hooks/useAxios';
 import CategoryChip from './CategoryChip';
@@ -71,7 +72,6 @@ const MainCategory = ({ channelId, onChange }) => {
     } 
   }, [selectedChip, value]);
 
-
   return (
     <>
       <Wrapper>
@@ -103,15 +103,25 @@ const MainCategory = ({ channelId, onChange }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  overflow-x: hidden;
   position: relative;
   width: 600px;
-  overflow-x: hidden;
-  margin: 10px auto;
-  font-family: 'netmarbleM';
+  height: 100%;
+  overflow: hidden;
+  margin: 20px auto;
+
+  &::after, &::before {
+    display: block;
+    content: '';
+    width: 50px;
+  }
+
   @media(max-width: 630px) {
     width: 90vw;
   }
+`;
+
+const RefWrapper = styled.div`
+  transition: 0.5s ease-in;
   &::after, &::before {
     display: block;
     content: '';
@@ -119,16 +129,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const RefWrapper = styled.div`
-  transition: 0.5s ease-in;
-`;
-
 const Inner = styled.div`
   width: 100%;
   display: flex;  
   transition: transform 0.5s;
-  overflow-x: hidden;
-  height: 50px; 
+  overflow: hidden;
 `;
 
 const StyledCategoryList = styled(CategoryList)`
@@ -136,31 +141,40 @@ const StyledCategoryList = styled(CategoryList)`
   flex-wrap: nowrap;
 `;
 
-const LeftButton = styled(Button)`
-  ${props => props.offsetX === 0 
-    ? `
-      pointer-events: none;
-      opacity: 0.1;
-    ` 
-    : ''
-}
+const buttonStyle = css `
   transition: 0.2s ease-in-out;
   position:absolute;
   top:0;
-  left:0;
   width: 30px;
   height: 30px;
   border: 1px solid transparent;
   background-color: transparent;
-  font-size: 20px;
-  text-align: center;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:hover {
-    border: 1px solid #ddd;
+    border-color: #ddd;
     border-radius: 50px;
   }
 `;
 
+const LeftButton = styled(Button)`
+  ${buttonStyle}
+  left: 0;
+  ${props => props.offsetX === 0 
+    ? `
+    pointer-events: none;
+    opacity: 0.1;
+    ` 
+    : ''
+}
+`;
+
 const RightButton = styled(Button)`
+  ${buttonStyle}
+  right: 0;
   ${({ offset: { offsetX, categoryListWidth, viewerWidth }}) => viewerWidth - offsetX === categoryListWidth
     ? `
       pointer-events: none;
@@ -168,22 +182,6 @@ const RightButton = styled(Button)`
     ` 
     : ''
 } 
-  transition: 0.2s ease-in-out;
-  position:absolute;
-  top:0;
-  right:0;
-  width: 30px;
-  height: 30px;
-  border: 1px solid transparent;
-  background-color: transparent;
-  font-size: 20px;
-  text-align: center;
-  /* color: colors.ACCENT; */
-  &:hover {
-    border: 1px solid #ddd;
-    border-radius: 50px;
-    transition: 0s;
-  }
 `;
 
 MainCategory.propTypes = {

@@ -50,7 +50,7 @@ const StyledText = styled.div`
     /* font-family: 'netmarbleM'; */
     /* font-family: 'KoPubDotumMedium'; */
     /* font-family: 'GmarketSansMedium'; */
-    /* font-family: 'NEXON Lv1 Gothic OTF'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
     /* font-family: 'ChosunGu'; */
 `;
 
