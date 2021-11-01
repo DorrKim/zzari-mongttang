@@ -15,16 +15,18 @@ import Comment from '@domains/Comment';
 
 
 const DetailPage = () => {
+  const history = useHistory();
+  const { zzalId } = useParams();
+  const { authState } = useAuthorization();
+  const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
+
+  const [postingDetails, getDetails] = useAxios();
   const [comments, setComments] = useState([]);
 
-  const history = useHistory();
+  const [createdComment, createComment] = useAxios('/comments/create', {
+    method: 'post'
+  });
 
-  const { zzalId } = useParams();
-
-  const { authState } = useAuthorization();
-
-  const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
-  const [details, getDetails] = useAxios();
   const [, deletePost] = useAxios('/posts/delete', {
     method: 'delete'
   });
@@ -33,19 +35,17 @@ const DetailPage = () => {
     method: 'delete'
   });
 
-  const [createdComment, createComment] = useAxios('/comments/create', {
-    method: 'post'
-  });
-
   const { myUser } = authState;
+
 
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
   }, []);
 
   useEffect(() => {
-    details.value && setComments(details.value.comments);
-  }, [details]);
+    const { value: postingInfos } = postingDetails;
+    postingInfos && setComments(postingInfos.comments);
+  }, [postingDetails]);
   
   const handleClickRemovePosting = async () => {
     await deletePost({ 
@@ -64,13 +64,15 @@ const DetailPage = () => {
       }
     });
 
+    const { value: { initialComments, author }} = postingDetails;
+    
     setComments([
-      ...details?.value?.comments,
+      ...initialComments,
       {
         _id: comments.length + newDate.toISOString(),
         comment,
-        author: { _id: myUser?._id,
-          fullName: details?.value?.author?.fullName },
+        author: { _id: myUser._id,
+          fullName: author.fullName },
         createdAt: newDate.toISOString()
       }
     ]);
@@ -90,7 +92,7 @@ const DetailPage = () => {
   };
   
   const handleClickCopy = () => {
-    navigator.clipboard.writeText(details.value?.image);
+    navigator.clipboard.writeText(postingDetails.value.image);
   };
   
   const handleClickBack = () => {
@@ -100,102 +102,108 @@ const DetailPage = () => {
   const handleClickEditPost = () => {
     history.push('/editProfile');
   };
+  console.log(postingDetails);
+  
+  const { value: postingInfos } = postingDetails;
   
   return (
-    <div style={{ 
-      margin: '0 auto',
-      width: '40%'
-    }}>
-      <Flex>
-        <div
-          style={{ 
-            width: '10%'
-          }}
-        >
-          <Icon 
-            name={'arrowBack'}
-            onClick={handleClickBack}
+    <>
+      {
+        postingInfos
+      && <div style={{ 
+        margin: '0 auto',
+        width: '40%'
+      }}>
+        <Flex>
+          <div
+            style={{ 
+              width: '10%'
+            }}
           >
-          </Icon>
-        </div>
+            <Icon 
+              name={'arrowBack'}
+              onClick={handleClickBack}
+            >
+            </Icon>
+          </div>
+          <div
+            style={{ 
+              width: '90%'
+            }}
+          >
+            <Text>{postingInfos.title}</Text>
+          </div>
+        </Flex>
         <div
           style={{ 
-            width: '90%'
+            width: '100%'
           }}
         >
-          <Text>{details?.value?.title}</Text>
+          <Image 
+            src={postingInfos.image 
+              ? postingInfos.image 
+              : ''}
+            width='100%'
+            height='content-fit'
+          >
+          </Image>
+          <Button 
+            onClick={handleClickCopy}
+            width='100%'
+            height='40px'
+          >
+            <Text 
+              bold
+            >복사</Text>
+          </Button>
         </div>
-      </Flex>
-      <div
-        style={{ 
-          width: '100%'
-        }}
-      >
-        <Image 
-          src={details.value?.image 
-            ? details?.value?.image 
-            : ''}
-          width='100%'
-          height='content-fit'
-        >
-        </Image>
-        <Button 
-          onClick={handleClickCopy}
-          width='100%'
-          height='40px'
-        >
-          <Text 
-            bold
-          >복사</Text>
-        </Button>
-      </div>
-      <Flex>
-        <Icon
-          name={'heart'}
-        ></Icon>
-        <h1>
-          {details?.value?.likes?.length}
-        </h1>
-        <Icon
-          name={'comment'}
-        ></Icon>
-        <h1>
-          {details?.value?.comments?.length}
-        </h1>
-        {
-          myUser?._id === details?.value?.author?._id
-            ? <div style={{ marginLeft: 'auto' }}>
-              <Icon
-                name={'edit'}
-                onClick={handleClickEditPost}
-              ></Icon>
-              <Icon
-                name={'remove'}
-                onClick={handleClickRemovePosting}
-              ></Icon>
-            </div>
-            : <div></div>
-        }
-        
-      </Flex>
-      <span style={{ display: 'flex',
-        justifyContent: 'center', 
-        alignItems: 'center' }}>
-        <Icon
-          name={'arrowDown'}
-        ></Icon>
-      </span>
-
-      {details?.value?.comments
-        && <Comment
+        <Flex>
+          <Icon
+            name={'heart'}
+          ></Icon>
+          <h1>
+            {postingInfos.likes.length}
+          </h1>
+          <Icon
+            name={'comment'}
+          ></Icon>
+          <h1>
+            {postingInfos.comments.length}
+          </h1>
+          {
+            myUser._id === postingInfos.author._id
+              ? <div style={{ marginLeft: 'auto' }}>
+                <Icon
+                  name={'edit'}
+                  onClick={handleClickEditPost}
+                ></Icon>
+                <Icon
+                  name={'remove'}
+                  onClick={handleClickRemovePosting}
+                ></Icon>
+              </div>
+              : <div></div>
+          }
+          
+        </Flex>
+        <span style={{ display: 'flex',
+          justifyContent: 'center', 
+          alignItems: 'center' }}>
+          <Icon
+            name={'arrowDown'}
+          ></Icon>
+        </span>
+        <Comment
           comments={comments}
-          myUserId={myUser?._id}
-          myName={myUser?.fullName}
+          myUserId={myUser._id}
+          myName={myUser.fullName}
           handleSubmit={handleClickSubmitComment}
           handleClickDelete={handleClickRemoveComment}
         />
+  
+      </div>
       }
-    </div>
+    </>
   );
 };
 
