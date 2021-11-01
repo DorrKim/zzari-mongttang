@@ -7,7 +7,7 @@ import Text from '@base/Text';
 
 const UserInfoWrapper = styled(Flex)`
   width: 160px;
-  margin-left: 16px;
+  margin-left: 1.5rem;
 `;
 
 const UserName = styled(Text)`

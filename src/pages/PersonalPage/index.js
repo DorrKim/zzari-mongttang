@@ -31,7 +31,8 @@ const PersonalPage = () => {
   if (!value) {
     return <button onClick={fetchUserAPIState}>불러오기</button>;
   }
-
+  console.log(value);
+  
   return (
     <main>
       <MainInner>
