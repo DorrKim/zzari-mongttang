@@ -105,7 +105,7 @@ const Wrapper = styled.div`
   display: flex;
   position: relative;
   width: 600px;
-  height: 100%;
+  height: 30px;
   overflow: hidden;
   margin: 20px auto;
 
