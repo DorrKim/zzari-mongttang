@@ -19,7 +19,7 @@ const PersonalPage = () => {
   
   useEffect(() => {
     fetchUserAPIState();
-  }, []);
+  }, [userId]);
 
   const { isLoading, value, error } = userAPIState;
 
