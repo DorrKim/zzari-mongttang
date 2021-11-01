@@ -64,8 +64,7 @@ const Modal = ({
     return () => {
       document.body.removeChild(el);
     };
-  }, []);
-
+  }, [el]);
   
   return reactDom.createPortal(
     <BackgroundScreen 
