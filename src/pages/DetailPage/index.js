@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import { useMemo } from 'react';
+import { useHistory } from 'react-router';
 
 import Button from '@components/base/Button';
 import Icon from '@components/base/Icon';
 import Image from '@base/Image';
 import Text from '@base/Text';
 import { useAuthorization } from '@context/AuthorizationProvider';
-// import Avatar from '@components/Avatar';
 import Flex from '@base/Flex';
 import Comment from '@domains/Comment';
 
+
 const DetailPage = () => {
+  const [comments, setComments] = useState([]);
+
+  const history = useHistory();
+
   const { zzalId } = useParams();
 
   const { authState } = useAuthorization();
@@ -28,7 +33,7 @@ const DetailPage = () => {
     method: 'delete'
   });
 
-  const [, postComment] = useAxios('/comments/create', {
+  const [createdComment, createComment] = useAxios('/comments/create', {
     method: 'post'
   });
 
@@ -37,6 +42,10 @@ const DetailPage = () => {
   useEffect(() => {
     getDetails({ url: `/posts/${zzalId}` });
   }, []);
+
+  useEffect(() => {
+    details.value && setComments(details.value.comments);
+  }, [details]);
   
   const handleClickRemovePosting = async () => {
     await deletePost({ 
@@ -45,36 +54,59 @@ const DetailPage = () => {
     });
   };
 
-  const handleClickSubmitComment = async comment => {
-    await postComment({ 
+  const handleClickSubmitComment = useCallback(async comment => {
+    const newDate = new Date();
+    await createComment({ 
       headers,
       data: { 
         comment,
         postId: zzalId
       }
     });
-  };
+
+    setComments([
+      ...details?.value?.comments,
+      {
+        _id: comments.length + newDate.toISOString(),
+        comment,
+        author: { _id: myUser?._id,
+          fullName: details?.value?.author?.fullName },
+        createdAt: newDate.toISOString()
+      }
+    ]);
+  });
 
   const handleClickRemoveComment = async id => {
     await deleteComment({ 
       headers,
-      data: { id }
+      data: { id: createdComment.value._id }
     });
+
+    const filteredComments = comments.filter(({ _id }) => _id !== id);
+
+    setComments([
+      ...filteredComments
+    ]);
   };
   
   const handleClickCopy = () => {
     navigator.clipboard.writeText(details.value?.image);
   };
-  console.log(details?.value);
+  
+  const handleClickBack = () => {
+    history.goBack();
+  };
+
+  const handleClickEditPost = () => {
+    history.push('/editProfile');
+  };
   
   return (
     <div style={{ 
       margin: '0 auto',
       width: '40%'
     }}>
-      <Flex
-        style={{}}
-      >
+      <Flex>
         <div
           style={{ 
             width: '10%'
@@ -82,6 +114,7 @@ const DetailPage = () => {
         >
           <Icon 
             name={'arrowBack'}
+            onClick={handleClickBack}
           >
           </Icon>
         </div>
@@ -134,6 +167,7 @@ const DetailPage = () => {
             ? <div style={{ marginLeft: 'auto' }}>
               <Icon
                 name={'edit'}
+                onClick={handleClickEditPost}
               ></Icon>
               <Icon
                 name={'remove'}
@@ -153,14 +187,13 @@ const DetailPage = () => {
       </span>
 
       {details?.value?.comments
-        ? <Comment
-          comments={details?.value?.comments}
+        && <Comment
+          comments={comments}
           myUserId={myUser?._id}
           myName={myUser?.fullName}
           handleSubmit={handleClickSubmitComment}
           handleClickDelete={handleClickRemoveComment}
         />
-        : <></>
       }
     </div>
   );
@@ -168,7 +201,6 @@ const DetailPage = () => {
 
 DetailPage.propTypes = {
   params: PropTypes.string
-
 };
 
 export default DetailPage;
