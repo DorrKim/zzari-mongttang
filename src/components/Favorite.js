@@ -15,8 +15,8 @@ const FavoriteContainer = styled.div`
   width: 40px;
   justify-content: flex-end;
   opacity: 1;
-  &:hover :nth-of-type(1){
-    color: ${colors.ACCENT};
+  svg:hover  {
+    fill: ${colors.ACCENT};
   }
 `;
 
