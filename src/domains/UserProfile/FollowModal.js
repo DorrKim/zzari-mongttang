@@ -6,11 +6,11 @@ import Text from '@base/Text';
 import FollowerList from './FollowerList';
 import FollowingList from './FollowingList';
 
-const FollowModal = ({ visible, followers, following, followState, myUserImage, myUserName, onClose }) => {
+const FollowModal = ({ visible, followers, following, followState, myUserImage, myUserName, activeIndex, onClose }) => {
 
   return (
     <Modal visible={visible} onClose={onClose} width='300px' height='400px'>
-      <Tab>
+      <Tab activeIndex={activeIndex}>
         <Tab.Header>
           <Tab.Item index={0}><Text bold>팔로워</Text></Tab.Item>  
           <Tab.Item index={1}><Text bold>팔로잉</Text></Tab.Item>
@@ -38,6 +38,7 @@ FollowModal.propTypes = {
   followState: PropTypes.bool,
   myUserImage: PropTypes.string, 
   myUserName: PropTypes.string,
+  activeIndex: PropTypes.number,
   onClose: PropTypes.func
 };
 

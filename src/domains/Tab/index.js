@@ -14,7 +14,7 @@ const TabWrapper = styled.div`
   overflow: auto;
 `;
 
-const Tab = ({ children, activeIndex = 0, ...props }) => {
+const Tab = ({ children, activeIndex, ...props }) => {
   const [currIndex, setCurrIndex] = useState(activeIndex);
 
   const tabHeader = React.Children

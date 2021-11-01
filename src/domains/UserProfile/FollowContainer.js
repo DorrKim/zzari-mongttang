@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import Flex from '@base/Flex';
@@ -25,15 +25,26 @@ const FollowContainer = ({
   countFollowing
 }) => {
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleClickFollower = useCallback(() => {
+    setVisible(true);
+    setActiveIndex(0);
+  }, []);
+
+  const handleClickFollowing = useCallback(() => {
+    setVisible(true);
+    setActiveIndex(1);
+  }, []);
 
   return (
     <>
       <FollowWrapper justifyContent="center" >
-        <FollowItem column alignItems='center' onClick={() => setVisible(true)}>
+        <FollowItem column alignItems='center' index={0} onClick={handleClickFollower}>
           <Text bold >{`${countFollower}`}</Text>
           <Text bold size="sm" >팔로워</Text>
         </FollowItem> 
-        <FollowItem column alignItems='center' onClick={() => setVisible(true)}>
+        <FollowItem column alignItems='center' index={1} onClick={handleClickFollowing}>
           <Text bold>{`${countFollowing}`}</Text>
           <Text bold size="sm">팔로잉</Text>
         </FollowItem>
@@ -45,6 +56,7 @@ const FollowContainer = ({
         followState={followState}
         myUserImage={myUserImage}
         myUserName={myUserName}
+        activeIndex={activeIndex}
         onClose={() => setVisible(false)}
       />
     </>
