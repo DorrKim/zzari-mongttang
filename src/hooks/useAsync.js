@@ -8,7 +8,7 @@ const useAsync = (fn, deps) => {
     callback();
   }, [callback]);
 
-  return state;
+  return [state, callback];
 };
 
 export default useAsync;

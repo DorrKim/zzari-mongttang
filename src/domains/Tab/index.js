@@ -10,6 +10,8 @@ const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
+  height: 100%;
+  overflow: auto;
 `;
 
 const Tab = ({ children, activeIndex = 0, ...props }) => {
