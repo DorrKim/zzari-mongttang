@@ -1,28 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import styled from '@emotion/styled';
 
 import Image from '@base/Image';
-import Text from '@base/Text';
 import AlertModal from '@domains/NotationModal/AlertModal';
-import Avatar from '@components/Avatar';
 import colors from '@constants/colors';
-
-
-const PostingWrapper = styled.div`
-  position: relative;
-  margin-top: 20px;
-`;
-
-const AvatarContainer = styled.div`
-  position: absolute; 
-  left: -60px;
-  top: 0px;
-`;
-
-const AuthorName = styled(Text)`
-  margin: 10px 0;
-`;
 
 const CopyButton = styled.button`
   border: 0;
@@ -82,25 +65,16 @@ const Posting = ({
   visible, 
   handleClickCopy,
   handleClose }) => {
-  
+
   return (
     <>
-      <PostingWrapper>
-        <AvatarContainer>
-          <Avatar
-            src={postingInfos.author.image} 
-            size='48px' />
-        </AvatarContainer>
-        <AuthorName bold>{postingInfos.author.fullName}</AuthorName>
-        <Image 
-          src={postingInfos.image 
-            ? postingInfos.image 
-            : ''}
-          width='100%'
-          height='content-fit'/>
-      </PostingWrapper>
+      <Image
+        src={postingInfos.image 
+          ? postingInfos.image 
+          : ''}
+        width='100%'
+        height='content-fit'/>
       <CopyButton onClick={handleClickCopy}>복사</CopyButton>
-      <Text> {postingInfos.title} </Text>
       <AlertModal
         title='Copied'
         description='이미지 URL이 복사되었습니다'

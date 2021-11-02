@@ -12,14 +12,18 @@ import Comment from '@domains/Comment';
 import Favorite from '@components/Favorite';
 
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
-//import Text from '@base/Text';
 import Posting from './Posting';
 import colors from '@constants/colors';
 import Number from '@components/Number';
+import PostingHeader from './PostingHeader';
 
 
 const StyledIcon = styled(Icon)`
   cursor: pointer;
+`;
+
+const PostingBody = styled.div`
+
 `;
 
 const DetailPage = () => {
@@ -34,27 +38,35 @@ const DetailPage = () => {
   const [isShowComments, setIsShowComments] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
+  const [removeVisible, setRemoveVisible] = useState(false);
   const [, setIsConfirmed] = useState();
 
   const handleClickConfirm = useCallback(() => {
-    setIsConfirmed(true);  
     setConfirmVisible(false);
     history.push(`/editZzal/${zzalId}`);
-  }, [setConfirmVisible]);
+  }, [setConfirmVisible, history]);
 
   const handleClickRemoveConfirm = async () => {
     setIsConfirmed(true);  
-    setConfirmVisible(false);
+    setRemoveVisible(false);
+    
     await deletePost({ 
       headers,
       data: { id: zzalId }
     });
+
+    history.goBack();
   };
 
   const handleClickCancel = useCallback(() => {
     setIsConfirmed(false);  
     setConfirmVisible(false);
   }, [setConfirmVisible]);
+
+  const handleClickRemoveCancel = useCallback(() => {
+    setIsConfirmed(false);  
+    setRemoveVisible(false);
+  }, [setRemoveVisible]);
 
   const [createdComment, createComment] = useAxios('/comments/create', {
     method: 'post'
@@ -100,7 +112,7 @@ const DetailPage = () => {
   }, [isNewComment, myUser]);
 
   const handleClickRemovePosting = () => {
-    setConfirmVisible(true);
+    setRemoveVisible(true);
   };
 
   const handleClickSubmitComment = async comment => {
@@ -154,66 +166,71 @@ const DetailPage = () => {
             margin: '0 auto',
             width: '40%'
           }} >
-          <Posting 
-            postingInfos={postingInfos} 
-            visible={visible}
-            handleClickCopy={handleClickCopy}
-            handleClose={() => setVisible(false)} />
-          <IconsContainer>
-            <IconsWrapper>
-              <Favorite
-                likes={postingInfos.likes}
-                postId={postingInfos._id}
-              />
-              <CommentIcon>
-                <Icon
-                  name='comment'
-                ></Icon>
-                <Number value={postingInfos.comments.length} />
-              </CommentIcon>
-            </IconsWrapper>
-            <IconsWrapper inVisible={myUser._id === postingInfos.author._id}>
-              <StyledIcon
-                name={'edit'}
-                onClick={handleClickEditPost}
-              ></StyledIcon>
-              <ConfirmModal
-                title='Go'
-                description='포스트 수정 페이지로 이동하시겠습니까?'
-                visible={confirmVisible}
-                handleClickConfirm={handleClickConfirm}
-                handleClickCancel={handleClickCancel} 
-              >
-              </ConfirmModal>
-              <StyledIcon
-                name={'remove'}
-                onClick={handleClickRemovePosting}
-              ></StyledIcon>
-              <ConfirmModal
-                title='Remove'
-                description='포스트를 삭제하시겠습니까??'
-                visible={confirmVisible}
-                handleClickConfirm={handleClickRemoveConfirm}
-                handleClickCancel={handleClickCancel} 
-              >
-              </ConfirmModal>
-            </IconsWrapper> 
-          </IconsContainer>
-          <ShowCommentButton
-            onClick={handleShowComment}
-            style={{ display: isShowComments ? 'none' : 'flex' }}
-          >
+          <PostingHeader
+            postingInfos={postingInfos}
+          />
+          <PostingBody>
+            <Posting
+              postingInfos={postingInfos} 
+              visible={visible}
+              handleClickCopy={handleClickCopy}
+              handleClose={() => setVisible(false)} />
+            <IconsContainer>
+              <IconsWrapper>
+                <Favorite
+                  likes={postingInfos.likes}
+                  postId={postingInfos._id}
+                />
+                <CommentIcon>
+                  <Icon
+                    name='comment'
+                  ></Icon>
+                  <Number value={postingInfos.comments.length} />
+                </CommentIcon>
+              </IconsWrapper>
+              <IconsWrapper inVisible={myUser._id !== postingInfos.author._id}>
+                <StyledIcon
+                  name={'edit'}
+                  onClick={handleClickEditPost}
+                ></StyledIcon>
+                <ConfirmModal
+                  title='Go'
+                  description='포스트 수정 페이지로 이동하시겠습니까?'
+                  visible={confirmVisible}
+                  handleClickConfirm={handleClickConfirm}
+                  handleClickCancel={handleClickCancel} 
+                >
+                </ConfirmModal>
+                <StyledIcon
+                  name={'remove'}
+                  onClick={handleClickRemovePosting}
+                ></StyledIcon>
+                <ConfirmModal
+                  title='Remove'
+                  description='포스트를 삭제하시겠습니까??'
+                  visible={removeVisible}
+                  handleClickConfirm={handleClickRemoveConfirm}
+                  handleClickCancel={handleClickRemoveCancel} 
+                >
+                </ConfirmModal>
+              </IconsWrapper> 
+            </IconsContainer>
+            <ShowCommentButton
+              onClick={handleShowComment}
+              style={{ display: isShowComments ? 'none' : 'flex' }}
+            >
             댓글
-          </ShowCommentButton>
-          {isShowComments && (
-            <Comment
-              comments={comments}
-              myUserId={myUser._id}
-              myName={myUser.fullName}
-              handleSubmit={handleClickSubmitComment}
-              handleClickDelete={handleClickRemoveComment}
-            />
-          )}
+            </ShowCommentButton>
+            {isShowComments && (
+              <Comment
+                comments={comments}
+                myUserId={myUser._id}
+                myName={myUser.fullName}
+                handleSubmit={handleClickSubmitComment}
+                handleClickDelete={handleClickRemoveComment}
+              />
+            )}
+          </PostingBody>
         </div>
       }
     </>
