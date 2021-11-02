@@ -39,7 +39,6 @@ const parseCommentCreateDate = createDate => {
 const CommentItemWrapper = styled.div`
   display: flex;
   align-items: center;
-
   animation: show .5s ease-in forwards ;
 @keyframes show {
   from {

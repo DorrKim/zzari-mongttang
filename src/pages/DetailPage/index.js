@@ -18,23 +18,36 @@ import colors from '@constants/colors';
 import Number from '@components/Number';
 
 const CopyButton = styled.button`
-  border: 1px solid #FD9F28;
+  border: 2px solid ${colors.ACCENT};
+  color: ${colors.ACCENT};
   width: 100%;
   height: 30px;
   cursor: pointer;
+  font-size: 18px;
   border-radius: 4px;
-  background-color:transparent;
-
+  font-weight: 700;
+  background-color: transparent;
+  position: relative;
   &:hover {
-  filter: brightness(110%);
+    filter: brightness(95%);
+    color: white;
+  ::after {
+      content: '';
+      background-color: ${colors.ACCENT};
+      mix-blend-mode: overlay;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      animation: grow .6s ease-in-out forwards;
+  }
 }
   &:active {
-    filter: brightness(110%);
     animation: squash .3s forwards ease-in;
-    @keyframes squash {
-      0% {
-
-      }
+}
+@keyframes squash {
       40% {
         transform: scale(.95);
       }
@@ -44,17 +57,19 @@ const CopyButton = styled.button`
       100% {
       transform: scale(1); 
       }
-    }
 }
+@keyframes grow {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
 `;
 
 const StyledIcon = styled(Icon)`
   cursor: pointer;
-`;
-
-const StyledText = styled.span`
-  color: #FD9F28;
-  white-space: nowrap;
 `;
 
 const DetailPage = () => {
@@ -195,9 +210,7 @@ const DetailPage = () => {
             width='100%'
             height='40px'
           >
-            <StyledText 
-              bold
-            >복사</StyledText>
+            복사
           </CopyButton>
           <AlertModal
             title='Copied'
@@ -254,7 +267,7 @@ const DetailPage = () => {
             onClick={handleShowComment}
             style={{ display: isShowComments ? 'none' : 'flex' }}
           >
-            <Icon name='comment' />
+            댓글
           </ShowCommentButton>
           {isShowComments && (
             <Comment
@@ -287,19 +300,17 @@ const ShowCommentButton = styled.div`
 width: 100%;
 height: 30px;
 padding: 5px;
-font-size: 24px;
 justify-content: center;
+align-items: center;
 cursor: pointer;
 color: ${colors.PRIMARY_LIGHT};
-background-color: ${colors.PRIMARY_BACKGROUND};
+border: 2px solid ${colors.PRIMARY_BRIGHT};
+border-radius: 4px;
 transition: .1s all ease-in;
+font-size: 18px;
+
 &:hover {
-  filter: brightness(98%);
-  color: ${colors.ACCENT}
-}
-&::after {
-  content:'+';
-  display: inline-block;
+  filter: brightness(90%);
 }
 `;
 

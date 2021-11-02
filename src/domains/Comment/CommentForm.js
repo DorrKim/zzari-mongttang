@@ -12,7 +12,7 @@ import { useHistory } from 'react-router';
 const FormWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: #E6F3E6;
+  background-color: ${colors.PRIMARY_BACKGROUND};
 `;
 
 const Inner = styled.div`
