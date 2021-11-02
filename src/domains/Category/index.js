@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -8,22 +9,35 @@ import useAxios from '@hooks/useAxios';
 import CategoryChip from './CategoryChip';
 import CategoryList from './CategoryList';
 import { ICON_TYPES } from '@constants/icons';
-// import colors from '@constants/colors';
 
 
 const MainCategory = ({ channelId, onChange, style, ...props }) => {
+  const history = useHistory();
   const [categoryList, fetchList] = useAxios('/channels');
-  const { isLoading, value } = categoryList;
+  const { isLoading, value, error } = categoryList;
+  const [isError, setIsError] = useState(false);
   const [offsetX, setOffsetX] = useState(0);
   const [categoryListWidth, setCategoryListWidth] = useState(0);
+  const [sortedCategoryList, setSortedCategoryList] = useState([]);
+  const [ref, innerRef] = [useRef(null), useRef(null)];
   const [viewerWidth, setViewerWidth] = useState(0);
   const distance = useMemo(() => viewerWidth / 3, [viewerWidth]);
-
-  const [ref, innerRef] = [useRef(null), useRef(null)];
-
+  
   useEffect(() => {
     fetchList();
   }, []);
+
+  useEffect(() => {
+    value && setSortedCategoryList(Object.values(value).sort((a, b) => b['posts'].length - a['posts'].length));
+  }, [value]);
+
+  useEffect(() => {
+    error && setIsError(true);
+  }, [error]);
+
+  useEffect(() => {
+    isError && history.push('/error');
+  }, [isError]);
 
   useEffect(() => {
     value && ref.current && setCategoryListWidth(ref.current.offsetWidth);
@@ -34,7 +48,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
     && Object.values(value)
       .findIndex(({ _id }) => _id === channelId), [value, channelId]
   );
- 
+
   const handleOffsetX = useCallback(width => {
     setOffsetX(width);
     ref.current.style.transform = `translateX(${width}px)`;
@@ -72,17 +86,20 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
     } 
   }, [selectedChip, value]);
 
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <>
       <Wrapper style={{ ...style }} {...props}>
         <LeftButton offsetX={offsetX} onClick={handlePrev}>
-          <ICON_TYPES.moveLeft style={{ height: '16px',
-            lineHeight: '18px' }} />
+          <ICON_TYPES.moveLeft />
         </LeftButton>
         <Inner ref={innerRef}>
           <RefWrapper ref={ref}>
             <StyledCategoryList selectedIndex={selectedChip} onChange={handleChangeChip}>
-              {!isLoading && (value?.map(({ _id, name }) => (
+              {(sortedCategoryList?.map(({ _id, name }) => (
                 <CategoryChip style={{ margin: '0 5px' }} key={_id} name={name} id={_id} />
               ))
               )}
@@ -93,8 +110,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
           categoryListWidth,
           viewerWidth
         }} onClick={handleNext}>
-          <ICON_TYPES.moveRight style={{ height: '16px',
-            lineHeight: '18px' }} />
+          <ICON_TYPES.moveRight />
         </RightButton>
       </Wrapper>
     </>
