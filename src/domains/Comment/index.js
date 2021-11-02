@@ -8,7 +8,7 @@ import useInfinteScroll from '@hooks/useInfinteScroll';
 
 const CommentList = styled.li`
   list-style: none;
-  background-color: #FfFBF6;
+  background-color: #fcfcfc;
 `;
 
 const Comment = ({ comments, initialItemCount = 6, myUserId, handleSubmit, handleClickDelete }) => {
