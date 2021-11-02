@@ -62,7 +62,7 @@ const EditProfilePage = () => {
       apiList.push(updateFullName({
         data: {
           fullName,
-          username: fullName
+          username: fullName + new Date().toISOString
         }
       }));
     }
