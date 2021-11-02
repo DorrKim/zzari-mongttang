@@ -11,7 +11,7 @@ const ViewPortProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       const { innerWidth } = window;
       if (innerWidth <= 375) {
         setViewPortState('mobile');
@@ -20,7 +20,10 @@ const ViewPortProvider = ({ children }) => {
       } else {
         setViewPortState('web');
       }
-    });
+    };
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   
   return (
