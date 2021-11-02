@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import useAxios from '@hooks/useAxios';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import Profile from '@domains/UserProfile';
 import ZzalFeed from '@domains/Zzal/ZzalFeed';
+import Spinner from '@base/Spinner';
 
 const MainInner = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ const MainInner = styled.div`
 
 const PersonalPage = () => {
   const { userId } = useParams();
+  const history = useHistory();
   const [userAPIState, fetchUserAPIState] = useAxios(`/users/${userId}`);
   
   useEffect(() => {
@@ -24,11 +26,13 @@ const PersonalPage = () => {
   const { isLoading, value, error } = userAPIState;
 
   if (isLoading) {
-    return <div></div>;
+    return <Spinner style={{ height: '80vh' }} />;
   }
+
   if (error) {
-    return <div>에러발생</div>;
+    history.push('/error');
   }
+
   if (!value) {
     return <button onClick={fetchUserAPIState}>불러오기</button>;
   }

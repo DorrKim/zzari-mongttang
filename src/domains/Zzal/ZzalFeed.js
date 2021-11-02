@@ -6,6 +6,7 @@ import ZzalList from './ZzalList';
 import Tab from '@domains/Tab';
 import Text from '@base/Text';
 import useAxios from '@hooks/useAxios';
+import Spinner from '@base/Spinner';
 
 const StyledTab = styled(Tab)`
   width: 1093px;
@@ -37,6 +38,10 @@ const ZzalFeed = ({ userId, likeZzals }) => {
   }, []);
 
   const { isLoading, value, error } = userPostData; 
+  
+  if (error) {
+    history.push('/error');
+  }
 
   return (
     <StyledTab>
@@ -47,9 +52,8 @@ const ZzalFeed = ({ userId, likeZzals }) => {
       <Tab.Panel>
         <ZzalList noFavorite index={0} zzalList={likeZzalPostState} ></ZzalList>
         <div index={1}>
-          {isLoading && <div>Loading...</div>}
-          {!isLoading && error && <div>Loading...</div>}
-          {!isLoading && !error && !value && <div>Loading...</div>}
+          {isLoading && <Spinner style={{ height: '80vh' }} />}
+          {!isLoading && !value && <div>데이터를 불러오는데 실패했습니다.</div>}
           <ZzalList noFavorite zzalList={userPostData} ></ZzalList>
         </div>
       </Tab.Panel>
