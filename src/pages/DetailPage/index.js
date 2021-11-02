@@ -10,63 +10,13 @@ import Icon from '@components/base/Icon';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import Comment from '@domains/Comment';
 import Favorite from '@components/Favorite';
-import AlertModal from '@domains/NotationModal/AlertModal';
+
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
-import Text from '@base/Text';
+//import Text from '@base/Text';
 import Posting from './Posting';
 import colors from '@constants/colors';
 import Number from '@components/Number';
 
-const CopyButton = styled.button`
-  border: 2px solid ${colors.ACCENT};
-  color: ${colors.ACCENT};
-  width: 100%;
-  height: 30px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 4px;
-  font-weight: 700;
-  background-color: transparent;
-  position: relative;
-  &:hover {
-    filter: brightness(95%);
-    color: white;
-  ::after {
-      content: '';
-      background-color: ${colors.ACCENT};
-      mix-blend-mode: overlay;
-      display: block;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      animation: grow .6s ease-in-out forwards;
-  }
-}
-  &:active {
-    animation: squash .3s forwards ease-in;
-}
-@keyframes squash {
-      40% {
-        transform: scale(.95);
-      }
-      60% {
-        transform: scale(1.05);
-      }
-      100% {
-      transform: scale(1); 
-      }
-}
-@keyframes grow {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-`;
 
 const StyledIcon = styled(Icon)`
   cursor: pointer;
@@ -204,25 +154,11 @@ const DetailPage = () => {
             margin: '0 auto',
             width: '40%'
           }} >
-          <Posting postingInfos={postingInfos} />
-          <CopyButton 
-            onClick={handleClickCopy}
-            width='100%'
-            height='40px'
-          >
-            복사
-          </CopyButton>
-          <AlertModal
-            title='Copied'
-            description='이미지 URL이 복사되었습니다'
+          <Posting 
+            postingInfos={postingInfos} 
             visible={visible}
-            handleClose={() => setVisible(false)}
-          />
-          <div
-            style={{ 
-              margin: '10px 0' }} >
-            <Text> {postingInfos.title} </Text>
-          </div>
+            handleClickCopy={handleClickCopy}
+            handleClose={() => setVisible(false)} />
           <IconsContainer>
             <IconsWrapper>
               <Favorite
