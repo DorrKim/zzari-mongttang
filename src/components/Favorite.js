@@ -9,6 +9,7 @@ import useToggle from '@hooks/useToggle';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import { useHistory } from 'react-router';
 import useAxios from '@hooks/useAxios';
+import LoginConfirmModal from '@domains/NotationModal/LoginConfirmModal';
 
 const FavoriteContainer = styled.div`
   display: flex;
@@ -20,14 +21,15 @@ const FavoriteContainer = styled.div`
   }
 `;
 
-const Favorite = ({ likes, postId, ...props }) => {
+const Favorite = ({ likes, postId, size, ...props }) => {
   const history = useHistory();
   const { authState: { isAuthorized, myUser, authToken }} = useAuthorization();
   const headers = useMemo(() => ({ Authorization: `Bearer ${authToken}` }), [authToken]);
 
-  const [isToggled, toggle] = useToggle(likes.some(({ user }) => user === myUser._id));
+  const [isToggled, toggle] = useToggle(likes.some(({ user }) => user === myUser._id) ? true : false);
   const [likeCount, setLikeCount] = useState(likes.length);
   const [myLikesId, setMyLikesId] = useState(likes.find(({ user }) => user === myUser._id)?._id);
+  const [isLoginModalShow, setIsLoginModalShow] = useState(false);
 
   const [postFavoriteAPIState, postFavorite] = useAxios('/likes/create', {
     method: 'post'
@@ -38,7 +40,7 @@ const Favorite = ({ likes, postId, ...props }) => {
 
   const handleClickFavorite = useCallback(() => {
     if (!isAuthorized) {
-      confirm('로그인이 필요한 기능입니다! 로그인 페이지로 이동하시겠습니까?') && history.push('/login');
+      setIsLoginModalShow(true);
 
       return;
     }
@@ -65,6 +67,9 @@ const Favorite = ({ likes, postId, ...props }) => {
     toggle();
   }, [isAuthorized, isToggled, headers, myLikesId, postId, deleteFavorite, postFavorite]);
 
+  const handleToLoginPage = useCallback(() => {
+    history.push('/login');
+  }, [history]);
 
   useEffect(() => {
     const { error } = deleteFavoriteAPIState;
@@ -86,43 +91,58 @@ const Favorite = ({ likes, postId, ...props }) => {
     value && setMyLikesId(value._id);
   }, [postFavoriteAPIState]);
 
-
-  const toggledStyle = {
-    color: colors.ACCENT,
-    opacity: 1,
-    flexShrink: 0,
-    marginRight: 6,
-    cursor: 'pointer'
-  };
-
-  const unToggledStyle = {
-    color: colors.TEXT_NORMAL,
-    opacity: 0.5,
-    flexShrink: 0,
-    marginRight: 6,
-    cursor: 'pointer'
-  };
-
   return (
     <>
       <FavoriteContainer {...props}>
-        <Icon 
+        <IconStyled 
           name={isToggled ? 'filledHeart' : 'heart'} 
           onClick={handleClickFavorite} 
-          style={isToggled ? { ...toggledStyle } : { ...unToggledStyle }}
+          toggled={isToggled ? 'toggled' : null}
+          fontSize={size}
         >
-        </Icon>
-        <Number value={likeCount}></Number>
+        </IconStyled>
+        <Number size={size} value={likeCount}></Number>
       </FavoriteContainer>
+      <LoginConfirmModal
+        visible={isLoginModalShow}
+        handleClickConfirm={handleToLoginPage}
+        handleClickCancel={() => setIsLoginModalShow(false)} />
     </>
   );
 };
 
+const IconStyled = styled(Icon)`
+${({ toggled }) => toggled
+    ? ({ 
+      color: colors.ACCENT
+    })
+    : ({ 
+      color: colors.TEXT_NORMAL
+    })
+}
+cursor: pointer;
+margin-right: 6px;
+flex-shrink: 0;
+transition: 0.1s ease-in;
+
+&:hover {
+  animation: bounce .5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+`;
+
 Favorite.propTypes = {
   likes: PropTypes.array,
   postId: PropTypes.string,
-  onClick: PropTypes.func,
-  isToggled: PropTypes.bool
+  size: PropTypes.string
 };
 
 

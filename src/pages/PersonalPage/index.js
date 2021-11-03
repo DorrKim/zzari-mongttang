@@ -7,22 +7,22 @@ import styled from '@emotion/styled';
 import Profile from '@domains/UserProfile';
 import ZzalFeed from '@domains/Zzal/ZzalFeed';
 import Spinner from '@base/Spinner';
+import useQuery from '@hooks/useQuery';
 
 const MainInner = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 1rem;
 `;
 
 const PersonalPage = () => {
   const { userId } = useParams();
+  const tabSelectIndex = parseInt(useQuery().get('tabIdx'), 10);
   const history = useHistory();
   const [userAPIState, fetchUserAPIState] = useAxios(`/users/${userId}`);
   
   useEffect(() => {
     fetchUserAPIState();
   }, [userId]);
-
   const { isLoading, value, error } = userAPIState;
 
   if (isLoading) {
@@ -50,7 +50,8 @@ const PersonalPage = () => {
           fetchUserAPIState={fetchUserAPIState}
         >
         </Profile>
-        <ZzalFeed 
+        <ZzalFeed
+          tabInitialIndex={tabSelectIndex}
           userId={userId}
           likeZzals={userAPIState.value.likes} 
         ></ZzalFeed>

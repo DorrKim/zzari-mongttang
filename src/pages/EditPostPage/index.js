@@ -9,6 +9,7 @@ import Logo from '@components/Logo';
 import Title from '@components/Title';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import styled from '@emotion/styled';
+import AlertModal from '@domains/NotationModal/AlertModal';
 
 const updatePostFormData = new FormData();
 
@@ -20,6 +21,10 @@ const EditPostPage = () => {
     title: '',
     imageUrl: '',
     channelId: ''
+  });
+  const [alertState, setAlertState] = useState({
+    isAlertShow: false,
+    description: ''
   });
 
   const history = useHistory();
@@ -45,7 +50,8 @@ const EditPostPage = () => {
 
     console.log(title, channelId);
     if (!(title && channelId)){
-      alert('짤의 제목, 이미지, 카테고리를 모두 선택해주세요!');
+      setAlertState({ isAlertShow: true,
+        description: '짤의 제목, 이미지, 카테고리를 모두 선택해주세요!' });
       
       return;
     }
@@ -70,7 +76,10 @@ const EditPostPage = () => {
   useEffect(async () => {
     const { value, error } = updatePostAPIState;
     if (error) {
-      alert('짤 수정에 실패하였습니다! 잠시 후에 다시 시도해주세요.');
+      setAlertState({
+        isAlertShow: true,
+        description: '짤 수정에 실패하였습니다! 잠시 후에 다시 시도해주세요.'
+      });
       
       return; 
     }
@@ -126,6 +135,14 @@ const EditPostPage = () => {
           : null
         }
       </FlexStyled>
+      <AlertModal
+        title='경고'
+        description={alertState.description}
+        visible={alertState.isAlertShow}
+        handleClose={() => setAlertState({ 
+          isAlertShow: false,
+          description: '' })}
+      />
     </>);
 };
 

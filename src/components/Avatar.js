@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Image from '@base/Image';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import colors from '@constants/colors';
+import { useAuthorization } from '@context/AuthorizationProvider';
 
-
-const DEFAULT_PROFILE_URL = 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927'; 
 
 const StyledImage = styled(Image)`
   border: 2px double ${colors.PRIMARY_BACKGROUND};
@@ -13,15 +12,18 @@ const StyledImage = styled(Image)`
   overflow: hidden;
   object-fit: cover;
   position: relative;
+  
+  `;
 
-`;
-
-const Avatar = ({ src = DEFAULT_PROFILE_URL, size, onClick, ...props }) => {
+const Avatar = ({ src, size, onClick, ...props }) => {
+  const { authState: { myUser: { fullName }}} = useAuthorization();
+  
+  const DEFAULT_AVATAR_SRC = useMemo(() => `https://avatars.dicebear.com/api/adventurer-neutral/${fullName}.svg`, [fullName]);
 
   return (
     <StyledImage
       type='circle'
-      src={src} 
+      src={src || DEFAULT_AVATAR_SRC} 
       width={size} 
       height={size} 
       onClick={onClick}
