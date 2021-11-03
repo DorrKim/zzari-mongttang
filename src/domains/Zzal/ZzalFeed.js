@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
@@ -7,6 +7,7 @@ import Tab from '@domains/Tab';
 import Text from '@base/Text';
 import useAxios from '@hooks/useAxios';
 import Spinner from '@base/Spinner';
+import { useHistory } from 'react-router';
 
 const StyledTab = styled(Tab)`
   width: 1093px;
@@ -25,13 +26,18 @@ const StyledTab = styled(Tab)`
 `; 
 
 
-const ZzalFeed = ({ userId, likeZzals }) => {
+const ZzalFeed = ({ tabInitialIndex, userId, likeZzals }) => {
   const [userPostData, fetchUserPostData] = useAxios(`/posts/author/${userId}`);
   const likeZzalPosts = likeZzals.map(zzal => zzal.post);
   const likeZzalPostState = {
     isLoading: false,
     value: likeZzalPosts
   };
+  const history = useHistory();
+
+  const handleChangeTab = useCallback(value => {
+    history.push({ search: `?tabIdx=${value}` });
+  }, [history]);
 
   useEffect(() => {
     fetchUserPostData();
@@ -44,7 +50,7 @@ const ZzalFeed = ({ userId, likeZzals }) => {
   }
 
   return (
-    <StyledTab>
+    <StyledTab activeIndex={tabInitialIndex || 0} onClickTabItem={handleChangeTab}>
       <Tab.Header>
         <Tab.Item index={0}><Text bold>좋아요</Text></Tab.Item>  
         <Tab.Item index={1}><Text bold>업로드</Text></Tab.Item>
@@ -62,6 +68,7 @@ const ZzalFeed = ({ userId, likeZzals }) => {
 };
 
 ZzalFeed.propTypes = {
+  tabInitialIndex: PropTypes.number,
   userId: PropTypes.string.isRequired,
   likeZzals: PropTypes.array.isRequired
 };

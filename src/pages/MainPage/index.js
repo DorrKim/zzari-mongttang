@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import Zzal from '@domains/Zzal';
@@ -8,23 +8,33 @@ import CategoryCrousel from '@domains/Category';
 import useQuery from '@hooks/useQuery';
 
 
-const DEFAULT_CATEGORY = '61755fa5359c4371f68ac695';
 const ZZAL_ITEM_LOAD_COUNT = 6;
 
 const MainPage = () => {
   const history = useHistory();
-  const channelId = useQuery().get('channelId') || DEFAULT_CATEGORY;
+  const queryId = useQuery().get('channelId');
+  const [channelId, setChannelId] = useState(queryId);
   const [zzalList, fetchList] = useAxios();
 
   useEffect(() => {
-    fetchList({
+    channelId && fetchList({
       url: `/posts/channel/${channelId}`
     });
   }, [channelId]);
 
+  useEffect(() => {
+    setChannelId(queryId);
+  }, [queryId]);
+
   const handleChangeCategory = useCallback(id => {
+    if (!channelId){
+      setChannelId(id);
+
+      return;
+    }
+
     id && history.push(`/?channelId=${id}`);
-  }, []);
+  }, [channelId]);
 
   const handleToSearchPage = useCallback(value => {
     value && history.push(`/search?keyword=${value}`);

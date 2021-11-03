@@ -8,6 +8,7 @@ import { validateUploadPost } from '@library/validate';
 import Uploader from '@domains/Uploader';
 import MainCategory from '@domains/Category';
 import styled from '@emotion/styled';
+import AlertModal from '@domains/NotationModal/AlertModal';
 
 
 const UPLOAD_POST_ERROR_MESSAGES = {
@@ -25,6 +26,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
     validate: validateUploadPost
   });
   const [errorMessage, setErrorMessage] = useState(error);
+  const [isAlertShow, setIsAlertShow] = useState(false);
 
   const handleCancelClick = useCallback(() => {
     onCancel && onCancel();
@@ -58,7 +60,7 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
         value: changedFile });
       makeImageDataToUrl(changedFile);
     } else {
-      alert(UPLOAD_POST_ERROR_MESSAGES.image);
+      setIsAlertShow(true);
     }
   }, [makeImageDataToUrl, handleChange]);
 
@@ -93,37 +95,45 @@ const UploadPostForm = ({ initialValues, onSubmit, onCancel }) => {
   const { title, imageUrl, channelId } = values;
     
   return (
-    <Form onSubmit={handleSubmit}>
-      <Uploader 
-        droppable
-        width={350}
-        height={350}
-        type='square'
-        alt='zzal'
-        src={imageUrl ? imageUrl : ''}
-        onChange={handleFileChanged}
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Uploader 
+          droppable
+          width={350}
+          height={350}
+          type='square'
+          alt='zzal'
+          src={imageUrl ? imageUrl : ''}
+          onChange={handleFileChanged}
+        />
+        <FormInput
+          onChange={value => handleChange({ name: 'title',
+            value })}
+          value={title}
+          placeholder='제목'
+          errorMessage={errorMessage.title
+          }
+        />
+        <MainCategory channelId={channelId} onChange={handleCategoryChange} />
+        <ButtonContainer>
+          <ButtonStyled 
+            type='submit' 
+            disabled={isLoading} 
+            backgroundColor={'#FD9F28'} 
+          >짤 올리기</ButtonStyled>
+          <ButtonStyled 
+            backgroundColor={'#dddd'} 
+            onClick={handleCancelClick} 
+          >취소</ButtonStyled>
+        </ButtonContainer>
+      </Form>
+      <AlertModal
+        title='경고'
+        description={UPLOAD_POST_ERROR_MESSAGES.image}
+        visible={isAlertShow}
+        handleClose={() => setIsAlertShow(false)}
       />
-      <FormInput
-        onChange={value => handleChange({ name: 'title',
-          value })}
-        value={title}
-        placeholder='제목'
-        errorMessage={errorMessage.title
-        }
-      />
-      <MainCategory channelId={channelId} onChange={handleCategoryChange} />
-      <ButtonContainer>
-        <ButtonStyled 
-          type='submit' 
-          disabled={isLoading} 
-          backgroundColor={'#FD9F28'} 
-        >짤 올리기</ButtonStyled>
-        <ButtonStyled 
-          backgroundColor={'#dddd'} 
-          onClick={handleCancelClick} 
-        >취소</ButtonStyled>
-      </ButtonContainer>
-    </Form>
+    </>
   );
 };
 

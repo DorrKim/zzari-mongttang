@@ -73,16 +73,20 @@ const FollowContainer = ({
           <Text>팔로잉</Text>
         </FollowItem>
       </FollowWrapper>
-      <FollowModal
-        visible={visible} 
-        followers={followers}
-        following={following}
-        followState={followState}
-        myUserImage={myUserImage}
-        myUserName={myUserName}
-        activeIndex={activeIndex}
-        onClose={() => setVisible(false)}
-      />
+      {
+        visible && (
+          <FollowModal
+            visible={visible} 
+            followers={followers}
+            following={following}
+            followState={followState}
+            myUserImage={myUserImage}
+            myUserName={myUserName}
+            activeIndex={activeIndex}
+            onClose={() => setVisible(false)}
+          />
+        )
+      } 
     </>
   );
 };

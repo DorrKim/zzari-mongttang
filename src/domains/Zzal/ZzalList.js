@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 
 import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
@@ -7,11 +8,23 @@ import useInfinteScroll from '@hooks/useInfinteScroll';
 import Spinner from '@base/Spinner';
 
 
-const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props }) => {
+const ZzalList = (
+  { zzalList = {}, 
+    noFavorite, 
+    loadCount = 6, 
+    style, 
+    ...props }
+) => {
+  const history = useHistory();
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(0);
   const { isLoading, value, error } = zzalList;
   const [isError, setIsError] = useState(false);
+  const [sortedZzalList, setSortedZzalList] = useState([]);
+
+  useEffect(() => {
+    value && setSortedZzalList(Object.values(value).sort((a, b) => b['likes'].length - a['likes'].length));
+  }, [value]);
 
   useEffect(() => {
     error && setIsError(true);
@@ -20,7 +33,6 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props })
   useEffect(() => {
     isError && history.push('/error');
   }, [isError]);
-
 
   useInfinteScroll({
     target,
@@ -38,8 +50,7 @@ const ZzalList = ({ zzalList = {}, noFavorite, loadCount = 6, style, ...props })
 
   return (
     <StyledList style={{ ...style }} {...props}>
-      {isLoading ? (<Spinner />) : (zzalList.value || [])
-        .filter((_, idx) => idx < itemCount)
+      {sortedZzalList?.filter((_, idx) => idx < itemCount)
         .map(item => (
           <ZzalItem 
             key={item._id} 

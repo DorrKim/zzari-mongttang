@@ -11,12 +11,29 @@ import Flex from '@base/Flex';
 const ConfirmButton = styled(Button)`
   margin: 0 15px 20px 15px;
   border-radius: 4px;
-  outline: 4px solid #fcc881;
+
+  &:hover {
+    filter: brightness(100%);
+    transform: scale(1.05);
+    transition: 0.1s ease-in-out transform;
+  }
+  &:focus {
+    filter: brightness(90%);
+  }
 `;
 
 const CancelButton = styled(Button)`
   margin: 0 15px 20px 15px;
   border-radius: 4px;
+
+  &:hover {
+    filter: brightness(100%);
+    transform: scale(1.05);
+    transition: 0.1s ease-in-out transform;
+  }
+  &:focus {
+    filter: brightness(90%);
+  }
 `;
 
 const Title = styled.div`
@@ -45,7 +62,7 @@ const ConfirmModal = ({ title,
   return (
     <Modal visible={visible} {...props}>
       <Title block bold size='lg'>{title}</Title>
-      <Description block>{description}</Description>
+      <Description dangerouslySetInnerHTML={{ __html: description }} block></Description>
       <Flex>
         <ConfirmButton 
           width='80px'
@@ -56,7 +73,7 @@ const ConfirmModal = ({ title,
             block
             color='white'
             bold>
-          OK
+          ㅇㅋ
           </Text>
         </ConfirmButton>
         <CancelButton 
@@ -69,7 +86,7 @@ const ConfirmModal = ({ title,
             block
             color='white'
             bold>
-          Cancel
+          ㄴㄴ
           </Text>
         </CancelButton>
       </Flex>

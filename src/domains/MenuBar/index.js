@@ -8,17 +8,21 @@ import MenuBarItem from '@domains/MenuBar/MenuBarItem';
 import colors from '@constants/colors';
 import { useAuthorization } from '@context/AuthorizationProvider';
 
-const MenuBar = ({ ...props }) => {
+const MenuBar = ({ onClear, ...props }) => {
   const { authState, clearAuthState } = useAuthorization();
   const history = useHistory();
 
   
   const handleToPersonalPage = useCallback(() => {
     const { myUser } = authState;
-    myUser?._id && history.push(`/user/${myUser._id}`);
+    if (myUser?._id) {
+      history.push(`/user/${myUser._id}`);
+      onClear && onClear();
+    }
   }, [authState]);
 
   const handleToEditProfile = useCallback(() => {
+    onClear && onClear();
     history.push('/editProfile');
   }, []);
 
@@ -39,7 +43,7 @@ const MenuBar = ({ ...props }) => {
 };
 
 MenuBar.propTypes = {
-  userId: PropTypes.string
+  onClear: PropTypes.func
 };
 
 export default MenuBar;
