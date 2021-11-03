@@ -6,25 +6,14 @@ import { useMemo } from 'react';
 import { useHistory } from 'react-router';
 import styled from '@emotion/styled';
 
-import Icon from '@components/base/Icon';
+
 import { useAuthorization } from '@context/AuthorizationProvider';
 import Comment from '@domains/Comment';
-import Favorite from '@components/Favorite';
 
-import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 import Posting from './Posting';
 import colors from '@constants/colors';
-import Number from '@components/Number';
 import PostingHeader from './PostingHeader';
-
-
-const StyledIcon = styled(Icon)`
-  cursor: pointer;
-`;
-
-const PostingBody = styled.div`
-
-`;
+import CommentForm from '@domains/Comment/CommentForm';
 
 const DetailPage = () => {
   const history = useHistory();
@@ -155,120 +144,89 @@ const DetailPage = () => {
   const handleShowComment = () => {
     setIsShowComments(true);
   };
-  
+
   const { value: postingInfos } = postingDetails;
   
   return (
     <>
       { postingInfos 
-        && <div 
-          style={{ 
-            margin: '0 auto',
-            width: '40%'
-          }} >
-          <PostingHeader
+        && <StyledMain>
+          <StyledPostingHeader
+            myUser={myUser}
             postingInfos={postingInfos}
+            handleClickEditPost={handleClickEditPost}
+            confirmVisible={confirmVisible}
+            handleClickConfirm={handleClickConfirm}
+            handleClickCancel={handleClickCancel}
+            handleClickRemovePosting={handleClickRemovePosting}
+            removeVisible={removeVisible}
+            handleClickRemoveConfirm={handleClickRemoveConfirm}
+            handleClickRemoveCancel={handleClickRemoveCancel}
           />
-          <PostingBody>
-            <Posting
-              postingInfos={postingInfos} 
-              visible={visible}
-              handleClickCopy={handleClickCopy}
-              handleClose={() => setVisible(false)} />
-            <IconsContainer>
-              <IconsWrapper>
-                <Favorite
-                  likes={postingInfos.likes}
-                  postId={postingInfos._id}
-                />
-                <CommentIcon>
-                  <Icon
-                    name='comment'
-                  ></Icon>
-                  <Number value={postingInfos.comments.length} />
-                </CommentIcon>
-              </IconsWrapper>
-              <IconsWrapper inVisible={myUser._id !== postingInfos.author._id}>
-                <StyledIcon
-                  name={'edit'}
-                  onClick={handleClickEditPost}
-                ></StyledIcon>
-                <ConfirmModal
-                  title='Go'
-                  description='포스트 수정 페이지로 이동하시겠습니까?'
-                  visible={confirmVisible}
-                  handleClickConfirm={handleClickConfirm}
-                  handleClickCancel={handleClickCancel} 
+          <Posting
+            postingInfos={postingInfos} 
+            visible={visible}
+            handleClickCopy={handleClickCopy}
+            handleClose={() => setVisible(false)} />
+          <CommentForm handleSubmit={handleClickSubmitComment} />
+          {
+            comments.length > 0 
+              && <StyledWrapper>
+                <ShowCommentButton
+                  onClick={handleShowComment}
+                  style={{ display: isShowComments ? 'none' : 'flex' }}
                 >
-                </ConfirmModal>
-                <StyledIcon
-                  name={'remove'}
-                  onClick={handleClickRemovePosting}
-                ></StyledIcon>
-                <ConfirmModal
-                  title='Remove'
-                  description='포스트를 삭제하시겠습니까??'
-                  visible={removeVisible}
-                  handleClickConfirm={handleClickRemoveConfirm}
-                  handleClickCancel={handleClickRemoveCancel} 
-                >
-                </ConfirmModal>
-              </IconsWrapper> 
-            </IconsContainer>
-            <ShowCommentButton
-              onClick={handleShowComment}
-              style={{ display: isShowComments ? 'none' : 'flex' }}
-            >
-            댓글
-            </ShowCommentButton>
-            {isShowComments && (
-              <Comment
-                comments={comments}
-                myUserId={myUser._id}
-                myName={myUser.fullName}
-                handleSubmit={handleClickSubmitComment}
-                handleClickDelete={handleClickRemoveComment}
-              />
-            )}
-          </PostingBody>
-        </div>
+                댓글 +{comments.length}
+                </ShowCommentButton>
+              </StyledWrapper>
+          }
+          {isShowComments && (
+            <Comment
+              comments={comments}
+              myUserId={myUser._id}
+              myName={myUser.fullName}
+              handleSubmit={handleClickSubmitComment}
+              handleClickDelete={handleClickRemoveComment}
+            />
+          )}
+        </StyledMain>
       }
     </>
   );
 };
 
-const IconsContainer = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 5px 0;
+const StyledWrapper = styled.div`
+  margin: 2px 0;
 `;
 
-const IconsWrapper = styled.div`
-display: ${({ inVisible }) => inVisible ? 'none' : 'flex'};
-gap: 5px;
+const StyledPostingHeader = styled(PostingHeader)`
+
+`;
+
+const StyledMain = styled.main`
+  margin: 0 16px;
+  max-width: 576px;
+  @media(min-width: 608px) {
+    margin: 0 auto;
+  }
 `;
 
 const ShowCommentButton = styled.div`
-width: 100%;
-height: 30px;
-padding: 5px;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-color: ${colors.PRIMARY_LIGHT};
-border: 2px solid ${colors.PRIMARY_BRIGHT};
-border-radius: 4px;
-transition: .1s all ease-in;
-font-size: 18px;
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.PRIMARY_LIGHT};
+  border: 2px solid ${colors.PRIMARY_BRIGHT};
+  border-radius: 4px;
+  transition: .1s all ease-in;
+  font-size: 18px;
 
 &:hover {
   filter: brightness(90%);
 }
-`;
-
-const CommentIcon = styled.div`
-display:flex;
 `;
 
 DetailPage.propTypes = {

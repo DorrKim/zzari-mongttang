@@ -8,6 +8,7 @@ import AlertModal from '@domains/NotationModal/AlertModal';
 import colors from '@constants/colors';
 
 const CopyButton = styled.button`
+
   border: 0;
   outline: 2px solid ${colors.ACCENT};
   padding: 0;
@@ -68,21 +69,29 @@ const Posting = ({
 
   return (
     <>
-      <Image
-        src={postingInfos.image 
-          ? postingInfos.image 
-          : ''}
-        width='100%'
-        height='content-fit'/>
-      <CopyButton onClick={handleClickCopy}>복사</CopyButton>
-      <AlertModal
-        title='Copied'
-        description='이미지 URL이 복사되었습니다'
-        visible={visible}
-        handleClose={handleClose}/>
+      <div>
+        <Image
+          src={postingInfos.image 
+            ? postingInfos.image 
+            : ''}
+          width='100%'
+          height='content-fit'/>
+      </div>
+      <StyledWrapper>
+        <CopyButton onClick={handleClickCopy}>복사</CopyButton>
+        <AlertModal
+          title='Copied'
+          description='이미지 URL이 복사되었습니다'
+          visible={visible}
+          handleClose={handleClose}/>
+      </StyledWrapper>
     </>
   );
 };
+
+const StyledWrapper = styled.div`
+  margin: 5px 0;
+`;
 
 Posting.propTypes = {
   postingInfos: PropTypes.object,
