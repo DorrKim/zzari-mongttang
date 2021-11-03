@@ -11,7 +11,7 @@ import Flex from '@base/Flex';
 const ConfirmButton = styled(Button)`
   margin: 0 15px 20px 15px;
   border-radius: 4px;
-  
+
   &:hover {
     filter: brightness(100%);
     transform: scale(1.05);
