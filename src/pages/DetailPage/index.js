@@ -14,6 +14,7 @@ import Posting from './Posting';
 import colors from '@constants/colors';
 import PostingHeader from './PostingHeader';
 import CommentForm from '@domains/Comment/CommentForm';
+import Divider from '@base/Divider';
 
 const DetailPage = () => {
   const history = useHistory();
@@ -162,12 +163,17 @@ const DetailPage = () => {
             removeVisible={removeVisible}
             handleClickRemoveConfirm={handleClickRemoveConfirm}
             handleClickRemoveCancel={handleClickRemoveCancel}
+            handleShowComment={handleShowComment}
           />
           <Posting
             postingInfos={postingInfos} 
             visible={visible}
             handleClickCopy={handleClickCopy}
             handleClose={() => setVisible(false)} />
+          <Divider 
+            color={colors.PRIMARY_BACKGROUND}
+            size={10}
+          />
           <CommentForm handleSubmit={handleClickSubmitComment} />
           {
             comments.length > 0 

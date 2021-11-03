@@ -1,6 +1,6 @@
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { BiComment } from 'react-icons/bi';
-import { MdKeyboardBackspace } from 'react-icons/md';
+import { MdArrowBackIos } from 'react-icons/md';
 import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
 import { BsArrowDownCircle, BsCaretLeftFill, BsCaretRightFill } from 'react-icons/bs';
 import { CgClose, CgMoreAlt } from 'react-icons/cg';
@@ -11,7 +11,7 @@ const $comment = BiComment;
 const $copy = FiCopy;
 const $edit = FiEdit;
 const $remove = FiTrash2;
-const $arrowBack = MdKeyboardBackspace;
+const $arrowBack = MdArrowBackIos;
 const $arrowDown = BsArrowDownCircle;
 const $close = CgClose;
 const $more = CgMoreAlt;
