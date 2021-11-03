@@ -9,12 +9,17 @@ import Logo from '@components/Logo';
 import Title from '@components/Title';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import styled from '@emotion/styled';
+import AlertModal from '@domains/NotationModal/AlertModal';
 
 const imageFormData = new FormData();
 
 const UploadPage = () => {
   const { authState } = useAuthorization();
   const [isPostUploaded, setIsPostUploaded] = useState(false);
+  const [alertModalState, setAlertModalState] = useState({
+    visible: false,
+    description: ''
+  });
 
   const history = useHistory();
 
@@ -29,7 +34,10 @@ const UploadPage = () => {
 
     const { title, imageData, channelId } = values;
     if (!(title && imageData && channelId)){
-      alert('짤의 제목, 이미지, 카테고리를 모두 선택해주세요!');
+      setAlertModalState({ 
+        visible: true,
+        description: '짤의 제목, 이미지, 카테고리를 모두 선택해주세요!' 
+      });
       
       return;
     }
@@ -51,13 +59,14 @@ const UploadPage = () => {
   useEffect(async () => {
     const { value, error } = createPostAPIState;
     if (error) {
-      alert('짤 업로드에 실패하였습니다! 잠시 후에 다시 시도해주세요.');
+      setAlertModalState({ 
+        visible: true,
+        description: '짤 업로드에 실패하였습니다! 잠시 후에 다시 시도해주세요.' 
+      });
       
       return; 
     }
-
     value && setIsPostUploaded(true);
-    
   }, [
     createPostAPIState
   ]);
@@ -81,6 +90,14 @@ const UploadPage = () => {
           onCancel={handleCancel}
         />
       </FlexStyled>
+      <AlertModal
+        title='경고!'
+        visible={alertModalState.visible}
+        description={alertModalState.description}
+        handleClose={() => setAlertModalState({ 
+          visible: false,
+          description: '' })}
+      />
     </>);
 };
 
