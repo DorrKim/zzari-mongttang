@@ -27,11 +27,11 @@ const SearchBar = ({ initialKeyword = '', onToSubmitPage }) => {
           height='50px'
           fontSize='20px'
           autoComplete='off'
-          placeholder='검색어를 입력하세요'
+          placeholder='검색어를 입력해주세요.'
           style={{ width: '100%',
             border: 'none',
             borderRadius: '20px',
-            padding: '0 20px',
+            paddingLeft: '20px',
             boxShadow: '3px 3px 8px #e0e0e0' }}
           // backgroundColor: '#f1f1fe' }}
           value={search || ''}

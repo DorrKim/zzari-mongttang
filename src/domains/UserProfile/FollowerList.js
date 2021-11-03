@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Avatar from '@components/Avatar';
 import Text from '@base/Text';
+import Image from '@base/Image';
+import followPlaceHolder from '@assets/follow-place-holder.gif';
+import colors from '@constants/colors';
 
 const FollowItemWrapper = styled.div`
   display: flex;
@@ -11,8 +14,25 @@ const FollowItemWrapper = styled.div`
   width: 250px;
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 1rem;
+`;
+
 const FollowerList = ({ followers }) => {
-  
+  if (followers.length === 0) {
+    return ( 
+      <ImageWrapper>
+        <Text bold color={colors.TEXT_SUBTLE}>팔로워가 없습니다.</Text>
+        <Image width='250px' height="250px" src={followPlaceHolder} ></Image>
+      </ImageWrapper>
+    );
+  }
+
   return (
     <ul>  
       {followers.map(({ _id, follower: { fullName, image, _id: userId }}) => (
