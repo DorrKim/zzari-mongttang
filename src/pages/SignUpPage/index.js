@@ -9,9 +9,13 @@ import { useAuthorization } from '@context/AuthorizationProvider';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import Logo from '@components/Logo';
 import Title from '@components/Title';
+import ConfirmModal from '@domains/NotationModal/ConfirmModal';
+import AlertModal from '@domains/NotationModal/AlertModal';
 
 const SignUpPage = () => {
   const [isSignUped, setIsSignUped] = useState(false);
+  const [isShowConfirmModal, setIsShowModal] = useState(false);
+  const [isShowAlertModal, setIsShowAlertModal] = useState(false);
   const { updateAuthState } = useAuthorization();
   const history = useHistory();
 
@@ -27,8 +31,8 @@ const SignUpPage = () => {
     }})
   , []);
 
-  const handleCancel = useCallback(() => {
-    confirm('회원가입 페이지에서 나가시겠습니까? 해당 페이지 정보를 잃을 수 있습니다.') && history.push('/');
+  const handleToBack = useCallback(() => {
+    history.goBack();
   });
 
   useEffect(() => {
@@ -46,14 +50,13 @@ const SignUpPage = () => {
           fullName,
           image
         }});
-      alert('회원가입이 완료되었습니다! 해당 계정으로 로그인합니다.');
 
       setIsSignUped(true);
     } 
   }, [signUpAPIState]);
 
   useEffect(() => {
-    isSignUped && history.push('/');
+    isSignUped && setIsShowAlertModal(true);
   }, [isSignUped]);
   
   return (
@@ -64,8 +67,20 @@ const SignUpPage = () => {
         <SignUpForm
           signupError={signUpAPIState.error}
           onSignUp={handleSignUp} 
-          onCancel={handleCancel} />
+          onCancel={() => setIsShowModal(true)} />
       </FlexStyled>
+      <ConfirmModal 
+        handleClickConfirm={handleToBack}
+        handleClickCancel={() => setIsShowModal(false)}
+        visible={isShowConfirmModal} 
+        title='경고' 
+        description='회원가입 페이지에서 나가시겠습니까? </br> 해당 페이지 정보를 잃을 수 있습니다.' />
+      <AlertModal
+        title='알림'
+        description='회원가입이 완료되었습니다! 해당 계정으로 로그인합니다.'
+        visible={isShowAlertModal}
+        handleClose={() => history.push('/')}
+      />
     </>);
 };
 
