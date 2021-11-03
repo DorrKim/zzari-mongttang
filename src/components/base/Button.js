@@ -26,8 +26,8 @@ const StyledButton = styled.button(({
 const Button = ({
   backgroundColor = ACCENT, width = '100px', height = '100px',
   border = 'none', borderWidth = 'thin',
-  hover = { filter: 'brightness(90%)' },
-  active = { filter: 'brightness(80%)' }, cursor = 'pointer',
+  hover = { filter: 'brightness(95%)' },
+  active = { filter: 'brightness(90%)' }, cursor = 'pointer',
   children, onClick, ...props }) => {
 
   return (

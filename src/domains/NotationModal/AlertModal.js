@@ -10,12 +10,21 @@ import Text from '@base/Text';
 const StyledButton = styled(Button)`
   margin-bottom: 20px;
   border-radius: 4px;
-  outline: 4px solid #fcc881;
+  outline: none;
+
+  &:hover {
+    filter: brightness(100%);
+    transform: scale(1.05);
+    transition: 0.1s ease-in-out transform;
+  }
+  &:focus {
+    filter: brightness(90%);
+  }
  
 `;
 
 const Title = styled.div`
- font-weight: 700;
+  font-weight: 700;
   font-size: 1.5rem;
   word-break: keep-all;
   text-align: center;
@@ -47,7 +56,7 @@ const AlertModal = ({ title, description, visible, handleClose, ...props }) => {
           block
           color='white'
           bold>
-          OK
+          ㅇㅋ
         </Text>
       </StyledButton>
     </Modal>

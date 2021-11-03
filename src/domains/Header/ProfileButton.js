@@ -21,7 +21,11 @@ const ProfileButton = ({ myUser, ...props }) => {
   return (
     <div ref={menuBarRef} style={{ position: 'relative' }} {...props}>
       <Avatar src={myUser?.image} size={45} onClick={toggleMenuBar} />
-      <MenuBar userId={myUser?._id} style={{ display: showMenuBar ? 'flex' : 'none' }} />
+      <MenuBar
+        userId={myUser?._id} 
+        style={{ display: showMenuBar ? 'flex' : 'none' }}
+        onClear={() => toggleMenuBar()}
+      />
     </div>
   );
 };

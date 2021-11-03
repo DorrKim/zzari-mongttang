@@ -7,7 +7,7 @@ import FollowerList from './FollowerList';
 import FollowingList from './FollowingList';
 
 const FollowModal = ({ visible, followers, following, followState, myUserImage, myUserName, activeIndex, onClose }) => {
-
+  
   return (
     <Modal visible={visible} onClose={onClose} width='300px' height='400px'>
       <Tab activeIndex={activeIndex}>

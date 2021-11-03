@@ -6,6 +6,7 @@ import Button from '@base/Button';
 import FormInput from '@components/FormInput';
 import { validateLogin } from '@library/validate';
 import useForm from '@hooks/useForm';
+import colors from '@constants/colors';
 
 const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
   const { values, isLoading, error, handleChange, handleSubmit } = useForm({
@@ -51,13 +52,13 @@ const LoginForm = ({ loginError, onLogin, onToSubmitPage, ...props }) => {
       <ButtonStyled 
         type='submit'
         disabled={isLoading}
-        backgroundColor={'#FD9F28'} 
+        backgroundColor={colors.ACCENT} 
         borderRadius={'4px'} 
       > 
           로그인 
       </ButtonStyled>
       <ButtonStyled 
-        backgroundColor={'#ffffff'}
+        backgroundColor={colors.PRIMARY_BACKGROUND}
         borderRadius={'4px'}
         onClick={handleToSubmitPage} 
       >

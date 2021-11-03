@@ -9,17 +9,23 @@ import styled from '@emotion/styled';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import Logo from '@components/Logo';
 import Title from '@components/Title';
+import AlertModal from '@domains/NotationModal/AlertModal';
+import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 
 const imageFormData = new FormData();
 
 const EditProfilePage = () => {
   const { authState, updateAuthState } = useAuthorization();
   const [isProfileEdited, setIsProfileEdited] = useState(false);
+  const [isProfileEditedAlertShow, setIsProfileEditedAlertShow] = useState(false);
+  const [isAuthFailedAlertShow, setIsAuthFailedAlertShow] = useState(false);
+  const [isCancelConfirmModalShow, setIsCancelConfirmModalShow] = useState(false);
   const [initialFormState, setInitialFormState] = useState({
     isLoaded: false,
     imageUrl: '',
     fullName: ''
   });
+
   const history = useHistory();
 
   const headers = useMemo(() => ({ Authorization: `bearer ${authState.authToken}` }), [authState]);
@@ -79,14 +85,18 @@ const EditProfilePage = () => {
   }, [initialFormState]);
 
   const handleCancel = useCallback(() => {
-    confirm('정보수정 페이지에서 나가시겠습니까? 해당 페이지 정보를 잃을 수 있습니다.') && history.push('/');
+    setIsCancelConfirmModalShow(true);
   });
+
+  const handleToLoginPage = useCallback(() => {
+    setIsAuthFailedAlertShow(false);
+    history.push('/login');
+  }, [history]);
 
   // 최초 페이지 접근 본인 확인
   useEffect(() => {
     if (!authState.myUser) {
-      alert('본인 확인에 실패하였습니다. 다시 로그인후에 시도해주세요.');
-      history.replace('/login');
+      setIsAuthFailedAlertShow(true);
       
       return;
     }
@@ -102,8 +112,7 @@ const EditProfilePage = () => {
     const { value: myUserValue, error: myUserError } = getMyUserAPIState;
     const error = isAuthUserError || myUserError;
     if (error) {
-      alert('본인 확인에 실패하였습니다. 다시 로그인후에 시도해주세요.');
-      history.push('/login');
+      setIsAuthFailedAlertShow(true);
       
       return;
     } 
@@ -150,8 +159,7 @@ const EditProfilePage = () => {
           fullName
         }
       });
-      alert('프로필 정보가 변경되었습니다!');
-      setIsProfileEdited(true);
+      setIsProfileEditedAlertShow(true);
     }
   }, [
     updateFullNameAPIState,
@@ -188,6 +196,25 @@ const EditProfilePage = () => {
         }
         
       </FlexStyled>
+      <AlertModal
+        title='경고'
+        description='본인 확인에 실패하였습니다. </br> 다시 로그인후에 시도해주세요.'
+        visible={isAuthFailedAlertShow}
+        handleClose={handleToLoginPage}
+      />
+      <AlertModal
+        title='알림'
+        description='프로필 정보가 변경되었습니다!'
+        visible={isProfileEditedAlertShow}
+        handleClose={() => setIsProfileEdited(true)}
+      />
+      <ConfirmModal 
+        title='경고'
+        description='정보수정 페이지에서 나가시겠습니까? </br> 해당 페이지 정보를 잃을 수 있습니다.'
+        visible={isCancelConfirmModalShow}
+        handleClickConfirm={() => history.goBack()}
+        handleClickCancel={() => setIsCancelConfirmModalShow(false)}
+      />
     </>);
 };
 

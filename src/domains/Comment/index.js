@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import CommentItem from './CommentItem';
 import styled from '@emotion/styled';
 import Flex from '@base/Flex';
-import CommentForm from './CommentForm';
 import useInfinteScroll from '@hooks/useInfinteScroll';
 
 const CommentList = styled.li`
@@ -11,7 +10,7 @@ const CommentList = styled.li`
   background-color: #fcfcfc;
 `;
 
-const Comment = ({ comments, initialItemCount = 6, myUserId, handleSubmit, handleClickDelete }) => {
+const Comment = ({ comments, initialItemCount = 6, myUserId, handleClickDelete }) => {
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(initialItemCount);
 
@@ -31,7 +30,6 @@ const Comment = ({ comments, initialItemCount = 6, myUserId, handleSubmit, handl
   
   return (
     <Flex column>
-      <CommentForm handleSubmit={handleSubmit} />
       <CommentList>
         {[...comments]
           .reverse()
@@ -62,7 +60,6 @@ Comment.propTypes = {
   initialItemCount: PropTypes.number,
   myUserId: PropTypes.string,
   myName: PropTypes.string,
-  handleSubmit: PropTypes.func,
   handleClickDelete: PropTypes.func
 };
 
