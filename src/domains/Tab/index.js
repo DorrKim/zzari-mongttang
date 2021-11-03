@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import TabHeader from './TabHeader';
 import TabItem from './TabItem';
 import TabPanel from './TabPanel';
+import { useHistory } from 'react-router';
 
 const TabWrapper = styled.div`
   display: flex;
@@ -16,8 +17,14 @@ const TabWrapper = styled.div`
   margin: 0 auto;
 `;
 
-const Tab = ({ children, activeIndex = 0, ...props }) => {
+const Tab = ({ children, activeIndex = 0, onClickTabItem, ...props }) => {
   const [currIndex, setCurrIndex] = useState(activeIndex);
+  const history = useHistory();
+  const handleClickTabItem = useCallback(value => {
+    setCurrIndex(value);
+    onClickTabItem && onClickTabItem(value);
+    
+  }, [history]);
 
   const tabHeader = React.Children
     .toArray(children)
@@ -31,7 +38,7 @@ const Tab = ({ children, activeIndex = 0, ...props }) => {
       return React.cloneElement(element, {
         ...element.props,
         currIndex,
-        handleClickTabItem: setCurrIndex
+        handleClickTabItem
       });
     });
 
@@ -60,7 +67,8 @@ const Tab = ({ children, activeIndex = 0, ...props }) => {
 
 Tab.propTypes = {
   children: PropTypes.node,
-  activeIndex: PropTypes.number
+  activeIndex: PropTypes.number,
+  onClickTabItem: PropTypes.func
 };
 
 Tab.Item = TabItem;
