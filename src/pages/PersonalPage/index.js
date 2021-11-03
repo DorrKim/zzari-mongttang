@@ -12,7 +12,6 @@ import useQuery from '@hooks/useQuery';
 const MainInner = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 1rem;
 `;
 
 const PersonalPage = () => {

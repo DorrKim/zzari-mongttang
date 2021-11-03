@@ -53,8 +53,8 @@ const ZzalItem = ({
 
 const StyledItem = styled.div`
   display: flex;
-  width: 240px;
-  height: 240px;
+  width: 229px;
+  height: 229px;
   justify-content: center;
   box-sizing: border-box;
   border-radius: 4px;
@@ -66,18 +66,20 @@ const StyledItem = styled.div`
     border: 4px solid ${colors.PRIMARY_BRIGHT};
   }
   
+  @media(max-width: 1012px) {
+    width: calc((100vw - 64px) / 4);
+    height: calc((100vw - 64px) / 4);
+  }
+
   @media(max-width: 768px) {
-    width: 210px;
-    height: 210px;
+    width: calc((100vw - 56px) / 3);
+    height: calc((100vw - 56px) / 3);
   }
-  @media(max-width: 680px) {
-    width: 152px;
-    height: 152px;
-  }
-  @media(max-width: 375px) {
-    width: 130px;
-    height: 130px;
-  }
+
+  @media(max-width: 590px) {
+    width: calc((100vw - 12px) / 2);
+    height: calc((100vw - 12px) / 2);
+  } 
 `;
 
 ZzalItem.propTypes = {

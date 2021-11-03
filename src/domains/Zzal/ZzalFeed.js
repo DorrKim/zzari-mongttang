@@ -10,18 +10,10 @@ import Spinner from '@base/Spinner';
 import { useHistory } from 'react-router';
 
 const StyledTab = styled(Tab)`
-  width: 1093px;
-  @media(max-width: 1176px) {
-    width: 830px;
-  }
-  @media(max-width: 768px) {
-    width: 720px;
-  }
-  @media(max-width: 680px) {
-    width: 346px;
-  }
-  @media(max-width: 375px) {
-    width: 300px;
+  width: 1012px;
+
+  @media(max-width: 1012px) {
+    width: 100vw;
   }
 `; 
 

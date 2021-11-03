@@ -69,26 +69,25 @@ const ZzalList = (
 
 const StyledList = styled.div`
   display: flex;
-  justify-items: center;
   align-items: center;
   flex-wrap: wrap;
   margin: 0 auto;
-  width: 984px;
+  width: 1012px;
   gap: 8px;
   font-family: 'netmarbleM';
-  @media(max-width: 1176px) {
-    width: 746px;
+  padding: 36px;
+
+  @media(max-width: 1012px) {
+    padding: 20px;
+    width: 100vw;
   }
-  @media(max-width: 768px) {
-    width: 648px;
-  }
-  @media(max-width: 680px) {
-    width: 312px;
-  }
-  @media(max-width: 375px) {
-    width: 268px;
+
+  @media(max-width: 590px) {
+    padding: 4px;
+    gap: 4px;
   }
 `;
+
 
 ZzalList.propTypes = {
   zzalList: PropTypes.object,
