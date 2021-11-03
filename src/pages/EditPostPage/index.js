@@ -6,7 +6,6 @@ import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import EditPostForm from '@domains/EditPostForm';
 import Logo from '@components/Logo';
-import Title from '@components/Title';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import styled from '@emotion/styled';
 import AlertModal from '@domains/NotationModal/AlertModal';
@@ -118,8 +117,7 @@ const EditPostPage = () => {
   return (
     <>
       <FlexStyled column alignItems='center'>
-        <Logo link />
-        <Title>짤 수정</Title>
+        <Logo name='edit' link style={{ marginBottom: STYLE_CONSTANTS.margin.NO_HEADER_LOGO_MARGIN_BOTTOM_S }} />
         {initialFormState.isLoaded 
           ? (
             <EditPostForm
