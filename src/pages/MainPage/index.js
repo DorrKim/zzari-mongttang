@@ -12,7 +12,8 @@ const ZZAL_ITEM_LOAD_COUNT = 6;
 
 const MainPage = () => {
   const history = useHistory();
-  const [channelId, setChannelId] = useState(useQuery().get('channelId'));
+  const queryId = useQuery().get('channelId');
+  const [channelId, setChannelId] = useState(queryId);
   const [zzalList, fetchList] = useAxios();
 
   useEffect(() => {
@@ -21,13 +22,17 @@ const MainPage = () => {
     });
   }, [channelId]);
 
+  useEffect(() => {
+    setChannelId(queryId);
+  }, [queryId]);
+
   const handleChangeCategory = useCallback(id => {
     if (!channelId){
       setChannelId(id);
-      
+
       return;
     }
-    console.log(id);
+
     id && history.push(`/?channelId=${id}`);
   }, [channelId]);
 
