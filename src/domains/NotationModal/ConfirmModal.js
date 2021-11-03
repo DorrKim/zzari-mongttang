@@ -11,7 +11,6 @@ import Flex from '@base/Flex';
 const ConfirmButton = styled(Button)`
   margin: 0 15px 20px 15px;
   border-radius: 4px;
-  outline: 4px solid #fcc881;
 `;
 
 const CancelButton = styled(Button)`

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import Avatar from '@components/Avatar';
 import styled from '@emotion/styled';
 import Text from '@base/Text';
+import Image from '@base/Image';
+import colors from '@constants/colors';
+import followPlaceHolder from '@assets/follow-place-holder.gif';
 
 const FollowItemWrapper = styled.div`
   display: flex;
@@ -11,8 +14,25 @@ const FollowItemWrapper = styled.div`
   width: 250px;
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 1rem;
+`;
+
 const FollowingList = ({ following }) => {
-  
+  if (following.length === 0) {
+    return ( 
+      <ImageWrapper>
+        <Text bold color={colors.TEXT_SUBTLE}>팔로우 중인 사람이 없습니다.</Text>
+        <Image width='250px' height="250px" src={followPlaceHolder} ></Image>
+      </ImageWrapper>
+    );
+  }
+
   return (
     <ul>
       {following.map(({ _id, user: { fullName, image, _id: userId }}) => (
