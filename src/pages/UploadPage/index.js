@@ -53,7 +53,7 @@ const UploadPage = () => {
   }, [imageFormData, createPost]);
 
   const handleCancel = useCallback(() => {
-    history.push('/');
+    history.goBack();
   }, []);
 
   useEffect(async () => {
@@ -72,7 +72,10 @@ const UploadPage = () => {
   ]);
 
   useEffect(() => {
-    isPostUploaded && history.push('/');
+    isPostUploaded && history.push({
+      pathname: `/user/${authState.myUser?._id}`,
+      search: '?tabIdx=1'
+    });
   }, [isPostUploaded]);
 
   return (
