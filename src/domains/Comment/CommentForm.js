@@ -5,9 +5,7 @@ import Avatar from '@components/Avatar';
 import Text from '@base/Text';
 import colors from '@constants/colors';
 import { useAuthorization } from '@context/AuthorizationProvider';
-import Button from '@base/Button';
 import { useHistory } from 'react-router';
-
 
 const FormWrapper = styled.div`
   display: flex;
@@ -69,12 +67,27 @@ const CommentForm = ({ handleSubmit }) => {
           <StyledTextarea placeholder="댓글을 입력해주세요." onKeyUp={handleKeyUp} required>
           </StyledTextarea>
         </Inner>)
-        : <Button onClick={() => history.push('/login')}>로그인하러 가기</Button>
+        : <StyledButton onClick={() => history.push('/login')}>로그인하고 댓글 작성하기</StyledButton>
       }
       
     </FormWrapper>
   );  
 };
+
+const StyledButton = styled.button`
+  border: 0;
+  padding: 0;
+  color: ${colors.ACCENT};
+  width: 80%;
+  height: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+  font-weight: 700;
+  background-color: white;
+  filter: brightness(85%);
+  outline: 2px solid #CCCCCC;
+`;
 
 CommentForm.propTypes = {
   myProfileImage: PropTypes.string,
