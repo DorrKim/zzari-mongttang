@@ -9,11 +9,13 @@ import Avatar from '@components/Avatar';
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 import Favorite from '@components/Favorite';
 import Number from '@components/Number';
+import colors from '@constants/colors';
 
 const PostingHeader = ({ myUser, postingInfos,
   handleClickEditPost, confirmVisible, handleClickConfirm, handleClickCancel,
   handleClickRemovePosting, removeVisible,
-  handleClickRemoveConfirm, handleClickRemoveCancel }) => {
+  handleClickRemoveConfirm, handleClickRemoveCancel,
+  handleShowComment }) => {
   const history = useHistory();
 
   const handleClickBack = () => {
@@ -27,22 +29,34 @@ const PostingHeader = ({ myUser, postingInfos,
   return (
     <>
       <StyledWrapper>
-        <Icon
-          style={{ transform: 'scaleX(3.5) scaleY(3)' }}
-          fontSize={'25px'}
-          name={'arrowBack'}
-
-          onClick={handleClickBack}
-        />
-        <Text bold style={{ fontSize: '20px',
-          margin: '0 20px' }}>{postingInfos.title}</Text>
+        <div>
+          <Icon
+            style={{ transform: 'scaleX(1.5) scaleY(1.5)', 
+              backgroudColor: colors.PRIMARY_BACKGROUND,
+              cursor: 'pointer' }}
+            name={'arrowBack'}
+            onClick={handleClickBack}
+          />
+        </div>
+        <Text bold style={{ 
+          fontSize: '20px',
+          margin: '0 20px',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          height: '22px',
+          lineHeight: '26px'
+        }}>
+          {postingInfos.title}
+        </Text>
         <IconsWrapper inVisible={myUser._id !== postingInfos.author._id}>
           <StyledIcon
             name={'edit'}
+            color={colors.ACCENT}
             onClick={handleClickEditPost}
           ></StyledIcon>
           <ConfirmModal
-            title='Go'
+            title='알림'
             description='포스트 수정 페이지로 이동하시겠습니까?'
             visible={confirmVisible}
             handleClickConfirm={handleClickConfirm}
@@ -51,10 +65,12 @@ const PostingHeader = ({ myUser, postingInfos,
           </ConfirmModal>
           <StyledIcon
             name={'remove'}
+            color={'red'}
+            style={{ filter: 'brightness(70%)' }}
             onClick={handleClickRemovePosting}
           ></StyledIcon>
           <ConfirmModal
-            title='Remove'
+            title='삭제'
             description='포스트를 삭제하시겠습니까??'
             visible={removeVisible}
             handleClickConfirm={handleClickRemoveConfirm}
@@ -82,10 +98,13 @@ const PostingHeader = ({ myUser, postingInfos,
                   postId={postingInfos._id}
                 />
                 <CommentIcon>
-                  <Icon
+                  <StyledComment
                     name='comment'
-                  ></Icon>
-                  <Number value={postingInfos.comments.length} />
+                    onClick={handleShowComment}
+                  ></StyledComment>
+                  <Number
+                    value={postingInfos.comments.length} 
+                  />
                 </CommentIcon>
               </IconsWrapper>
             </IconsContainer>
@@ -95,6 +114,11 @@ const PostingHeader = ({ myUser, postingInfos,
     </>
   );
 };
+
+const StyledComment = styled(Icon)`
+  margin: 0 6px;
+  cursor: pointer;
+`;
 
 const PostingHeaderWrapper = styled.div`
   margin: 10px 0 3px 0;
@@ -117,7 +141,7 @@ const AuthorName = styled(Text)`
 const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 16px;
+  margin: 20px 24px;
 `;
 
 const IconsWrapper = styled.div`
@@ -157,7 +181,8 @@ PostingHeader.propTypes = {
   handleClickCancel: PropTypes.func,
   handleClickRemovePosting: PropTypes.func,
   handleClickRemoveConfirm: PropTypes.func,
-  handleClickRemoveCancel: PropTypes.func
+  handleClickRemoveCancel: PropTypes.func,
+  handleShowComment: PropTypes.func
 };
 
 export default PostingHeader;

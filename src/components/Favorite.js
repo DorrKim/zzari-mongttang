@@ -117,12 +117,11 @@ ${({ toggled }) => toggled
       opacity: 1 
     })
     : ({ 
-      color: colors.TEXT_NORMAL,
-      opacity: 0.5
+      color: colors.TEXT_NORMAL
     })
 }
 cursor: pointer;
-margin-right: 6;
+margin-right: 6px;
 flex-shrink: 0;
 transition: 0.1s ease-in;
 &:hover {
