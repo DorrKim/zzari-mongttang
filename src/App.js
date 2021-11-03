@@ -19,6 +19,7 @@ import EditProfilePage from '@pages/EditProfilePage';
 import EditPostPage from '@pages/EditPostPage';
 import NotFoundPage from '@pages/Error/NotFoundPage';
 import ApiErrorPage from '@pages/Error/ApiErrorPage';
+import Footer from '@domains/Footer';
 
 
 function App() {
@@ -29,9 +30,11 @@ function App() {
         <Switch>
           <Route exact path="/login">
             <LoginPage />
+            <Footer />
           </Route>
           <Route exact path="/signup">
             <SignUpPage />
+            <Footer />
           </Route>
           <Route exact path="/editProfile" >
             <EditProfilePage />
@@ -39,10 +42,12 @@ function App() {
           <Route exact path="/search">
             <Header />
             <SearchPage />
+            <Footer />
           </Route>
           <Route exact path="/user/:userId">
             <Header />
             <PersonalPage />
+            <Footer />
           </Route>
           <Route exact path="/zzal/:zzalId">
             <Header />
@@ -57,6 +62,7 @@ function App() {
           <Route exact path="/">
             <Header />
             <MainPage />
+            <Footer />
           </Route>
           <Route exact path="/error">
             <ApiErrorPage />
