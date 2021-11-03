@@ -97,7 +97,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
           <RefWrapper ref={ref}>
             <StyledCategoryList selectedIndex={selectedChip} onChange={handleChangeChip}>
               {(sortedCategoryList?.map(({ _id, name }) => (
-                <CategoryChip style={{ margin: '0 5px' }} key={_id} name={name} id={_id} />
+                <CategoryChip style={{ margin: '0 5px' }} key={_id} name={name === '홍중' ? '유머' : name} id={_id} />
               ))
               )}
             </StyledCategoryList>
@@ -118,7 +118,7 @@ const Wrapper = styled.div`
   display: flex;
   position: relative;
   width: 600px;
-  height: 30px;
+  height: 50px;
   overflow: hidden;
   margin: 20px auto;
 

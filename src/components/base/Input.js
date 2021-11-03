@@ -35,7 +35,9 @@ const Input = ({
   }, [onChange]);
   
   return (
-    <InputStyled {...props} 
+    <InputStyled 
+      style={{ ...style }}
+      {...props} 
       placeholder={placeholder}
       inputStyle={InputStyle}
       onChange={handleChange} />

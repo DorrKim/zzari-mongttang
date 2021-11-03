@@ -11,7 +11,6 @@ import Spinner from '@base/Spinner';
 const MainInner = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 1rem;
 `;
 
 const PersonalPage = () => {
