@@ -10,7 +10,7 @@ import imageSrc from '@assets/logo.png';
 const ImageStyled = styled(Image)`
   cursor: pointer;
   width: 156px;
-  height: fit-content;
+  height: 56px;
 `;
 
 const Logo = ({ link, ...props }) => {

@@ -45,7 +45,7 @@ const Header = ({ ...props }) => {
           backgroundColor={colors.PRIMARY}
           onClick={handleToLoginPage}
         >
-          <Text bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
+          <Text style={{ whiteSpace: 'nowrap' }} bold color={colors.PRIMARY_BACKGROUND}>로그인</Text>
         </HeaderButton>  
       }
     </HeaderStyled>
