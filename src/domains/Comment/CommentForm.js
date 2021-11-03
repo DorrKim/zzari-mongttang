@@ -8,7 +8,6 @@ import { useAuthorization } from '@context/AuthorizationProvider';
 import { useHistory } from 'react-router';
 import LoginConfirmModal from '@domains/NotationModal/LoginConfirmModal';
 
-
 const FormWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -43,7 +42,7 @@ const StyledTextarea = styled.textarea`
   }
 `;
 
-const StyledButton = styled.button`
+const StyledInput = styled.input`
   border: 0;
   padding: 0;
   color: #CCCCCC;
@@ -53,11 +52,10 @@ const StyledButton = styled.button`
   font-size: 18px;
   border-radius: 4px;
   font-weight: 700;
-  background-color: ${colors.PRIMARY_BACKGROUND};
-
+  color: ${colors.PRIMARY_BACKGROUND};
   outline: 2px solid #CCCCCC;
 `;
-//  filter: brightness(85%);
+
 const CommentForm = ({ handleSubmit }) => {
   const history = useHistory();
   const { authState: { isAuthorized, myUser: { image, fullName }}} = useAuthorization();
@@ -87,14 +85,13 @@ const CommentForm = ({ handleSubmit }) => {
           </StyledTextarea>
         </Inner>)
         : <>
-          <StyledButton onClick={() => setIsLoginModalShow(true)}>로그인하고 댓글 작성하기</StyledButton>
+          <StyledInput type='text' placeholder=' 로그인하고 댓글 작성하기' onFocus={() => setIsLoginModalShow(true)}/>
           <LoginConfirmModal
             visible={isLoginModalShow}
             handleClickConfirm={() => history.push('/login')}
             handleClickCancel={() => setIsLoginModalShow(false)} />
         </>
       }
-      
     </FormWrapper>
   );  
 };
