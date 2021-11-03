@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Avatar from '@components/Avatar';
@@ -6,6 +6,8 @@ import Text from '@base/Text';
 import colors from '@constants/colors';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import { useHistory } from 'react-router';
+import LoginConfirmModal from '@domains/NotationModal/LoginConfirmModal';
+
 
 const FormWrapper = styled.div`
   display: flex;
@@ -41,10 +43,27 @@ const StyledTextarea = styled.textarea`
   }
 `;
 
+const StyledButton = styled.button`
+  border: 0;
+  padding: 0;
+  color: #CCCCCC;
+  width: 80%;
+  height: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+  font-weight: 700;
+  background-color: ${colors.PRIMARY_BACKGROUND};
+
+  outline: 2px solid #CCCCCC;
+`;
+//  filter: brightness(85%);
 const CommentForm = ({ handleSubmit }) => {
   const history = useHistory();
   const { authState: { isAuthorized, myUser: { image, fullName }}} = useAuthorization();
   
+  const [isLoginModalShow, setIsLoginModalShow] = useState(false);
+
   const handleKeyUp = useCallback(({ target, key }) => {
     
     if (key !== 'Enter') return;
@@ -67,27 +86,18 @@ const CommentForm = ({ handleSubmit }) => {
           <StyledTextarea placeholder="댓글을 입력해주세요." onKeyUp={handleKeyUp} required>
           </StyledTextarea>
         </Inner>)
-        : <StyledButton onClick={() => history.push('/login')}>로그인하고 댓글 작성하기</StyledButton>
+        : <>
+          <StyledButton onClick={() => setIsLoginModalShow(true)}>로그인하고 댓글 작성하기</StyledButton>
+          <LoginConfirmModal
+            visible={isLoginModalShow}
+            handleClickConfirm={() => history.push('/login')}
+            handleClickCancel={() => setIsLoginModalShow(false)} />
+        </>
       }
       
     </FormWrapper>
   );  
 };
-
-const StyledButton = styled.button`
-  border: 0;
-  padding: 0;
-  color: ${colors.ACCENT};
-  width: 80%;
-  height: 30px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 4px;
-  font-weight: 700;
-  background-color: white;
-  filter: brightness(85%);
-  outline: 2px solid #CCCCCC;
-`;
 
 CommentForm.propTypes = {
   myProfileImage: PropTypes.string,
