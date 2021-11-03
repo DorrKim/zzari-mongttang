@@ -28,7 +28,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
   }, []);
 
   useEffect(() => {
-    value && setSortedCategoryList(Object.values(value).sort((a, b) => b['posts'].length - a['posts'].length));
+    value && setSortedCategoryList(Object.values(value).sort((a, b) => new Date(b['updatedAt']).getTime() - new Date(a['updatedAt']).getTime()));
   }, [value]);
 
   useEffect(() => {
@@ -44,10 +44,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
     value && innerRef.current && setViewerWidth(innerRef.current.offsetWidth);
   }, [value && ref.current, innerRef.current]);
 
-  const selectedChip = useMemo(() => value 
-    && Object.values(value)
-      .findIndex(({ _id }) => _id === channelId), [value, channelId]
-  );
+  const selectedChip = useMemo(() => sortedCategoryList?.findIndex(({ _id }) => _id === channelId), [sortedCategoryList, channelId]);
 
   const handleOffsetX = useCallback(width => {
     setOffsetX(width);
@@ -80,11 +77,11 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
 
   // selectedChip 없을시 0 Index 값 Select
   useEffect(() => {
-    if (value && selectedChip === - 1) {
-      const [{ _id: defaultChannelId }] = Object.values(value);
+    if (sortedCategoryList.length && selectedChip === - 1) {
+      const [{ _id: defaultChannelId }] = sortedCategoryList;
       onChange && onChange(defaultChannelId);
     } 
-  }, [selectedChip, value]);
+  }, [selectedChip, sortedCategoryList]);
 
   if (isLoading) {
     return <></>;
