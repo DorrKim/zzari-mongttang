@@ -6,7 +6,6 @@ import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import UploadPostForm from '@domains/UploadPostForm';
 import Logo from '@components/Logo';
-import Title from '@components/Title';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import styled from '@emotion/styled';
 import AlertModal from '@domains/NotationModal/AlertModal';
@@ -81,8 +80,7 @@ const UploadPage = () => {
   return (
     <>
       <FlexStyled column alignItems='center'>
-        <Logo link />
-        <Title>짤 올리기</Title>
+        <Logo name='upload' link style={{ marginBottom: STYLE_CONSTANTS.margin.NO_HEADER_LOGO_MARGIN_BOTTOM_S }} />
         <UploadPostForm
           initialValues={{ 
             imageUrl: '',

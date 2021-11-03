@@ -8,7 +8,6 @@ import EditProfileForm from '@domains/EditProfileForm';
 import styled from '@emotion/styled';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import Logo from '@components/Logo';
-import Title from '@components/Title';
 import AlertModal from '@domains/NotationModal/AlertModal';
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 
@@ -176,8 +175,7 @@ const EditProfilePage = () => {
   return (
     <>
       <FlexStyled column alignItems='center'>
-        <Logo link />
-        <Title>회원 정보 수정</Title>
+        <Logo name='edit' link style={{ marginBottom: 40 }}/>
         {initialFormState.isLoaded 
           ? (
             <>
