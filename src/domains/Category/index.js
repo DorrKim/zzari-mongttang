@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import Button from '@base/Button';
 import useAxios from '@hooks/useAxios';
 import CategoryChip from './CategoryChip';
 import CategoryList from './CategoryList';
@@ -21,7 +20,7 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
   const [sortedCategoryList, setSortedCategoryList] = useState([]);
   const [ref, innerRef] = [useRef(null), useRef(null)];
   const [viewerWidth, setViewerWidth] = useState(0);
-  const distance = useMemo(() => viewerWidth / 3, [viewerWidth]);
+  const distance = useMemo(() => viewerWidth / 2, [viewerWidth]);
   
   useEffect(() => {
     fetchList();
@@ -121,12 +120,7 @@ const Wrapper = styled.div`
   height: 50px;
   overflow: hidden;
   margin: 20px auto;
-
-  &::after, &::before {
-    display: block;
-    content: '';
-    width: 50px;
-  }
+  align-items: center;
 
   @media(max-width: 630px) {
     width: 90vw;
@@ -134,12 +128,8 @@ const Wrapper = styled.div`
 `;
 
 const RefWrapper = styled.div`
-  transition: 0.5s ease-in;
-  &::after, &::before {
-    display: block;
-    content: '';
-    width: 50px;
-  }
+  transition: 0.8s ease-in;
+  -webkit-transition: 0.8s ease-in;
 `;
 
 const Inner = styled.div`
@@ -154,11 +144,9 @@ const StyledCategoryList = styled(CategoryList)`
   flex-wrap: nowrap;
 `;
 
-const buttonStyle = css `
+const buttonStyle = css`
   transition: 0.2s ease-in-out;
-  position:absolute;
-  top:0;
-  width: 30px;
+  /* width: 30px; */
   height: 30px;
   border: 1px solid transparent;
   background-color: transparent;
@@ -173,9 +161,10 @@ const buttonStyle = css `
   }
 `;
 
-const LeftButton = styled(Button)`
+const LeftButton = styled.button`
   ${buttonStyle}
   left: 0;
+  cursor: pointer;
   ${props => props.offsetX === 0 
     ? `
     pointer-events: none;
@@ -185,9 +174,10 @@ const LeftButton = styled(Button)`
 }
 `;
 
-const RightButton = styled(Button)`
+const RightButton = styled.button`
   ${buttonStyle}
   right: 0;
+  cursor: pointer;
   ${({ offset: { offsetX, categoryListWidth, viewerWidth }}) => viewerWidth - offsetX === categoryListWidth
     ? `
       pointer-events: none;
