@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@components/Avatar';
 import styled from '@emotion/styled';
@@ -6,6 +6,8 @@ import Text from '@base/Text';
 import Image from '@base/Image';
 import colors from '@constants/colors';
 import followPlaceHolder from '@assets/follow-place-holder.gif';
+
+import { useHistory } from 'react-router';
 
 const FollowItemWrapper = styled.div`
   display: flex;
@@ -24,6 +26,12 @@ const ImageWrapper = styled.div`
 `;
 
 const FollowingList = ({ following }) => {
+  const history = useHistory();
+
+  const handleClickFollowItem = useCallback((_, followerId) => {
+    history.push(`/user/${followerId}`);
+  }, [history]);
+
   if (following.length === 0) {
     return ( 
       <ImageWrapper>
@@ -36,7 +44,7 @@ const FollowingList = ({ following }) => {
   return (
     <ul>
       {following.map(({ _id, user: { fullName, image, _id: userId }}) => (
-        <li key={_id} >
+        <li key={_id} onClick={e => handleClickFollowItem(e, userId)}>
           <FollowItemWrapper userId={userId}> 
             <Avatar src={image} size='40px' style={{ margin: '.5rem 1rem .5rem 0rem' }}></Avatar>
             <Text bold>{fullName}</Text>
