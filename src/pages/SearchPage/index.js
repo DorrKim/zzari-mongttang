@@ -30,7 +30,7 @@ const SearchPage = () => {
   return (
     <>
       <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
-      {filterSpecialSymbols(keyword) 
+      {filterSpecialSymbols(keyword) && searchResponse.value?.length
         ? (<SearchList style={{ marginTop: '50px' }} searchResponse={searchResponse} loadCount={ITEM_LOAD_COUNT} />)
         : <div style={{ textAlign: 'center' }}><Image width='300px' height='300px' src={nothing_img}/></div>
       }
