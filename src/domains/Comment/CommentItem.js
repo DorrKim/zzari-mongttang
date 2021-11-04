@@ -72,7 +72,12 @@ const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickD
   return (
     <>
       <CommentItemWrapper>
-        <Avatar fullName={author.fullName} onClick={handleToPersonalPage} src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
+        <Avatar
+          fullName={author.fullName} 
+          onClick={handleToPersonalPage} 
+          src={author.image} size='64px'
+          style={{ margin: '8px 8px 8px 12px',
+            alignSelf: 'flex-start' }}/>
         <CommentInfo>
           <Flex alignItems='center' justifiContent='flex-start'>
             <Text bold>{author.fullName}</Text>
@@ -87,20 +92,33 @@ const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickD
               {parseCommentCreateDate(createdAt)}
             </Text>
             {isMyComment 
-            && <Icon 
+            && <RemoveIcon 
               name='remove' 
-              style={{ 
-                marginLeft: 'auto',
-                marginRight: '8px' }}
-              onClick={onClickDelete}/>}
+              onClick={onClickDelete}/>
+            }
           </Flex>
-          <Text style={{ marginTop: '8px' }}>{comment}</Text>
+          <Text style={{ marginTop: '8px',
+            height: 'auto' }}>{comment}</Text>
         </CommentInfo>
       </CommentItemWrapper>
       <Divider color="lightgray"/>
     </>
   );
 };
+
+const RemoveIcon = styled(Icon)`
+margin-left: auto;
+margin-right: 8px;
+cursor: pointer;
+
+&:hover {
+color: ${colors.ALERT};
+}
+
+&:active {
+  filter: opacity(.7);
+}
+`;
 
 CommentItem.propTypes = {
   id: PropTypes.string,
