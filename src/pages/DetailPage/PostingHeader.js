@@ -11,7 +11,7 @@ import Favorite from '@components/Favorite';
 import Number from '@components/Number';
 import colors from '@constants/colors';
 
-const PostingHeader = ({ myUser, postingInfos,
+const PostingHeader = ({ myUser, postingInfos, comments,
   handleClickEditPost, confirmVisible, handleClickConfirm, handleClickCancel,
   handleClickRemovePosting, removeVisible,
   handleClickRemoveConfirm, handleClickRemoveCancel,
@@ -103,7 +103,7 @@ const PostingHeader = ({ myUser, postingInfos,
                     onClick={handleShowComment}
                   ></StyledComment>
                   <Number
-                    value={postingInfos.comments.length} 
+                    value={comments.length} 
                   />
                 </CommentIcon>
               </IconsWrapper>
@@ -182,7 +182,8 @@ PostingHeader.propTypes = {
   handleClickRemovePosting: PropTypes.func,
   handleClickRemoveConfirm: PropTypes.func,
   handleClickRemoveCancel: PropTypes.func,
-  handleShowComment: PropTypes.func
+  handleShowComment: PropTypes.func,
+  comments: PropTypes.array
 };
 
 export default PostingHeader;
