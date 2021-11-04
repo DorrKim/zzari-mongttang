@@ -72,7 +72,7 @@ const CommentItem = ({ isMyComment, id, author, createdAt, comment, handleClickD
   return (
     <>
       <CommentItemWrapper>
-        <Avatar onClick={handleToPersonalPage} src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
+        <Avatar fullName={author.fullName} onClick={handleToPersonalPage} src={author.image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
         <CommentInfo>
           <Flex alignItems='center' justifiContent='flex-start'>
             <Text bold>{author.fullName}</Text>

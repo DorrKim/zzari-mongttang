@@ -58,7 +58,7 @@ const LogoContainer = styled.div`
 position: relative;
 
 
-&:hover img:first-child  {
+&:hover img:first-of-type  {
   ${({ name }) => name ? ({ animation: 'bounce .3s linear' }) : null}
   }
 

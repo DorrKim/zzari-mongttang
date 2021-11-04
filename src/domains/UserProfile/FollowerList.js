@@ -47,7 +47,7 @@ const FollowerList = ({ followers }) => {
       {followers.map(({ _id, follower: { fullName, image, _id: userId }}) => (
         <li key={_id} onClick={e => handleClickFollowItem(e, userId)}>
           <FollowItemWrapper userId={userId}> 
-            <Avatar src={image} size='40px' style={{ margin: '.5rem 1rem .5rem 0rem' }} ></Avatar>
+            <Avatar fullName={fullName} src={image} size='40px' style={{ margin: '.5rem 1rem .5rem 0rem' }}></Avatar>
             <Text bold>{fullName}</Text>
           </FollowItemWrapper>
         </li>  
