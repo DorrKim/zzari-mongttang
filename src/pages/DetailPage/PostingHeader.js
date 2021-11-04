@@ -84,7 +84,8 @@ const PostingHeader = ({ myUser, postingInfos,
           <AvatarContainer>
             <Avatar
               onClick={handleClickProfile}
-              src={postingInfos.author.image} 
+              src={postingInfos.author.image}
+              fullName={postingInfos.author.fullName} 
               size='56px'
             />
             <AuthorName>{postingInfos.author.fullName}</AuthorName>

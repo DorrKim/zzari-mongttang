@@ -77,7 +77,7 @@ const CommentForm = ({ handleSubmit }) => {
 
   return (
     <FormWrapper>
-      <Avatar src={image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
+      <Avatar fullName={fullName} src={image} size='64px' style={{ margin: '8px 8px 8px 12px' }}/>
       {isAuthorized
         ? (<Inner>
           <Text bold>{fullName}</Text>  

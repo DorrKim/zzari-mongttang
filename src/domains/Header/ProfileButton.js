@@ -20,7 +20,7 @@ const ProfileButton = ({ myUser, ...props }) => {
 
   return (
     <div ref={menuBarRef} style={{ position: 'relative' }} {...props}>
-      <Avatar src={myUser?.image} size={45} onClick={toggleMenuBar} />
+      <Avatar fullName={myUser?.fullName} src={myUser?.image} size={45} onClick={toggleMenuBar} />
       <MenuBar
         userId={myUser?._id} 
         style={{ display: showMenuBar ? 'flex' : 'none' }}

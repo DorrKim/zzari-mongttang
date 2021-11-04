@@ -157,6 +157,7 @@ const Profile = ({
     <>
       <ProfileWrapper>
         <StyledAvatar 
+          fullName={fullName}
           src={src} 
           size={120}
         />

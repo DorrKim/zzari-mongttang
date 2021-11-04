@@ -3,7 +3,7 @@ import Image from '@base/Image';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import colors from '@constants/colors';
-import { useAuthorization } from '@context/AuthorizationProvider';
+// import { useAuthorization } from '@context/AuthorizationProvider';
 
 
 const StyledImage = styled(Image)`
@@ -15,8 +15,8 @@ const StyledImage = styled(Image)`
   
   `;
 
-const Avatar = ({ src, size, onClick, ...props }) => {
-  const { authState: { myUser: { fullName }}} = useAuthorization();
+const Avatar = ({ src, size, fullName, onClick, ...props }) => {
+  // const { authState: { myUser: { fullName }}} = useAuthorization();
   
   const DEFAULT_AVATAR_SRC = useMemo(() => `https://avatars.dicebear.com/api/adventurer-neutral/${fullName}.svg`, [fullName]);
 
@@ -38,6 +38,7 @@ Avatar.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
+  fullName: PropTypes.string,
   onClick: PropTypes.func
 };
 
