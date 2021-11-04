@@ -33,7 +33,6 @@ const SearchBar = ({ initialKeyword = '', onToSubmitPage }) => {
             borderRadius: '20px',
             paddingLeft: '20px',
             boxShadow: '3px 3px 8px #e0e0e0' }}
-          // backgroundColor: '#f1f1fe' }}
           value={search || ''}
           onChange={handleKeywordChange}/>
       </form>
