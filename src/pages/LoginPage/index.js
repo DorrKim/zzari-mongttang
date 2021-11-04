@@ -8,7 +8,6 @@ import { useAuthorization } from '@context/AuthorizationProvider';
 import useAxios from '@hooks/useAxios';
 import styled from '@emotion/styled';
 import { STYLE_CONSTANTS } from '@constants/margins';
-import Title from '@components/Title';
 
 
 const LoginPage = () => {
@@ -59,8 +58,7 @@ const LoginPage = () => {
   
   return (
     <FlexStyled column alignItems='center'>
-      <Logo link />
-      <Title>로그인</Title>
+      <Logo name='login' link style={{ marginBottom: STYLE_CONSTANTS.margin.NO_HEADER_LOGO_MARGIN_BOTTOM }} />
       <LoginForm 
         style={{ 
           marginTop: 20 }}

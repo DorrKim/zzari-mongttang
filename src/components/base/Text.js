@@ -50,17 +50,14 @@ const Text = ({
 
 const StyledText = styled.div`
     ${props => props.fontSize};
-    /* font-family: 'netmarbleM'; */
-    /* font-family: 'KoPubDotumMedium'; */
-    /* font-family: 'GmarketSansMedium'; */
     font-family: 'NEXON Lv1 Gothic OTF';
-    /* font-family: 'ChosunGu'; */
 `;
 
 Text.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.string
+    PropTypes.string,
+    PropTypes.node
   ]),
   block: PropTypes.bool,
   size: PropTypes.string,

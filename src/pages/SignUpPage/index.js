@@ -8,7 +8,6 @@ import useAxios from '@hooks/useAxios';
 import { useAuthorization } from '@context/AuthorizationProvider';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import Logo from '@components/Logo';
-import Title from '@components/Title';
 import ConfirmModal from '@domains/NotationModal/ConfirmModal';
 import AlertModal from '@domains/NotationModal/AlertModal';
 
@@ -62,8 +61,7 @@ const SignUpPage = () => {
   return (
     <>
       <FlexStyled column alignItems='center'>
-        <Logo link />
-        <Title>회원가입</Title>
+        <Logo name='signup' link style={{ marginBottom: STYLE_CONSTANTS.margin.NO_HEADER_LOGO_MARGIN_BOTTOM }} />
         <SignUpForm
           signupError={signUpAPIState.error}
           onSignUp={handleSignUp} 
