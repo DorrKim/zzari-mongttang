@@ -1,3 +1,3 @@
 
 
-export const filterSpecialSymbols = value => value.match(/[^!@#$%^&*()-_+=\\}|{\][}'";:/?.>,<`~]/g).join('');
+export const filterSpecialSymbols = value => value.match(/[^!@#$%^&*()-_+=\\}|{\][}'";:/?.>,<`~]/g)?.join('');

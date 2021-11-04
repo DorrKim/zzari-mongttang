@@ -1,21 +1,24 @@
 import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import Zzal from '@domains/Zzal';
+import SearchList from '@domains/Search/SearchList';
 import SearchBar from '@domains/Search';
 import useAxios from '@hooks/useAxios';
 import useQuery from '@hooks/useQuery';
+import { filterSpecialSymbols } from '@library/filter';
+import nothing_img from '@assets/nothing.gif';
+import Image from '@base/Image';
 
 
-const ZZAL_ITEM_LOAD_COUNT = 6;
+const ITEM_LOAD_COUNT = 6;
 
 const SearchPage = () => {
   const history = useHistory();
-  const keyword = useQuery().get('keyword') || '';
-  const [zzalList, fetchList] = useAxios();
+  const keyword = useQuery().get('keyword');
+  const [searchResponse, fetchSearchResponse] = useAxios();
 
   useEffect(() => {
-    fetchList({
+    keyword && filterSpecialSymbols(keyword) && fetchSearchResponse({
       url: `/search/all/${keyword}`
     });
   }, [keyword]);
@@ -27,7 +30,10 @@ const SearchPage = () => {
   return (
     <>
       <SearchBar initialKeyword={keyword} onToSubmitPage={handleToSearchPage} />
-      <Zzal.ZzalList style={{ marginTop: '50px' }} zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      {filterSpecialSymbols(keyword) 
+        ? (<SearchList style={{ marginTop: '50px' }} searchResponse={searchResponse} loadCount={ITEM_LOAD_COUNT} />)
+        : <div style={{ textAlign: 'center' }}><Image width='300px' height='300px' src={nothing_img}/></div>
+      }
     </>
   );
 };

@@ -17,11 +17,12 @@ const Footer = () => {
 };
 
 const StyledFooter = styled.footer`
-  position: fixed;
+  position: absolute;
   width: 100vw;
   margin: 0 auto;
-  bottom: 10px;
+  bottom: -70px;
   text-align: center;
+  height: 36px;
 `;
 
 const Link = styled.a`

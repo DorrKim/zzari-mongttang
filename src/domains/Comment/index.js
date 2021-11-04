@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CommentItem from './CommentItem';
 import styled from '@emotion/styled';
 import Flex from '@base/Flex';
-import useInfinteScroll from '@hooks/useInfinteScroll';
+import useInfiniteScroll from '@hooks/useInfiniteScroll';
 
 const CommentList = styled.li`
   list-style: none;
@@ -14,7 +14,7 @@ const Comment = ({ comments, initialItemCount = 6, myUserId, handleClickDelete }
   const [target, setTarget] = useState(null);
   const [itemCount, setItemCount] = useState(initialItemCount);
 
-  useInfinteScroll({
+  useInfiniteScroll({
     target,
     onIntersect: entries => {
       entries.forEach(({ isIntersecting }) => {
