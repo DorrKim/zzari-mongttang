@@ -59,10 +59,10 @@ position: relative;
 
 
 &:hover img:first-of-type  {
-  ${({ name }) => name ? ({ animation: 'bounce .3s linear' }) : null}
+  ${({ name }) => name ? ({ animation: 'squashAndSpin .3s linear' }) : null}
   }
 
-@keyframes bounce {
+@keyframes squashAndSpin {
   0%{
     transform: scale(1);
   }
