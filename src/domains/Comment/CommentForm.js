@@ -54,6 +54,10 @@ const StyledInput = styled.input`
   font-weight: 700;
   color: ${colors.PRIMARY_BACKGROUND};
   outline: 2px solid #CCCCCC;
+
+  &::placeholder {
+    opacity: 1;
+  }
 `;
 
 const CommentForm = ({ handleSubmit }) => {
@@ -85,7 +89,7 @@ const CommentForm = ({ handleSubmit }) => {
           </StyledTextarea>
         </Inner>)
         : <>
-          <StyledInput type='text' placeholder=' 로그인하고 댓글 작성하기' onFocus={() => setIsLoginModalShow(true)}/>
+          <StyledInput type='text' placeholder='로그인하고 댓글 작성하기' onFocus={() => setIsLoginModalShow(true)}/>
           <LoginConfirmModal
             visible={isLoginModalShow}
             handleClickConfirm={() => history.push('/login')}
