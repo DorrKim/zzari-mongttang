@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Flex from './Flex';
 import reactDom from 'react-dom';
 
+import { useViewPort } from '@context/ViewPortProvider';
 
 const BackgroundScreen = styled.div`
   display: flex;
@@ -42,16 +43,25 @@ const ModalContainer = styled(Flex)`
 
 const Modal = ({ 
   children, 
-  width = 500, 
+  width, 
   height,
   visible = false,
   onClose,
   ...props
 }) => {
+  const deviceType = useViewPort();
+
+  const defaultWidth = {
+    mobile: 300,
+    tablet: 400,
+    web: 500
+  };
+  const modalWidth = width || defaultWidth[deviceType];
+
   const containerStyle = useMemo(() => ({
-    width,
+    width: modalWidth,
     height
-  }), [width, height]); 
+  }), [modalWidth, height]); 
   const el = useMemo(() => document.createElement('div'), []);
 
   const stopPropagation = useCallback(e => {
@@ -71,7 +81,6 @@ const Modal = ({
       justifyContent='center' 
       alignItems='center'
       visible={visible}
-      // style={{ display: visible ? 'flex' : 'none' }}
       onClick={onClose}>
       <ModalContainer
         column
