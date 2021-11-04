@@ -3,6 +3,7 @@ import Image from '@base/Image';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import colors from '@constants/colors';
+import { filterSpecialSymbols } from '@library/filter';
 // import { useAuthorization } from '@context/AuthorizationProvider';
 
 
@@ -17,7 +18,7 @@ const StyledImage = styled(Image)`
 
 const Avatar = ({ src, size, fullName, onClick, ...props }) => {
   // const { authState: { myUser: { fullName }}} = useAuthorization();
-  const fullNameMatched = useMemo(() => fullName?.match(/[^!@#$%^&*()-_+=\\}|{\][}'";:/?.>,<`~]/g).join(''), [fullName]);
+  const fullNameMatched = useMemo(() => fullName && filterSpecialSymbols(fullName), [fullName]);
   const DEFAULT_AVATAR_SRC = useMemo(() => `https://avatars.dicebear.com/api/adventurer-neutral/${fullNameMatched}.svg`, [fullNameMatched]);
 
   return (
