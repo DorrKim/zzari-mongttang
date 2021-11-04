@@ -74,7 +74,6 @@ const StyledList = styled.div`
   margin: 0 auto;
   width: 1012px;
   gap: 8px;
-  font-family: 'netmarbleM';
   padding: 36px;
 
   @media(max-width: 1012px) {

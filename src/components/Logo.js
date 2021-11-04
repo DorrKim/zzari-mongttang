@@ -38,6 +38,7 @@ const Logo = ({ link, name, ...props }) => {
 
   return (
     <LogoContainer
+      name={name}
       onClick={link ? () => history.push('/') : null}
       {...props} >
       <ImageStyled
@@ -56,8 +57,9 @@ const Logo = ({ link, name, ...props }) => {
 const LogoContainer = styled.div`
 position: relative;
 
+
 &:hover img:first-child  {
-    animation: bounce .3s linear;
+  ${({ name }) => name ? ({ animation: 'bounce .3s linear' }) : null}
   }
 
 @keyframes bounce {

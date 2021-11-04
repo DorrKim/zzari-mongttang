@@ -7,15 +7,15 @@ export const useViewPort = () => useContext(ViewPortContext);
 
 const ViewPortProvider = ({ children }) => {
   const [viewPortState, setViewPortState] = useState(
-    window.innerWidth <= 375 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'web'
+    window.innerWidth <= 425 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'web'
   );
 
   useEffect(() => {
     const handleResize = () => {
       const { innerWidth } = window;
-      if (innerWidth <= 375) {
+      if (innerWidth <= 425) {  
         setViewPortState('mobile');
-      } else if (innerWidth <= 700) {
+      } else if (innerWidth <= 768) {
         setViewPortState('tablet');
       } else {
         setViewPortState('web');
