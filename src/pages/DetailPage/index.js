@@ -155,6 +155,7 @@ const DetailPage = () => {
           <StyledPostingHeader
             myUser={myUser}
             postingInfos={postingInfos}
+            comments={comments}
             handleClickEditPost={handleClickEditPost}
             confirmVisible={confirmVisible}
             handleClickConfirm={handleClickConfirm}
