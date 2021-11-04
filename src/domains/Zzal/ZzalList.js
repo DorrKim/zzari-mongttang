@@ -23,7 +23,7 @@ const ZzalList = (
   const [sortedZzalList, setSortedZzalList] = useState([]);
 
   useEffect(() => {
-    value && setSortedZzalList(Object.values(value).sort((a, b) => b['likes'].length - a['likes'].length));
+    value && setSortedZzalList(Object.values(value).sort((a, b) => b?.likes.length - a?.likes.length));
   }, [value]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const ZzalList = (
 
   return (
     <StyledList style={{ ...style }} {...props}>
-      {sortedZzalList?.filter((_, idx) => idx < itemCount)
+      {sortedZzalList?.filter((item, idx) => item && idx < itemCount)
         .map(item => (
           <ZzalItem 
             key={item._id} 
