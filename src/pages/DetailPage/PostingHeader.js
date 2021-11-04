@@ -90,26 +90,23 @@ const PostingHeader = ({ myUser, postingInfos, comments,
             />
             <AuthorName>{postingInfos.author.fullName}</AuthorName>
           </AvatarContainer>
-          <Container
-          >
-            <IconsContainer>
-              <IconsWrapper>
-                <Favorite
-                  likes={postingInfos.likes}
-                  postId={postingInfos._id}
+          <IconsContainer>
+            <IconsWrapper>
+              <Favorite
+                likes={postingInfos.likes}
+                postId={postingInfos._id}
+              />
+              <CommentIcon>
+                <StyledComment
+                  name='comment'
+                  onClick={handleShowComment}
+                ></StyledComment>
+                <Number
+                  value={comments.length} 
                 />
-                <CommentIcon>
-                  <StyledComment
-                    name='comment'
-                    onClick={handleShowComment}
-                  ></StyledComment>
-                  <Number
-                    value={comments.length} 
-                  />
-                </CommentIcon>
-              </IconsWrapper>
-            </IconsContainer>
-          </Container>
+              </CommentIcon>
+            </IconsWrapper>
+          </IconsContainer>
         </MainContainer>  
       </PostingHeaderWrapper>
     </>
@@ -157,16 +154,11 @@ const StyledIcon = styled(Icon)`
 const IconsContainer = styled.div`
   display: flex;
   padding: 5px 0;
+  align-self: flex-end;
 `;
 
 const CommentIcon = styled.div`
   display:flex;
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: end;
-  align-items: end;
 `;
 
 PostingHeader.propTypes = {
