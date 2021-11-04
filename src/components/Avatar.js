@@ -17,7 +17,7 @@ const StyledImage = styled(Image)`
 
 const Avatar = ({ src, size, fullName, onClick, ...props }) => {
   // const { authState: { myUser: { fullName }}} = useAuthorization();
-  const fullNameMatched = useMemo(() => fullName.match(/[^!@#$%^&*()-_+=\\}|{\][}'";:/?.>,<`~]/g).join(''), [fullName]);
+  const fullNameMatched = useMemo(() => fullName?.match(/[^!@#$%^&*()-_+=\\}|{\][}'";:/?.>,<`~]/g).join(''), [fullName]);
   const DEFAULT_AVATAR_SRC = useMemo(() => `https://avatars.dicebear.com/api/adventurer-neutral/${fullNameMatched}.svg`, [fullNameMatched]);
 
   return (
