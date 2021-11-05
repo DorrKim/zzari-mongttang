@@ -30,6 +30,9 @@ const UploadPage = () => {
   });
 
   const handleCreatePost = useCallback(async values => {
+    if (createPostAPIState.isLoading) {
+      return;
+    }
 
     const { title, imageData, channelId } = values;
     if (!(title && imageData && channelId)){
@@ -49,7 +52,7 @@ const UploadPage = () => {
     });
     
 
-  }, [imageFormData, createPost]);
+  }, [imageFormData, createPost, createPostAPIState]);
 
   const handleCancel = useCallback(() => {
     history.goBack();

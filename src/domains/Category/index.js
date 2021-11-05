@@ -89,7 +89,10 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
   return (
     <>
       <Wrapper style={{ ...style }} {...props}>
-        <LeftButton offsetX={offsetX} onClick={handlePrev}>
+        <LeftButton 
+          type='button'
+          offsetX={offsetX}
+          onClick={handlePrev}>
           <ICON_TYPES.moveLeft />
         </LeftButton>
         <Inner ref={innerRef}>
@@ -102,10 +105,12 @@ const MainCategory = ({ channelId, onChange, style, ...props }) => {
             </StyledCategoryList>
           </RefWrapper>
         </Inner>
-        <RightButton offset={{ offsetX,
-          categoryListWidth,
-          viewerWidth
-        }} onClick={handleNext}>
+        <RightButton
+          type='button' 
+          offset={{ offsetX,
+            categoryListWidth,
+            viewerWidth
+          }} onClick={handleNext}>
           <ICON_TYPES.moveRight />
         </RightButton>
       </Wrapper>
