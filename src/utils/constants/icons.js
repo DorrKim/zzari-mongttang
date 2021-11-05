@@ -2,7 +2,7 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { BiComment } from 'react-icons/bi';
 import { MdArrowBackIos } from 'react-icons/md';
 import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
-import { BsArrowDownCircle, BsCaretLeftFill, BsCaretRightFill } from 'react-icons/bs';
+import { BsArrowDownCircle, BsCaretLeftFill, BsCaretRightFill, BsPlusLg } from 'react-icons/bs';
 import { CgClose, CgMoreAlt } from 'react-icons/cg';
 
 const $heart = FaRegHeart;
@@ -17,6 +17,7 @@ const $close = CgClose;
 const $more = CgMoreAlt;
 const $moveLeft = BsCaretLeftFill;
 const $moveRight = BsCaretRightFill;
+const $plus = BsPlusLg;
 
 export const ICON_TYPES = {    
   heart: $heart,           
@@ -30,5 +31,6 @@ export const ICON_TYPES = {
   close: $close,
   more: $more,
   moveLeft: $moveLeft,
-  moveRight: $moveRight
+  moveRight: $moveRight,
+  plus: $plus
 };
