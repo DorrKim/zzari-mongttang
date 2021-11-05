@@ -69,8 +69,8 @@ const StyledZzalBox = styled.div`
   }
   
   @media(max-width: 1012px) {
-    width: calc((100vw - 64px) / 4);
-    height: calc((100vw - 64px) / 4);
+    width: calc((100vw - 68px) / 4);
+    height: calc((100vw - 68px) / 4);
   }
 
   @media(max-width: 768px) {
@@ -79,8 +79,8 @@ const StyledZzalBox = styled.div`
   }
 
   @media(max-width: 590px) {
-    width: calc((100vw - 12px) / 2);
-    height: calc((100vw - 12px) / 2);
+    width: calc((100vw - 28px) / 2);
+    height: calc((100vw - 28px) / 2);
   } 
 `;
 

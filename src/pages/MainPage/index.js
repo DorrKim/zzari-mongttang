@@ -8,7 +8,7 @@ import CategoryCrousel from '@domains/Category';
 import useQuery from '@hooks/useQuery';
 
 
-const ZZAL_ITEM_LOAD_COUNT = 6;
+const ZZAL_ITEM_LOAD_COUNT = 12;
 
 const MainPage = () => {
   const history = useHistory();

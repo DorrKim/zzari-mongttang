@@ -10,7 +10,7 @@ import nothing_img from '@assets/nothing.gif';
 import Image from '@base/Image';
 
 
-const ITEM_LOAD_COUNT = 6;
+const ITEM_LOAD_COUNT = 12;
 
 const SearchPage = () => {
   const history = useHistory();

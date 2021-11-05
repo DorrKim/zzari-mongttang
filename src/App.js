@@ -81,8 +81,11 @@ function App() {
         }
         #root {
           position: relative;
-          min-height: 100vh;
-          margin-bottom: 70px;
+          min-height: calc(100vh - 70px);
+          padding-bottom: 70px;
+          ::-webkit-scrollbar {
+            position: absolute;
+          }
         }
         @font-face {
             font-family: 'NEXON Lv1 Gothic OTF';

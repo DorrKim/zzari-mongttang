@@ -18,7 +18,7 @@ const Footer = () => {
 
 const StyledFooter = styled.footer`
   position: absolute;
-  width: 100vw;
+  width: 100%;
   margin: 0 auto;
   bottom: -70px;
   text-align: center;
