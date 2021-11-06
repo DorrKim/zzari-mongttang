@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import ZzalItem from '@domains/Zzal/ZzalItem';
 import useInfiniteScroll from '@hooks/useInfiniteScroll';
 import Spinner from '@base/Spinner';
+import ZzalCreate from './ZzalCreate';
 
 
 const ZzalList = (
@@ -50,6 +51,7 @@ const ZzalList = (
 
   return (
     <StyledList style={{ ...style }} {...props}>
+      <ZzalCreate />
       {sortedZzalList.filter((value, idx) => 'channel' in value && idx < itemCount)
         .map(item => (
           <ZzalItem 
