@@ -12,7 +12,7 @@ import ZzalCreate from './ZzalCreate';
 const ZzalList = (
   { zzalList = {}, 
     noFavorite, 
-    loadCount = 6, 
+    loadCount = 12, 
     style, 
     ...props }
 ) => {

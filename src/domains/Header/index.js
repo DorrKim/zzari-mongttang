@@ -71,7 +71,7 @@ const HeaderStyled = styled.div`
   padding: 8px 16px;
 
   @media(max-width: 1024px) {
-    width: 100vw;
+    width: 100%;
   }
 `;
 
