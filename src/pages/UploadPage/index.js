@@ -9,6 +9,7 @@ import Logo from '@components/Logo';
 import { STYLE_CONSTANTS } from '@constants/margins';
 import styled from '@emotion/styled';
 import AlertModal from '@domains/NotationModal/AlertModal';
+import useQuery from '@hooks/useQuery';
 
 const imageFormData = new FormData();
 
@@ -21,6 +22,7 @@ const UploadPage = () => {
   });
 
   const history = useHistory();
+  const channelId = useQuery().get('channelId');
 
   const [createPostAPIState, createPost] = useAxios('/posts/create', {
     method: 'post',
@@ -88,7 +90,7 @@ const UploadPage = () => {
           initialValues={{ 
             imageUrl: '',
             title: '',
-            channelId: ''
+            channelId
           }}
           onSubmit={handleCreatePost} 
           onCancel={handleCancel}
