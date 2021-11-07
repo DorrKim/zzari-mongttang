@@ -14,6 +14,7 @@ const ZzalList = (
     noFavorite, 
     loadCount = 12, 
     style, 
+    zzalBox,
     ...props }
 ) => {
   const history = useHistory();
@@ -51,7 +52,7 @@ const ZzalList = (
 
   return (
     <StyledList style={{ ...style }} {...props}>
-      <ZzalCreate />
+      {zzalBox && (<ZzalCreate />)}
       {sortedZzalList.filter((value, idx) => 'channel' in value && idx < itemCount)
         .map(item => (
           <ZzalItem 
@@ -97,6 +98,7 @@ ZzalList.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]),
+  zzalBox: PropTypes.bool,
   style: PropTypes.object
 };
 

@@ -44,7 +44,7 @@ const MainPage = () => {
     <>
       <SearchBar onToSubmitPage={handleToSearchPage} />
       <CategoryCrousel channelId={channelId} onChange={handleChangeCategory} />
-      <Zzal.ZzalList style={{ marginTop: '50px' }} zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
+      <Zzal.ZzalList zzalBox style={{ marginTop: '50px' }} zzalList={zzalList} loadCount={ZZAL_ITEM_LOAD_COUNT} />
     </>
   );
 };
